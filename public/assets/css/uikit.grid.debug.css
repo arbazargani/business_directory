@@ -1,0 +1,11 @@
+@media (min-width: 1200px) {
+    .uk-grid {
+         /*margin-right: -40px; */
+         /*margin-right: unset !important;*/
+    }
+}
+
+.uk-grid {
+     /*margin-right: -30px; */
+     /*margin-right: unset !important;*/
+}

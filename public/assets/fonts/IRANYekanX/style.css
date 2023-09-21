@@ -1,0 +1,89 @@
+@import url(fontiran.css); /* لینک فایلی که وظیفه بارگذاری فونت ها را برعهده دارد */
+body {
+	font-family: IRANYekanX  !important;
+	/* direction: rtl; */
+}
+h1, h2, h3, h4, h5, h6,input, textarea, input, select, option, ul, li, button, label {
+    font-family: IRANYekanX, serif !important;
+    letter-spacing: -0.3px;
+}
+h1 {
+	font-weight: bold;
+}
+.ltr {
+	direction: ltr;
+}
+.right-text{
+	text-align: right;
+}
+.center-text {
+	text-align: center;
+}
+.left-text {
+	text-align: left;
+}
+.text-small {
+	font-size: 0.8em;
+}
+.text-xsmall {
+	font-size: 0.6em;
+}
+.text-large {
+	font-size: 1.2em;
+}
+.text-xlarge {
+	font-size: 1.4em;
+}
+.text-underline {
+	text-decoration:underline;
+}
+
+.text-thin {
+	font-weight: 100;
+}
+.text-UltraLight {
+	font-weight: 200;
+}
+.text-light {
+	font-weight: 300;
+}
+.text-regular {
+	font-weight: normal;
+}
+.text-medium {
+	font-weight: 500;
+}
+.text-demibold {
+	font-weight: 600;
+}
+.text-bold {
+	font-weight: bold;
+}
+
+.text-extrabold {
+	font-weight: 800;
+}
+.text-black {
+	font-weight: 900;
+}
+.text-extrablack {
+	font-weight: 950;
+}
+.text-heavy {
+	font-weight: 1000;
+}
+blockquote {
+	font-weight: 700;
+	padding: 10px;
+	border: 1px dashed #666666;
+}
+
+.farsiparagraph {
+	font-size: 1em;
+	width: 47%;
+	float:right;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+}
