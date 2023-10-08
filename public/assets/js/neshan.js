@@ -120,17 +120,16 @@ function searchApi() {
 //     .addTo(map);
 // });
 
-var mapInvalidateFunction = (function() {
+function mapInvalidateFunction() {
+    window.dispatchEvent(new Event('resize'));
     var executed = false;
-    return function() {
-        if (!executed) {
-            executed = true;
-            map.invalidateSize(true);
-        }
-    };
-})();
+    if (!executed) {
+        executed = true;
+        map.invalidateSize(true);
+    }
+};
 
 changeView(baseCordinates);
-document.addEventListener('click', () => {
-    mapInvalidateFunction();
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//     mapInvalidateFunction();
+// });

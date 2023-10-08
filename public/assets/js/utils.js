@@ -355,6 +355,9 @@ function ShortThrowError(message) {
 
 // step advertisement form
 function showStep(index) {
+    if (index == 5) {
+        mapInvalidateFunction();
+    }
     let nodes = document.querySelectorAll('.step');
     nodes.forEach((n) => {
         if (n.id !== 'step-' + index) {

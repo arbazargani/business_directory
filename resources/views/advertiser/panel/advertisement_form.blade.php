@@ -115,8 +115,9 @@
     </div>
     <div class="step uk-container uk-hidden" id="step-5">
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-            <div uk-grid>
-                <div class="uk-width-1-2@m">
+            <!-- <div uk-grid> -->
+            <div class="uk-child-width-1-2@m" uk-grid>
+                <div class="">
                     <div class="uk-card uk-card-body uk-card-default uk-padding-small uk-border-rounded">
                     <!-- uk-hidden added to remove search from page -->
                         <div class="uk-padding-small uk-hidden" uk-grid>
@@ -154,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="uk-width-expand">
+                <div class="">
                     <div class="uk-border-rounded uk-width-expand" id="map"></div>
                     <form action="{{ route('Advertiser > Create') }}" method="post" class="uk-hidden">
                         @csrf
