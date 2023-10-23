@@ -127,7 +127,7 @@ function mapInvalidateFunction() {
         executed = true;
         map.invalidateSize(true);
     }
-};
+}
 
 changeView(baseCordinates);
 // document.addEventListener('DOMContentLoaded', () => {

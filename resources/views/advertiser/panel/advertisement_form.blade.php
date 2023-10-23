@@ -31,13 +31,46 @@
                     <input class="uk-input" type="text" name="business_name" id="business_name" placeholder="نام کسب و کار">
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="business_category" id="business_category" placeholder="دسته شغلی">
+                    <select class="uk-select " name="business_category" id="business_category">
+                        <option value="">انتخاب کنید</option>
+                        <option value="آرایشگری">آرایشگری</option>
+                        <option value="آموزش">آموزش</option>
+                        <option value="اداری و دفتری">اداری و دفتری</option>
+                        <option value="بازرگانی">بازرگانی</option>
+                        <option value="پیک و راننده">پیک و راننده</option>
+                        <option value="تحلیل، تحقیق و پژوهش">تحلیل، تحقیق و پژوهش</option>
+                        <option value="تعمیرکار">تعمیرکار</option>
+                        <option value="حسابداری و مالی">حسابداری و مالی</option>
+                        <option value="حقوقی و وکالت">حقوقی و وکالت</option>
+                        <option value="فنی و مهندسی">فنی و مهندسی</option>
+                        <option value="کارگر">کارگر</option>
+                        <option value="کارگر ماهر">کارگر ماهر</option>
+                        <option value="کامپیوتر، نرمافزار و IT">کامپیوتر، نرمافزار و IT</option>
+                        <option value="مدیریتی">مدیریتی</option>
+                        <option value="تل، رستوران و قنادی">هتل، رستوران و قنادی</option>
+                        <option value="هنری و رسانه">هنری و رسانه</option>
+                    </select>
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="work_hours" id="work_hours" placeholder="ساعت کاری">
+                    <div class="uk-child-width-1-2@m" uk-grid>
+                        <div>
+                            <input oninput="handle24H(this)" class="uk-input" type="number" min=1 max=24 name="work_hours[]" id="work_hours_start" placeholder="ساعت شروع" value="8">
+                        </div>
+                        <div>
+                            <input oninput="handle24H(this)" class="uk-input" type="number" min=1 max=24 name="work_hours[]" id="work_hours_end" placeholder="ساعت پایان" value="17">
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="off_days" id="off_days" placeholder="روزهای تعطیل">
+                    <select class="uk-select" name="off_days[]" id="off_days" multiple>
+                        <option value="saturday">شنبه</option>
+                        <option value="sunday">یکشنبه</option>
+                        <option value="monday">دوشنبه</option>
+                        <option value="tuesday">سه شنبه</option>
+                        <option value="wednesday">چهارشنبه</option>
+                        <option value="thursday">پنج شنبه</option>
+                        <option value="friday">جمعه</option>
+                    </select>
                 </div>
                 <div>
                     <input class="uk-input" type="text" name="address" id="address" placeholder="آدرس کسب و کار">
@@ -58,7 +91,7 @@
     </div>
     <div class="step uk-container uk-hidden" id="step-3">
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-            <div class="uk-flex-center uk-child-width-1-2@m" uk-grid>
+            <div class="uk-flex-center uk-child-width-1-2@m" id="social_wrapper" uk-grid>
                 <div>
                     <input class="uk-input" type="text" name="instagram" id="instagram" placeholder="اینستاگرام">
                 </div>
@@ -72,11 +105,14 @@
                     <input class="uk-input" type="text" name="eitaa" id="eitaa" placeholder="ایتا">
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="other_social_1" id="other_social_1" placeholder="سایر">
+                    <input class="uk-input" type="text" name="other_social[]" placeholder="سایر">
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="other_social_2" id="other_social_2" placeholder="سایر ۲">
+                    <input class="uk-input" type="text" name="other_social[]" placeholder="سایر ۲">
                 </div>
+            </div>
+            <div class="uk-text-left uk-margin-small-top uk-margin-small-bottom">
+                <button onclick="addTempSocialLink()" class="uk-button uk-button-default"><span class="uk-icon" uk-icon="plus"></span> افزودن</button>
             </div>
             <div class="uk-flex-center" uk-grid>
                 <div>

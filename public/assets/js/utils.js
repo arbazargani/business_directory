@@ -362,42 +362,84 @@ function showStep(index) {
     nodes.forEach((n) => {
         if (n.id !== 'step-' + index) {
             n.classList.add('uk-hidden');
-            // document.querySelector('#tab-'+index).classList.remove('uk-active');
             UIkit.tab(document.querySelector('#step-tabset')).show(index-1);
         } else {
             n.classList.remove('uk-hidden');
         }
     });
+    document.querySelector('#tab-'+index).scrollIntoView()
+}
+
+function handle24H(dispatcher) {
+    let value = parseInt(dispatcher.value);
+    let max = parseInt(dispatcher.max);
+    let min = parseInt(dispatcher.min);
+    if (value > max) {
+        dispatcher.value = max;
+    }
+    if (value < min) {
+        dispatcher.value = min;
+    }
+}
+
+function addTempSocialLink() {
+    // <input className="uk-input" type="text" name="other_social[]" placeholder="سایر ۲">
+    let elemWrapper = document.createElement('div');
+    elemWrapper.classList.add('uk-margin');
+
+    let elem = document.createElement('input');
+    elem.type = 'text';
+    elem.name = 'other_social[]';
+    elem.placeholder = 'سایر'
+    elem.classList.add('uk-input');
+    elemWrapper.appendChild(elem);
+    document.querySelector('#social_wrapper').appendChild(elemWrapper);
 }
 
 function submitAdvertisementForm () {
-    let business_cats_json = document.querySelector('#business_category').value;
-    let work_hours_json = document.querySelector('#work_hours').value;
-    let off_days_json = document.querySelector('#off_days').value;
+    let other_socials = document.getElementsByName('other_social[]');
+    let other_socials_list = [];
+    other_socials.forEach(function(item) {
+        other_socials_list.push(item.value);
+    });
+
+    let work_hours = document.getElementsByName('work_hours[]');
+    let work_hours_list = [];
+    work_hours.forEach(function(item) {
+        work_hours_list.push(item.value);
+    });
+
+
+    let business_cat = (document.querySelector('#business_category') !== null) ? document.querySelector('#business_category').tomselect.getValue() : null;
+    let off_days = (document.querySelector('#off_days') !== null) ? document.querySelector('#off_days').tomselect.getValue() : null;
+
     let images_json = document.querySelector('#business_images').value;
     let payload = {
         fullname: document.querySelector('#fullname').value,
         phone: document.querySelector('#phone').value,
         business_name: document.querySelector('#business_name').value,
-        business_category: JSON.stringify(business_cats_json),
-        work_hours: JSON.stringify(work_hours_json),
-        off_days: JSON.stringify(off_days_json),
+        business_category: JSON.stringify(business_cat),
+        work_hours: JSON.stringify(work_hours_list),
+        off_days: JSON.stringify(off_days),
         address: document.querySelector('#address').value,
         business_number: document.querySelector('#business_number').value,
         instagram: document.querySelector('#instagram').value,
         telegram: document.querySelector('#telegram').value,
         whatsapp: document.querySelector('#whatsapp').value,
         eitaa: document.querySelector('#eitaa').value,
-        other_social_1: document.querySelector('#other_social_1').value,
-        other_social_2: document.querySelector('#other_social_2').value,
-        business_images: JSON.stringify(images_json),
+        other_socials: JSON.stringify(other_socials_list),
+        business_images: document.querySelector('#business_images').files,
         province: document.querySelector('#province').value,
         city: document.querySelector('#city').value,
         lat: document.querySelector('#lat').value,
         lng: document.querySelector('#lng').value,
     };
 
-    axios.post('/panel/submit_business', payload)
+    axios.post('/panel/submit_business', payload, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
         .then(function (response) {
             // handle success
             if (response.data.status == 200) {

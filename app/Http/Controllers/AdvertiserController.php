@@ -7,15 +7,22 @@ use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\File;
 
 class AdvertiserController extends Controller
 {
     public function Panel()
     {
-        return view('advertiser.panel.index');
+        $advertisements = Auth::user()->advertisements;
+        return view('advertiser.panel.index', compact(['advertisements']));
     }
 
-    public function addAdvertise(Request $request)
+    public function AddAdvertise()
+    {
+        return view('advertiser.panel.addAvertise');
+    }
+
+    public function SubmitAdvertise(Request $request)
     {
         // validating incoming request for creating advertisement
         $validator = Validator::make($request->all(), [
@@ -27,14 +34,14 @@ class AdvertiserController extends Controller
             'off_days' => 'required|json',
             'address' => 'required|string|min:10',
             'business_number' => 'required|string|numeric',
-            'instagram' => 'string|min:4',
-            'telegram' => 'string|min:4',
-            'whatsapp' => 'string|min:4',
-            'eitaa' => 'string|min:4',
-            'other_social_1' => 'string|min:4',
-            'other_social_2' => 'string|min:4',
-            // @todo resolve error for business image filed
-//            'business_images' => 'required|json',
+//            'instagram' => 'string|min:4',
+//            'telegram' => 'string|min:4',
+//            'whatsapp' => 'string|min:4',
+//            'eitaa' => 'string|min:4',
+            // @todo: make a method for optimizing huge user uploaded files
+            'business_images.*' =>  File::types(['jpg', 'png'])
+                ->min('10kb')
+                ->max('3mb'),
             'province' => 'required|string|min:4',
             'city' => 'required|string|min:4',
             'lat' => 'required|string',
@@ -72,10 +79,25 @@ class AdvertiserController extends Controller
             'telegram' => $request['telegram'],
             'whatsapp' => $request['whatsapp'],
             'eitaa' => $request['eitaa'],
-            'other_social_1' => $request['other_social_1'],
-            'other_social_2' => $request['other_social_2']
+            'other_socials' => json_decode($request['other_socials']),
         ]);
-        $advertisement->business_images = $request['business_images'];
+
+        if ($request->hasFile('business_images')) {
+            $business_images_backpack = [];
+            $loop = 0;
+            foreach ($request->file('business_images') as $image) {
+                $loop ++;
+                $hashName = $image->hashName();
+                $extension = $image->extension();
+                $defaultName = time().'-'.$hashName;
+                $seoName = "$loop-" . str_replace(' ', '-', $request['business_name']) . ".$extension";
+
+                $path = $image->storeAs('uploads/'.Auth::id(), $seoName, 'public');
+                $business_images_backpack[] = $path;
+            }
+            $advertisement->business_images = json_encode($business_images_backpack);
+        }
+
         $advertisement->province = $request['province'];
         $advertisement->city = $request['city'];
         $advertisement->latitude = $request['lat'];

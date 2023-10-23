@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\MasterController::class, 'Index'])->name('Public > Home');
 
 /**--------------------------  authentication  --------------------------*/
 Route::prefix('auth')->group(function () {
@@ -39,7 +37,8 @@ Route::prefix('api')->group(function () {
 /**-------------------------- Advertiser group  --------------------------*/
 Route::prefix('panel')->middleware(['HasAdvertiserAccess'])->group(function () {
     Route::get('/', [\App\Http\Controllers\AdvertiserController::class, 'Panel'])->name('Advertiser > Panel');
-    Route::post('/submit_business', [\App\Http\Controllers\AdvertiserController::class, 'addAdvertise'])->name('Advertiser > Create');
+    Route::get('/add_business', [\App\Http\Controllers\AdvertiserController::class, 'AddAdvertise'])->name('Advertiser > Form');
+    Route::post('/submit_business', [\App\Http\Controllers\AdvertiserController::class, 'SubmitAdvertise'])->name('Advertiser > Create');
 });
 
 /**-------------------------- Advertiser group  --------------------------*/
@@ -60,3 +59,6 @@ Route::prefix('dashboard')->middleware(['HasAdminAccess'])->group(function () {
 //    return view('dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
 //require __DIR__.'/auth.php';
+
+
+Route::get('/lottery', [\App\Http\Controllers\TestController::class, 'Lottery']);

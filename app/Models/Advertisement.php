@@ -14,7 +14,8 @@ class Advertisement extends Model
         'desc',
         'confirmed',
         'user_id',
-        'published_at'
+        'published_at',
+        'ad_level',
     ];
 
 

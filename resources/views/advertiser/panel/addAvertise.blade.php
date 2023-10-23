@@ -3,8 +3,10 @@
 
 @section('tmp_head')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <link href="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css" rel="stylesheet" type="text/css">
+
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 
     <style>
         .uk-grid {
@@ -57,47 +59,21 @@
             display: inline-block;
             vertical-align: top;
         }
+
+        .ts-control {
+            border: unset !important;
+        }
     </style>
 @endsection
 
 @section('content')
-    <div class="uk-container">
-        <div uk-grid>
-            @foreach($advertisements as $ad)
-                <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
-                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="center: true">
-
-                        <ul class="uk-slider-items uk-grid">
-                            @foreach(json_decode($ad->business_images) as $img)
-                                <li class="uk-width-3-4">
-                                    <div class="uk-panel">
-                                        <img src="{{ asset("storage/$img") }}" width="400" height="600" alt="">
-                                        <div class="uk-position-center uk-panel"><h1>1</h1></div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="previous"></a>
-                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="next"></a>
-
-                    </div>
-                    <hr>
-                    <h3 class="uk-card-title">{{ $ad->title }}</h3>
-                    <span class="uk-text-meta">دسته شغلی: {{ $ad->business_categories }}</span>
-                    <span class="uk-text-meta">ساعت کاری: {{ $ad->work_hours }}</span>
-                    <span class="uk-text-meta">روزهای تعطیل: {{ $ad->off_days }}</span>
-                    <p>{{ $ad->address }}</p>
-                </div>
-            @endforeach
-        </div>
-    </div>
+    @include('advertiser.panel.advertisement_form')
 @endsection
 
 @section('tmp_scripts')
     <script src="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.css"/>
-        <script src="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.js"></script>
+    <link rel="stylesheet" href="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.css"/>
+    <script src="https://static.neshan.org/sdk/leaflet/v1.9.4/neshan-sdk/v1.0.8/index.js"></script>
     <script src="{{ asset('assets/js/neshan.js') }}"></script>
     <script>
         @if ($errors->any())
@@ -109,5 +85,22 @@
         @if(isset($message))
             UIkit.notification('{{ $message }}');
         @endif
+    </script>
+
+    <script>
+        var offDaysConfig = {
+            plugins: {
+                remove_button: {
+                    title: 'حذف',
+                }
+            },
+            placeholder: 'روزهای تعطیل'
+        };
+        new TomSelect('#off_days',offDaysConfig);
+
+        var jobCategoryConfig = {
+            placeholder: 'انتخاب گروه شغلی'
+        };
+        new TomSelect('#business_category',jobCategoryConfig);
     </script>
 @endsection
