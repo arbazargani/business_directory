@@ -1,0 +1,86 @@
+:root {
+    --theme-primary-color: #7D8C67;
+    --theme-secondary-color: #009788;
+    --theme-action-color: #f59e42;
+    --theme-default-color: #c4c4c4;
+    --theme-black-color: #3b474d;
+}
+
+body {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, a, span, p, li, label, button, input, select, option, textarea {
+    font-family: Vazir, sans-serif !important;
+}
+
+input, select, button, textarea {
+    border-radius: 5px !important;
+}
+
+.theme-action-button {
+    background: var(--theme-action-color);
+    font-weight: bolder;
+}
+
+.theme-action-button-light-text {
+    color: #ffffff;
+}
+
+.theme-action-button-dark-text {
+    color: var(--theme-black-color);
+}
+
+.ad-card-slider-image {
+    width: 204px;
+    height: 152px;
+
+    background-position: center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+}
+
+#search-box-wrapper {
+    background: var(--theme-secondary-color);
+    text-align: center;
+}
+
+#search-box-title {
+    color: #ffffff;
+}
+
+#search-box-query-after {
+    font-weight: 900;
+    font-size: 20px;
+    color: #586267;
+    display: inline-block;
+    position: absolute;
+    margin: 10px -25px 0 0;
+    background: #ffffff;
+}
+
+#search-box-location {
+    padding-right: 10%;
+}
+
+
+#search-box-location-before {
+    font-weight: 900;
+    font-size: 20px;
+    color: #586267;
+    display: inline-block;
+    position: absolute;
+    margin: 4px 5px 0 0;
+    background: #ffffff;
+}
+
+#search-box-location-after {
+    font-weight: 900;
+    font-size: 20px;
+    color: #586267;
+    display: inline-block;
+    position: absolute;
+    margin: 10px -25px 0 0;
+    background: #ffffff;
+}

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\MasterController::class, 'Index'])->name('Public > Home');
+Route::get('/search', [\App\Http\Controllers\MasterController::class, 'Search'])->name('Public > Search');
 
 /**--------------------------  authentication  --------------------------*/
 Route::prefix('auth')->group(function () {
