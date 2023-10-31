@@ -25,8 +25,8 @@ class MasterController extends Controller
 
     public function Index() {
         $advertisements = [
-            'basic' => Advertisement::where('ad_level', 'basic')->limit(6)->latest()->get(),
-            'commercial' => Advertisement::where('ad_level', 'commercial')->limit(3)->latest()->get()
+            'basic' => Advertisement::withCount('comments')->where('ad_level', 'basic')->limit(6)->orderBy('comments_count', 'DESC')->get(),
+            'commercial' => Advertisement::withCount('comments')->where('ad_level', 'commercial')->limit(3)->orderBy('comments_count', 'DESC')->get()
         ];
         $translations = $this->translations;
         return view('public.index', compact(['advertisements', 'translations']));
@@ -35,7 +35,7 @@ class MasterController extends Controller
     public function Search(Request $request)
     {
         $limit = ($request->has('limit')) ? $request['limit'] : 100;
-        $advertisements = Advertisement::latest();
+        $advertisements = Advertisement::withCount('comments')->orderBy('comments_count', 'DESC');
         $translations = $this->translations;
 
         // determine main param [search_query] sets or not.

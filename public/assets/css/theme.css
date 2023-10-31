@@ -41,6 +41,15 @@ input, select, button, textarea {
     background-repeat: no-repeat !important;
 }
 
+.ad-card-slider-image-large {
+    width: 100%;
+    height: 300px;
+    max-height: 300px;
+    background-position: center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+}
+
 #search-box-wrapper {
     background: var(--theme-secondary-color);
     text-align: center;

@@ -57,40 +57,55 @@
             display: inline-block;
             vertical-align: top;
         }
+
+        th, td {
+            text-align: right !important;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="uk-container">
-        <div uk-grid>
-            @foreach($advertisements as $ad)
-                <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
-                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="center: true">
-
-                        <ul class="uk-slider-items uk-grid">
-                            @foreach(json_decode($ad->business_images) as $img)
-                                <li class="uk-width-3-4">
-                                    <div class="uk-panel">
-                                        <img src="{{ asset("storage/$img") }}" width="400" height="600" alt="">
-                                        <div class="uk-position-center uk-panel"><h1>1</h1></div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="previous"></a>
-                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="next"></a>
-
-                    </div>
-                    <hr>
-                    <h3 class="uk-card-title">{{ $ad->title }}</h3>
-                    <span class="uk-text-meta">دسته شغلی: {{ $ad->business_categories }}</span>
-                    <span class="uk-text-meta">ساعت کاری: {{ $ad->work_hours }}</span>
-                    <span class="uk-text-meta">روزهای تعطیل: {{ $ad->off_days }}</span>
-                    <p>{{ $ad->address }}</p>
-                </div>
-            @endforeach
+        <div class="uk-card uk-card-default uk-card-body">
+            <h2 class="uk-card-title">تاریخچه کسب‌وکار های شما</h2>
+            <div class="uk-overflow-auto">
+                <table class="uk-table uk-table-small uk-table-middle uk-table-divider">
+                    <thead>
+                    <tr>
+                        <th>کد آگهی</th>
+                        <th>عنوان کسب و کار</th>
+                        <th>استان - شهر</th>
+                        <th>وضعیت تایید</th>
+                        <th>سطح آگهی</th>
+                        <th>
+                            @if(\Illuminate\Support\Facades\Request::has('sort') && \Illuminate\Support\Facades\Request::get('sort') == 'hits')
+                                <a class="uk-link-reset" href="{{ route('Advertiser > Panel') }}">بازدید</a> @if(\Illuminate\Support\Facades\Request::has('sort')) <span uk-icon="triangle-down"></span> @endif
+                            @else
+                                <a href="{{ route('Advertiser > Panel') }}?sort=hits">بازدید</a>
+                            @endif
+                        </th>
+                        <th>دسته‌بندی</th>
+                        <th>سایر</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($advertisements as $ad)
+                        <tr>
+                            <td>{{ $ad->id }}</td>
+                            <td>{{ $ad->title }}</td>
+                            <td>{{{ "{$ad->province} - {$ad->city}" }}}</td>
+                            <td>@if($ad->confirmed) <span class="uk-text-success">تایید شده</span> @else <span class="uk-text-warning">تایید نشده</span> @endif</td>
+                            <td>{{ $ad->ad_level }}</td>
+                            <td>{{ $ad->hits }}</td>
+                            <td>{{ $ad->getCategories() }}</td>
+                            <td>-</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
+
     </div>
 @endsection
 

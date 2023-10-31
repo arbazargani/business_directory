@@ -172,12 +172,15 @@
                     <div class="uk-card uk-card-body uk-card-default uk-padding-small uk-border-rounded">
                         <div class="uk-flex-center">
                             <div class="uk-margin-small-bottom">
-                                <input type="text" class="uk-input" name="province" id="province" placeholder="استان">
+                                <label for="province">استان</label>
+                                @include('globalComponents.provincesSelect', ['name' => 'province', 'id' => 'province', 'hasAll' => false])
                             </div>
                             <div class="uk-margin-small-bottom">
-                                <input type="text" class="uk-input" name="city" id="city" placeholder="شهرستان">
+                                <label for="city">شهر</label>
+                                @include('globalComponents.citiesSelect', ['name' => 'city', 'id' => 'city', 'hasAll' => false])
                             </div>
                             <div class="uk-margin-small-bottom">
+                                <label for="full_address">آدرس</label>
                                 <textarea class="uk-textarea" name="full_address" id="full_address" cols="30" rows="10" placeholder="آدرس کامل"></textarea>
                             </div>
                             <div class="uk-flex-center" uk-grid>

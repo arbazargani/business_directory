@@ -18,7 +18,7 @@
             min-height: 100vh;
         }
 
-        h1, h2, h3, h4, h5, h6, a, span, li, label, button, input, select, option {
+        h1, h2, h3, h4, h5, h6, a, span, li, label, button, input, select, option, tr, th, td {
             font-family: Vazir, sans-serif !important;
         }
     </style>
@@ -34,22 +34,13 @@
 
                 <ul class="uk-navbar-nav">
                     <li class="uk-active">
-                        <a class="uk-text-bolder" href="">
-                            <img src="https://avatars.githubusercontent.com/u/61144196?s=48&v=4" style="width: 50px">
+                        <a class="uk-text-bolder" href="{{ route('Public > Home') }}">
+                            <img src="{{ asset('assets/static/images/logo.png') }}" style="width: 50px">
                             <span>{{ env('APP_NAME') }}</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#" role="button" aria-haspopup="true">آگهی‌ها<span uk-navbar-parent-icon="" class="uk-icon uk-navbar-parent-icon"><svg width="12" height="12" viewBox="0 0 12 12"><polyline fill="none" stroke="#000" stroke-width="1.1" points="1 3.5 6 8.5 11 3.5"></polyline></svg></span></a>
-                        <div class="uk-navbar-dropdown uk-box-shadow-large uk-border-rounded uk-drop">
-                            <div class="">
-                                <ul class="uk-nav uk-navbar-dropdown-nav">
-                                    <li><a href="">ایجاد کسب و کار</a></li>
-                                    <li><a href="">مدیریت آکهی‌ها</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
+                    <li><a href="{{ route('Advertiser > Panel') }}">مدیریت آکهی‌ها</a></li>
+                    <li><a href="{{ route('Advertiser > Form') }}">ایجاد کسب و کار</a></li>
                 </ul>
 
             </div>
@@ -57,10 +48,10 @@
             <div class="uk-navbar-left">
                 <ul class="uk-navbar-nav">
                     <li>
-                        <a href="https://jir-dd.iran.liara.run/app/auth/login" class="uk-link-reset">
+                        <a href="" class="uk-link-reset">
                             <button class="uk-button uk-button-muted uk-button-small uk-button-theme-primary">
                                 <ion-icon name="laptop-outline" role="img" class="md hydrated"></ion-icon>
-                                ناحیه کاربری
+                                {{ Auth::user()->name }}
                             </button>
                         </a>
                     </li>

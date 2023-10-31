@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\MasterController::class, 'Index'])->name('Public > Home');
 Route::get('/search', [\App\Http\Controllers\MasterController::class, 'Search'])->name('Public > Search');
+Route::get('/business/{advertisement}/{slug}', [\App\Http\Controllers\AdvertisementController::class, 'Show'])->name('Public > Advertisement > Show');
+Route::post('/business/comment/{ad_id}', [\App\Http\Controllers\AdvertisementController::class, 'SubmitComment'])->name('Public > Advertisement > Comment');
+
 
 /**--------------------------  authentication  --------------------------*/
 Route::prefix('auth')->group(function () {
@@ -62,4 +65,6 @@ Route::prefix('dashboard')->middleware(['HasAdminAccess'])->group(function () {
 //require __DIR__.'/auth.php';
 
 
-Route::get('/lottery', [\App\Http\Controllers\TestController::class, 'Lottery']);
+Route::get('/lottery', [\App\Http\Controllers\TestController::class, 'AdsLevelLottery']);
+Route::get('/adsFaker', [\App\Http\Controllers\TestController::class, 'FakeAds']);
+Route::get('/commentsFaker', [\App\Http\Controllers\TestController::class, 'FakeComments']);

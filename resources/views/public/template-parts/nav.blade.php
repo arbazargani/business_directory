@@ -7,7 +7,7 @@
                 <ul class="uk-navbar-nav">
                     <li class="uk-active">
                         <a class="uk-text-bolder" href="#">
-                            <img src="https://avatars.githubusercontent.com/u/61144196?s=48&v=4" style="width: 50px" id="logo">
+                            <img src="{{ asset('assets/static/images/logo.png') }}" style="width: 50px" id="logo">
                             <h1 class="uk-text-default uk-margin-remove" style="vertical-align: middle">{{ env('APP_NAME') }}</h1>
                         </a>
                     </li>

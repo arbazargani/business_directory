@@ -1,5 +1,6 @@
 <div class="uk-padding-small">
     <div style="border: 1px solid #dddddd" class="uk-card uk-card-default uk-card-small uk-card-body uk-border-rounded">
+        @if($ad->ad_level !== 'basic')
         <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="center: true">
 
             <ul class="uk-slider-items uk-grid">
@@ -19,13 +20,23 @@
 
         </div>
         <hr>
-        <h3 class="uk-card-title">{{ $ad->title }}</h3>
+        @endif
+        @php
+            $slug = str_replace([' ', '.', '،'], '-', $ad->business_name);
+        @endphp
+        <h3 class="uk-card-title">
+            <a href="{{ route('Public > Advertisement > Show', ['advertisement' => $ad->id, 'slug' => $slug]) }}" class="uk-link-reset">{{ $ad->title }}</a>
+        </h3>
         <span class="uk-text-meta">دسته شغلی: {{ json_decode($ad->business_categories) }}</span>
         <br>
         <span class="uk-text-meta">ساعت کاری: {{ json_decode($ad->work_hours, true)[0] }} - {{ json_decode($ad->work_hours, true)[1] }}</span>
         <br>
         @if(is_array(json_decode($ad->off_days)) && count(json_decode($ad->off_days)) > 0)
-            <span class="uk-text-meta">روزهای تعطیل: @foreach(json_decode($ad->off_days) as $od) {{ $translations['week_days'][$od] }}, @endforeach</span>
+            <span class="uk-text-meta">روزهای تعطیل:
+                            @foreach(json_decode($ad->off_days) as $od)
+                    {{ $translations['week_days'][$od] }} @if(!$loop->last) ،@endif
+                @endforeach
+                        </span>
             <br>
         @endif
         <p>{{ $ad->address }}</p>

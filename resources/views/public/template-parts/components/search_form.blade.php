@@ -1,14 +1,10 @@
 @php
-    $cities = \Illuminate\Support\Facades\Cache::remember('cities_list', 60*60*24*3, function () {
-        $citeis = \App\Models\IranCity::all();
-        return $citeis;
-    });
     $q = (\Illuminate\Support\Facades\Request::has('search_query'))
         ? \Illuminate\Support\Facades\Request::get('search_query')
         : null;
     $location = (\Illuminate\Support\Facades\Request::has('search_location'))
         ? (int) \Illuminate\Support\Facades\Request::get('search_location')
-        : null;
+        : false;
 @endphp
 <div class="uk-section uk-margin-small-bottom" id="search-box-wrapper">
     <div class="uk-container uk-container-small">
@@ -21,12 +17,7 @@
                 </div>
                 <div class="uk-width-medium@m">
                     <span id="search-box-location-before">در</span>
-                    <select class="uk-select" name="search_location" id="search-box-location">
-                        <option value="-1">همه شهرها</option>
-                        @foreach($cities as $city)
-                            <option value="{{ $city->id }}" @if($location === $city->id) selected @endif>{{ $city->name }}</option>
-                        @endforeach
-                    </select>
+                    @include('globalComponents.citiesSelect', ['name' => 'search_location', 'id' => 'search-box-location', 'selected' => $location, 'hasAll' => true])
                     <span id="search-box-location-after" uk-icon="location"></span>
                 </div>
                 <div class="uk-width-auto@m">

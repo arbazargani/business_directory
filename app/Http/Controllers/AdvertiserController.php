@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertisement;
 use App\Models\Business;
+use App\Models\IranCity;
+use App\Models\IranProvince;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -11,9 +13,10 @@ use Illuminate\Validation\Rules\File;
 
 class AdvertiserController extends Controller
 {
-    public function Panel()
+    public function Panel(Request $request)
     {
-        $advertisements = Auth::user()->advertisements;
+        $advertisements = Advertisement::where('user_id', Auth::id());
+        $advertisements = ($request->has('sort')) ? $advertisements->orderBy($request->get('sort'), 'DESC')->get() : $advertisements->latest()->get();
         return view('advertiser.panel.index', compact(['advertisements']));
     }
 
@@ -34,16 +37,12 @@ class AdvertiserController extends Controller
             'off_days' => 'required|json',
             'address' => 'required|string|min:10',
             'business_number' => 'required|string|numeric',
-//            'instagram' => 'string|min:4',
-//            'telegram' => 'string|min:4',
-//            'whatsapp' => 'string|min:4',
-//            'eitaa' => 'string|min:4',
             // @todo: make a method for optimizing huge user uploaded files
             'business_images.*' =>  File::types(['jpg', 'png'])
                 ->min('10kb')
                 ->max('3mb'),
-            'province' => 'required|string|min:4',
-            'city' => 'required|string|min:4',
+            'province' => 'required',
+            'city' => 'required',
             'lat' => 'required|string',
             'lng' => 'required|string',
         ]);
@@ -98,8 +97,10 @@ class AdvertiserController extends Controller
             $advertisement->business_images = json_encode($business_images_backpack);
         }
 
-        $advertisement->province = $request['province'];
-        $advertisement->city = $request['city'];
+        $advertisement->province = IranProvince::find($request['province'])->name;
+        $advertisement->iran_province_id = $request['city'];
+        $advertisement->city = IranCity::find($request['city'])->name;
+        $advertisement->iran_city_id = $request['city'];
         $advertisement->latitude = $request['lat'];
         $advertisement->longitude = $request['lng'];
         $advertisement->published_at = now();

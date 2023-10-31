@@ -1,0 +1,16 @@
+<xml>
+    <todo>
+        <title>create fake ads</title>
+        <completed>false</completed>
+    </todo>
+
+    <todo>
+        <title>create fake comments</title>
+        <completed>false</completed>
+    </todo>
+
+    <todo>
+        <title>create ads preview page</title>
+        <completed>false</completed>
+    </todo>
+</xml>

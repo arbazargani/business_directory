@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\User;
 
 class Advertisement extends Model
 {
@@ -16,6 +15,7 @@ class Advertisement extends Model
         'user_id',
         'published_at',
         'ad_level',
+        'hits',
         'city',
         'iran_city_id',
         'province',
@@ -28,6 +28,11 @@ class Advertisement extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getCity()
     {
         return $this->belongsTo(IranCity::class, 'iran_city_id');
@@ -36,5 +41,10 @@ class Advertisement extends Model
     public function getProvince()
     {
         return $this->belongsTo(IranProvince::class, 'iran_province_id');
+    }
+
+    public function getCategories()
+    {
+        return json_decode($this->business_categories);
     }
 }
