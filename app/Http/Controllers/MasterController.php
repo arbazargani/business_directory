@@ -7,26 +7,10 @@ use Illuminate\Http\Request;
 
 class MasterController extends Controller
 {
-    public $translations;
-    public function __construct()
-    {
-        $this->translations = [
-            'week_days' => [
-                'saturday' => 'شنبه',
-                "sunday" => 'یکشنبه',
-                "monday" => "دوشنبه",
-                "tuesday" => "سه شنبه",
-                "wednesday" => "چهار شنبه",
-                "thursday" => "پنج شنبه",
-                "friday" => "جمعه",
-            ],
-        ];
-    }
-
     public function Index() {
         $advertisements = [
-            'basic' => Advertisement::withCount('comments')->where('ad_level', 'basic')->limit(6)->orderBy('comments_count', 'DESC')->get(),
-            'commercial' => Advertisement::withCount('comments')->where('ad_level', 'commercial')->limit(3)->orderBy('comments_count', 'DESC')->get()
+            'basic' => Advertisement::where('confirmed', 1)->withCount('comments')->where('ad_level', 'basic')->limit(6)->orderBy('comments_count', 'DESC')->get(),
+            'commercial' => Advertisement::where('confirmed', 1)->withCount('comments')->where('ad_level', 'commercial')->limit(3)->orderBy('comments_count', 'DESC')->get()
         ];
         $translations = $this->translations;
         return view('public.index', compact(['advertisements', 'translations']));

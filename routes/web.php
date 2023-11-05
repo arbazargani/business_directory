@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,7 @@ Route::post('/business/comment/{ad_id}', [\App\Http\Controllers\AdvertisementCon
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'Login'])->name('Auth > Login');
     Route::any('/register', [AuthController::class, 'Register'])->name('Auth > Register');
-    Route::post('/logout', [AuthController::class, 'Logout'])->name('Auth > Logout');
+    Route::any('/logout', [AuthController::class, 'Logout'])->name('Auth > Logout');
 });
 
 /**--------------------------  api  --------------------------*/
@@ -43,13 +44,21 @@ Route::prefix('panel')->middleware(['HasAdvertiserAccess'])->group(function () {
     Route::get('/', [\App\Http\Controllers\AdvertiserController::class, 'Panel'])->name('Advertiser > Panel');
     Route::get('/add_business', [\App\Http\Controllers\AdvertiserController::class, 'AddAdvertise'])->name('Advertiser > Form');
     Route::post('/submit_business', [\App\Http\Controllers\AdvertiserController::class, 'SubmitAdvertise'])->name('Advertiser > Create');
+
+    Route::prefix('/api')->group(function () {
+        Route::any('/list_cities', [\App\Http\Controllers\AdvertiserController::class, 'ListCities'])->name('Advertiser > Api > List Cities');
+    });
 });
 
-/**-------------------------- Advertiser group  --------------------------*/
+/**-------------------------- Admin group  --------------------------*/
 Route::prefix('dashboard')->middleware(['HasAdminAccess'])->group(function () {
-    Route::get('/', function () {
-        return 'admin dashboard';
-    })->name('Admin > Dashboard');
+    Route::get('/', [AdminController::class, 'Dashboard'])->name('Admin > Dashboard');
+
+    Route::any('/advertisements/manage', [AdminController::class, 'AdsManager'])->name('Admin > Advertisements > Manage');
+    Route::get('/advertisements/preview/{id}', [AdminController::class, 'AdsPreview'])->name('Admin > Advertisements > Preview');
+
+
+    Route::any('/user/edit/{id}', [AdminController::class, 'EditUser'])->name('Admin > Users > Edit');
 });
 
 /**--------------------------  laravel basic authentication  --------------------------*/

@@ -19,7 +19,7 @@ class HasAdvertiserAccess
         if (Auth::check() && Auth::user()->getRule() == 'advertiser') {
             return $next($request);
         } else {
-            return abort(403, 'Access forbidden.');
+            return redirect()->route('Auth > Login');
         }
     }
 }

@@ -22,6 +22,10 @@ class Advertisement extends Model
         'iran_province_id',
     ];
 
+    // @todo: use model attributes casting for cleaner source code XD
+    protected $casts = [
+//        'business_images' => 'json'
+    ];
 
     public function user()
     {
@@ -46,5 +50,10 @@ class Advertisement extends Model
     public function getCategories()
     {
         return json_decode($this->business_categories);
+    }
+
+    public function getSlug()
+    {
+        return str_replace([' ', '.', '،'], '-', $this->business_name);
     }
 }

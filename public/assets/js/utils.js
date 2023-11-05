@@ -312,7 +312,7 @@ function logOutSession() {
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
-                    window.location.replace("/auth/login");
+                    window.location.reload();
                 } else {
                     UIkit.notification({
                         message: error_icon + 'مشکلی پیش آمده است.',
@@ -396,6 +396,50 @@ function addTempSocialLink() {
     document.querySelector('#social_wrapper').appendChild(elemWrapper);
 }
 
+function listProvinceCities() {
+    let citiesSelect = document.querySelector('#city');
+    let citiesLoader = document.querySelector('#city_loader');
+    citiesSelect.classList.add('uk-disabled');
+    citiesLoader.classList.remove('uk-hidden');
+    let payload = {
+        province: parseInt(document.querySelector('#province').value)
+    };
+    axios.post('/panel/api/list_cities', payload)
+        .then(function (response) {
+            // handle success
+            if (response.data.status == 200) {
+                if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
+                    citiesSelect.innerHTML = response.data.html;
+                    citiesSelect.classList.remove('uk-disabled');
+                    citiesLoader.classList.add('uk-hidden');
+
+                } else {
+                    UIkit.notification({
+                        message: error_icon + 'مشکلی پیش آمده است.',
+                        status: 'warning',
+                        pos: 'bottom-right',
+                        timeout: 5000
+                    });
+                }
+            } else {
+                UIkit.notification({
+                    message: error_icon + response.data.error,
+                    status: 'danger',
+                    pos: 'bottom-right',
+                    timeout: 5000
+                });
+            }
+            // console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            // console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+}
+
 function submitAdvertisementForm () {
     let other_socials = document.getElementsByName('other_social[]');
     let other_socials_list = [];
@@ -469,12 +513,27 @@ function submitAdvertisementForm () {
             }
             // console.log(response);
         })
-        .catch(function (error) {
+        .catch(function (error, response) {
             // handle error
-            // console.log(error);
+            UIkit.notification({
+                message: error_icon + error.response.data.message,
+                status: 'danger',
+                pos: 'bottom-right',
+                timeout: 5000
+            });
         })
         .finally(function () {
             // always executed
         });
 }
 
+function advertisementApprovlaOptIn(id) {
+    document.querySelector('#advertisementApprovlaOptIn_id').value = id;
+    UIkit.modal('#advertisement_approval_modal').show();
+}
+
+function changeAdConfirmedStat(stat) {
+    let IntStat = (stat === true) ? 1 : 0;
+    document.querySelector('#advertisementApprovlaOptIn_confirmed').value = IntStat;
+    document.querySelector('#adConfirmationForm').submit();
+}

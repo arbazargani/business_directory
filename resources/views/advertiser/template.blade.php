@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/uikit.min.css') }}"/>
     <script src="{{ asset('assets/js/uikit.min.js') }}"></script>
     <script src="{{ asset('assets/js/uikit-icons.min.js') }}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <link rel="preconnect" href="//fdn.fontcdn.ir">
     <link rel="preconnect" href="//v1.fontapi.ir">
@@ -20,6 +22,9 @@
 
         h1, h2, h3, h4, h5, h6, a, span, li, label, button, input, select, option, tr, th, td {
             font-family: Vazir, sans-serif !important;
+        }
+        ion-icon {
+            vertical-align: middle;
         }
     </style>
     @yield('tmp_head')
@@ -48,9 +53,17 @@
             <div class="uk-navbar-left">
                 <ul class="uk-navbar-nav">
                     <li>
+                        {{-- @todo: handle js function [logOutSession()] Bug --}}
+                        <a href="{{{ route('Auth > Logout') }}}" class="uk-link-reset">
+                            <span uk-tooltip="خروج از حساب کاربری">
+                                <ion-icon style="font-size: 25px" name="log-out" role="img" class="md hydrated"></ion-icon>
+                            </span>
+                        </a href="">
+                    </li>
+                    <li>
                         <a href="" class="uk-link-reset">
                             <button class="uk-button uk-button-muted uk-button-small uk-button-theme-primary">
-                                <ion-icon name="laptop-outline" role="img" class="md hydrated"></ion-icon>
+                                <ion-icon name="person-outline" role="img" class="md hydrated"></ion-icon>
                                 {{ Auth::user()->name }}
                             </button>
                         </a>

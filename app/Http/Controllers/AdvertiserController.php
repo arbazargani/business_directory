@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdvertisementStoreRequest;
 use App\Models\Advertisement;
 use App\Models\Business;
 use App\Models\IranCity;
@@ -25,38 +26,10 @@ class AdvertiserController extends Controller
         return view('advertiser.panel.addAvertise');
     }
 
-    public function SubmitAdvertise(Request $request)
+//    public function SubmitAdvertise(Request $request)
+    public function SubmitAdvertise(AdvertisementStoreRequest $request)
     {
-        // validating incoming request for creating advertisement
-        $validator = Validator::make($request->all(), [
-            'fullname' => 'required|min:4',
-            'phone' => 'required|string|numeric',
-            'business_name' => 'required|min:4',
-            'business_category' => 'required|json',
-            'work_hours' => 'required|json',
-            'off_days' => 'required|json',
-            'address' => 'required|string|min:10',
-            'business_number' => 'required|string|numeric',
-            // @todo: make a method for optimizing huge user uploaded files
-            'business_images.*' =>  File::types(['jpg', 'png'])
-                ->min('10kb')
-                ->max('3mb'),
-            'province' => 'required',
-            'city' => 'required',
-            'lat' => 'required|string',
-            'lng' => 'required|string',
-        ]);
-
-        // handle validation failure
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'ts' => time(),
-                'error' => $validator->errors()->first(),
-                'errors' => $validator->errors(),
-            ]);
-        }
-
+        // incoming request validation will handles inside AdertisementStoreRequest class.
         $advertisement = new Advertisement();
         $advertisement->title = $request['business_name'];
         $advertisement->desc = '';
@@ -81,6 +54,7 @@ class AdvertiserController extends Controller
             'other_socials' => json_decode($request['other_socials']),
         ]);
 
+        // @todo: create a Media model to handle user uploads better than any time!
         if ($request->hasFile('business_images')) {
             $business_images_backpack = [];
             $loop = 0;
@@ -118,5 +92,34 @@ class AdvertiserController extends Controller
         ]);
 
         return redirect()->back()->with(['message' => 'با موفقیت ثبت شد.']);
+    }
+
+    public function ListCities(Request $request)
+    {
+        $province = IranProvince::find($request->get('province'));
+            if (is_null($province)) {
+            return response()->json([
+                'status' => 400,
+                'timestamp' => time(),
+                'allowed' => false,
+                'errors' => [
+                    'fa' => 'استان یافت نشد.',
+                    'en' => 'Province not found.'
+                ],
+            ]);
+        } else {
+            $output = '';
+            foreach ($province->cities as $city) {
+                $output .= "<option value={$city->id}>{$city->name}</option>";
+            }
+
+            return response()->json([
+                'status' => 200,
+                'timestamp' => time(),
+                'allowed' => true,
+                'province' => $province,
+                'html' => $output,
+            ]);
+        }
     }
 }

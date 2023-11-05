@@ -9,23 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AdvertisementController extends Controller
 {
-    public $translations;
-    public function __construct()
-    {
-        $this->translations = [
-            'week_days' => [
-                'saturday' => 'شنبه',
-                "sunday" => 'یکشنبه',
-                "monday" => "دوشنبه",
-                "tuesday" => "سه شنبه",
-                "wednesday" => "چهار شنبه",
-                "thursday" => "پنج شنبه",
-                "friday" => "جمعه",
-            ],
-        ];
-    }
     public function Show(Advertisement $advertisement, $slug)
     {
+        if ( (!Auth::check() || Auth::user()->rule !== 'admin') && !$advertisement->confirmed) {
+            abort(404, 'not found.');
+        }
         Advertisement::where('id', $advertisement->id)->increment('hits', 1);
         $ad = $advertisement;
         $comments = Comment::where('advertisement_id', $ad->id)

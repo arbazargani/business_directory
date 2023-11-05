@@ -255,9 +255,12 @@ class AuthController extends Controller
 
     public function Logout()
     {
+        Auth::logout();
+        return redirect()->route('Auth > Login');
+
         if (Auth::check()) {
             Auth::logout();
-
+//            return redirect()->route('Auth > Login');
             return response()->json([
                 'status' => 200,
                 'allowed' => true,

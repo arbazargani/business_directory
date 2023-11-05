@@ -117,7 +117,7 @@
         <div class="uk-card uk-card-default uk-card-body uk-margin-small-top">
             <h3 class="uk-text-default uk-text-bold"><ion-icon name="caret-back-outline"></ion-icon> نظرات در مورد {{ $ad->business_name }}</h3>
             @forelse($comments as $comment)
-                <div class="uk-padding-small uk-margin-small-top" style="background: #00000014; border-right: 5px solid var(--theme-action-color)">
+                <div class="uk-padding-small uk-margin-small-top comment-item" style="background: #00000014; border-right: 5px solid var(--theme-action-color)">
                     <span class="uk-text-meta">ارسال شده در {{ $comment->created_at }}</span>
                     <p>{{ $comment->content }}</p>
                 </div>
@@ -206,7 +206,14 @@
             document.querySelector('#desktop_ad_phone_prev').classList.remove('uk-hidden');
         }
 
-        //@todo map invalidate size won't work
-        mapInvalidateFunction();
+        // @todo map invalidate size won't work
+        var observer = new MutationObserver(function(mutations) {
+            mapInvalidateFunction();
+        });
+        observer.observe(document.querySelector('#map'), {
+            attributes: true,
+            childList: true,
+            subtree: true
+        });
     </script>
 @endsection

@@ -21,11 +21,8 @@
         </div>
         <hr>
         @endif
-        @php
-            $slug = str_replace([' ', '.', '،'], '-', $ad->business_name);
-        @endphp
         <h3 class="uk-card-title">
-            <a href="{{ route('Public > Advertisement > Show', ['advertisement' => $ad->id, 'slug' => $slug]) }}" class="uk-link-reset">{{ $ad->title }}</a>
+            <a href="{{ route('Public > Advertisement > Show', ['advertisement' => $ad->id, 'slug' => $ad->getSlug()]) }}" class="uk-link-reset">{{ $ad->title }}</a>
         </h3>
         <span class="uk-text-meta">دسته شغلی: {{ json_decode($ad->business_categories) }}</span>
         <br>

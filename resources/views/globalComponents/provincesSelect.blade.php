@@ -8,9 +8,10 @@
     $class = isset($class) ? $class : null;
     $selected = isset($selected) ? $selected : false;
     $hasAll = isset($hasAll) ? $hasAll : true;
+    $onClick = isset($onClick) ? $onClick : false;
 @endphp
 
-<select class="uk-select {{ $class }}" name="{{ $name }}" id="{{ $id }}">
+<select class="uk-select {{ $class }}" name="{{ $name }}" id="{{ $id }}" @if($onClick !== false) onchange="{{ $onClick }}" @endif>
     @if($hasAll)
         <option value="-1">همه استان‌ها</option>
     @endif
