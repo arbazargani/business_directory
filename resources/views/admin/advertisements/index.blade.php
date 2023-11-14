@@ -63,7 +63,7 @@
                     <td class="hasActionButtons">
                         {{ $ad->user->name }}
                         <br>
-                        <span class="uk-text-meta" onclick='window.open("{{ route('Admin > Users > Edit', ['id' => $ad->user->id]) }}", "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=900, height=900, top=30, left=30");'>
+                        <span class="uk-text-meta" onclick='window.open("{{ route('Admin > Users > Edit', ['user' => $ad->user->id]) }}?sidebarless=true", "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=900, height=900, top=30, left=30");'>
                             <ion-icon name="link"></ion-icon><span class="uk-text-meta">[id:{{ $ad->user->id }}]</span>
                         </span>
                     </td>

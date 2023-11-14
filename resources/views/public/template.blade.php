@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
-    <title>{{ env('APP_NAME') }}</title>
+    <title>{{ env('APP_NAME') }} {{ $settings->where('name', 'page_title_seperator')->first()->value }} @yield('page_title')</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('assets/css/uikit.min.css') }}"/>
@@ -13,9 +13,8 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
 
-    <link rel="preconnect" href="//fdn.fontcdn.ir">
-    <link rel="preconnect" href="//v1.fontapi.ir">
-    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/IRANYekanX/fontiran.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/IRANYekanX/style.css') }}">
     @yield('tmp_header')
 </head>
 <body>

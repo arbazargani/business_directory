@@ -7,10 +7,14 @@ use App\Models\Advertisement;
 use App\Models\Business;
 use App\Models\IranCity;
 use App\Models\IranProvince;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\Password;
+use Morilog\Jalali\CalendarUtils;
 
 class AdvertiserController extends Controller
 {
@@ -45,6 +49,7 @@ class AdvertiserController extends Controller
         $advertisement->work_hours = $request['work_hours'];
         $advertisement->off_days = $request['off_days'];
         $advertisement->address = $request['address'];
+        $advertisement->desc = $request['description'];
         $advertisement->business_number = $request['business_number'];
         $advertisement->social_media = json_encode([
             'instagram' => $request['instagram'],
@@ -72,7 +77,7 @@ class AdvertiserController extends Controller
         }
 
         $advertisement->province = IranProvince::find($request['province'])->name;
-        $advertisement->iran_province_id = $request['city'];
+        $advertisement->iran_province_id = $request['province'];
         $advertisement->city = IranCity::find($request['city'])->name;
         $advertisement->iran_city_id = $request['city'];
         $advertisement->latitude = $request['lat'];
@@ -121,5 +126,37 @@ class AdvertiserController extends Controller
                 'html' => $output,
             ]);
         }
+    }
+
+    public function ProfileManager(Request $request)
+    {
+        if ($request->isMethod('GET')) {
+            $user = Auth::user();
+            return view('advertiser.panel.profile', compact(['user']));
+        }
+
+        $request->validate([
+            'name' => 'required|string|min:4',
+//            'phone_number' => 'required|string|numeric|regex:/(09)[0-9]{9}/|digits:11',
+            'email' => 'required|email',
+            'password' => ['sometimes', 'nullable', 'confirmed', Password::min(8)],
+            'gender' => 'required',
+            'birthdate' => 'required',
+        ]);
+
+        $dateString = CalendarUtils::convertNumbers($request['birthdate'], true); // changes ۱۳۹۵/۰۲/۱۹ to 1395/02/19
+        $birthdate = CalendarUtils::createCarbonFromFormat('Y/m/d', $dateString)->format('Y-m-d'); //2016-05-8
+
+        User::where('id', Auth::id())->update([
+            'name' => $request['name'],
+//            'phone_number' => $request['phone_number'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'user_informations' => json_encode([
+                'gender' => $request['gender'],
+                'birthdate' => $birthdate,
+            ]),
+        ]);
+        return redirect()->back();
     }
 }

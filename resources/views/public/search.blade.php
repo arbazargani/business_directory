@@ -1,5 +1,9 @@
 @extends('public.template')
 
+@section('page_title')
+    نتایچ جستجو
+@endsection
+
 @section('content')
     @include('public.template-parts.components.search_form')
     <div class="uk-container">

@@ -11,10 +11,12 @@
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
             <div class="uk-flex-center" uk-grid>
                 <div>
-                    <input class="uk-input" type="text" name="fullname" id="fullname" placeholder="نام و نام خانوادگی" value="{{ Auth::user()->name }}">
+                    <label class="uk-text-small" for="fullname">نام و نام خانوادگی</label>
+                    <input class="uk-input" type="text" name="fullname" id="fullname" value="{{ Auth::user()->name }}">
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="phone" id="phone" placeholder="شماره تماس" value="{{ Auth::user()->phone_number }}">
+                    <label class="uk-text-small" for="phone">شماره همراه</label>
+                    <input class="uk-input" type="text" name="phone" id="phone" value="{{ Auth::user()->phone_number }}">
                 </div>
             </div>
             <div class="uk-flex-center" uk-grid>
@@ -28,9 +30,11 @@
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
             <div class="uk-flex-center uk-child-width-1-2@m" uk-grid>
                 <div>
-                    <input class="uk-input" type="text" name="business_name" id="business_name" placeholder="نام کسب و کار">
+                    <label class="uk-text-small" for="business_name">نام کسب و کار</label>
+                    <input class="uk-input" type="text" name="business_name" id="business_name">
                 </div>
                 <div>
+                    <label class="uk-text-small" for="business_category">گروه شغلی</label>
                     <select class="uk-select " name="business_category" id="business_category">
                         <option value="">انتخاب کنید</option>
                         <option value="آرایشگری">آرایشگری</option>
@@ -52,16 +56,19 @@
                     </select>
                 </div>
                 <div>
-                    <div class="uk-child-width-1-2@m" uk-grid>
+                    <div class="uk-flex uk-child-width-1-2@m">
                         <div>
+                            <label class="uk-text-small" for="work_hours_start">ساعت شروع کار</label>
                             <input oninput="handle24H(this)" class="uk-input" type="number" min=1 max=24 name="work_hours[]" id="work_hours_start" placeholder="ساعت شروع" value="8">
                         </div>
                         <div>
+                            <label class="uk-text-small" for="work_hours_end">ساعت پایان کار</label>
                             <input oninput="handle24H(this)" class="uk-input" type="number" min=1 max=24 name="work_hours[]" id="work_hours_end" placeholder="ساعت پایان" value="17">
                         </div>
                     </div>
                 </div>
                 <div>
+                    <label class="uk-text-small" for="off_days">روزهای تعطیل</label>
                     <select class="uk-select" name="off_days[]" id="off_days" multiple>
                         <option value="saturday">شنبه</option>
                         <option value="sunday">یکشنبه</option>
@@ -73,10 +80,13 @@
                     </select>
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="address" id="address" placeholder="آدرس کسب و کار">
+                    <label class="uk-text-small" for="address">آدرس کسب و کار</label>
+                    <input class="uk-input" type="text" name="address" id="address">
                 </div>
                 <div>
-                    <input class="uk-input" type="text" name="business_number" id="business_number" placeholder="شماره کسب و کار">
+                    <label class="uk-text-small" for="work_hours_start">شماره تماس کسب و کار</label>
+
+                    <input class="uk-input" type="text" name="business_number" id="business_number">
                 </div>
             </div>
             <div class="uk-flex-center" uk-grid>
@@ -128,16 +138,25 @@
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
             <div class="uk-flex-center uk-child-width-1-1@m" uk-grid>
                 <div>
+                    <div class="uk-alert-danger" uk-alert>
+                        <p><ion-icon name="alert-outline"></ion-icon> حداکثر ۵ تصویر می‌توانید انتخاب کنید.</p>
+                    </div>
                     <div class="js-upload uk-placeholder uk-text-center">
                         <span uk-icon="icon: image"></span>
                         <span class="uk-text-middle">تصاویر را در این بخش رها کرده و یا </span>
                         <div uk-form-custom>
-                            <input id="business_images" name="business_images" type="file" multiple>
+                            <input id="business_images" name="business_images" type="file" onchange="renderAdvertisementFormImagesPreview()" multiple>
                             <span class="uk-link">انتخاب کنید.</span>
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div class="uk-child-width-1-5@m uk-child-width-1-2@s uk-text-center" uk-grid>
+                <div><img src="" alt="" class="file_prev" id="file_prev_1"><span class="uk-text-meta" id="file_prev_name_1"></span></div>
+                <div><img src="" alt="" class="file_prev" id="file_prev_2"><span class="uk-text-meta" id="file_prev_name_2"></span></div>
+                <div><img src="" alt="" class="file_prev" id="file_prev_3"><span class="uk-text-meta" id="file_prev_name_3"></span></div>
+                <div><img src="" alt="" class="file_prev" id="file_prev_4"><span class="uk-text-meta" id="file_prev_name_4"></span></div>
+                <div><img src="" alt="" class="file_prev" id="file_prev_5"><span class="uk-text-meta" id="file_prev_name_5"></span></div>
             </div>
             <div class="uk-flex-center" uk-grid>
                 <div>
@@ -182,8 +201,8 @@
 {{--                                @include('globalComponents.citiesSelect', ['name' => 'city', 'id' => 'city', 'hasAll' => false])--}}
                             </div>
                             <div class="uk-margin-small-bottom">
-                                <label for="full_address">آدرس</label>
-                                <textarea class="uk-textarea" name="full_address" id="full_address" cols="30" rows="10" placeholder="آدرس کامل"></textarea>
+                                <label for="description">توضیحات</label>
+                                <textarea class="uk-textarea" name="description" id="description" cols="30" rows="10" placeholder="توضیحات در مورد کسب و کار"></textarea>
                             </div>
                             <div class="uk-flex-center" uk-grid>
                                 <div>

@@ -45,6 +45,8 @@ Route::prefix('panel')->middleware(['HasAdvertiserAccess'])->group(function () {
     Route::get('/add_business', [\App\Http\Controllers\AdvertiserController::class, 'AddAdvertise'])->name('Advertiser > Form');
     Route::post('/submit_business', [\App\Http\Controllers\AdvertiserController::class, 'SubmitAdvertise'])->name('Advertiser > Create');
 
+    Route::match(['GET', 'POST'],'profile', [\App\Http\Controllers\AdvertiserController::class, 'ProfileManager'])->name('Advertiser > Profile');
+
     Route::prefix('/api')->group(function () {
         Route::any('/list_cities', [\App\Http\Controllers\AdvertiserController::class, 'ListCities'])->name('Advertiser > Api > List Cities');
     });
@@ -58,7 +60,11 @@ Route::prefix('dashboard')->middleware(['HasAdminAccess'])->group(function () {
     Route::get('/advertisements/preview/{id}', [AdminController::class, 'AdsPreview'])->name('Admin > Advertisements > Preview');
 
 
-    Route::any('/user/edit/{id}', [AdminController::class, 'EditUser'])->name('Admin > Users > Edit');
+    Route::any('/users/manage', [AdminController::class, 'UserManager'])->name('Admin > Users > Manage');
+    Route::any('/user/edit/{user}', [AdminController::class, 'EditUser'])->name('Admin > Users > Edit');
+
+    Route::any('/settings/manage', [AdminController::class, 'SettingsManager'])->name('Admin > Settings > Manage');
+    Route::any('/settings/update', [AdminController::class, 'UpdateSettings'])->name('Admin > Settings > Update');
 });
 
 /**--------------------------  laravel basic authentication  --------------------------*/

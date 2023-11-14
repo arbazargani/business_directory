@@ -19,9 +19,13 @@
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
 
-    <link rel="preconnect" href="//fdn.fontcdn.ir">
-    <link rel="preconnect" href="//v1.fontapi.ir">
-    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/IRANYekanX/fontiran.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/IRANYekanX/style.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/persian-datepicker.min.css') }}"/>
+    <script src="{{ asset('assets/js/jquery-3.6.4.slim.min.js') }}"></script>
+    <script src="{{ asset('assets/js/persian-date.min.js') }}"></script>
+    <script src="{{ asset('assets/js/persian-datepicker.min.js') }}"></script>
 
     <style>
         body {
@@ -34,7 +38,7 @@
         }
 
         p, h1, h2, h3, h4, h5, h6, a, span, li, label, button, input, select, option, tr, th, td {
-            font-family: Vazir, sans-serif !important;
+            font-family: IRANYekanX, sans-serif !important;
         }
         ion-icon {
             vertical-align: middle;
@@ -56,14 +60,17 @@
 <body>
     <ion-grid>
         <ion-row>
+            @if(!isset($_GET['sidebarless']))
             <ion-col class="uk-visible@s" size-sm="12" size-md="1">
                 <div class="" id="sidebar">
                     @include('admin.template-parts.sidebar')
                 </div>
             </ion-col>
+            @endif
             <ion-col class="uk-width-expand@m" size-sm="12" size-md="11">
+                @include('admin.template-parts.nav')
                 <div class="uk-padding-small" id="content">
-                    <div class="uk-card uk-card-default uk-card-body uk-border-rounded" style="height: 95vh">
+                    <div class="uk-card uk-card-default uk-card-body uk-border-rounded" style="height: 96vh;">
                         <ion-content>
                         @yield('content')
                         </ion-content>

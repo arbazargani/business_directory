@@ -17,7 +17,7 @@
                 </div>
                 <div class="uk-width-medium@m">
                     <span id="search-box-location-before">در</span>
-                    @include('globalComponents.citiesSelect', ['name' => 'search_location', 'id' => 'search-box-location', 'selected' => $location, 'hasAll' => true])
+                    @include('globalComponents.provincesSelect', ['name' => 'search_location', 'id' => 'search-box-location', 'selected' => $location, 'hasAll' => true])
                     <span id="search-box-location-after" uk-icon="location"></span>
                 </div>
                 <div class="uk-width-auto@m">

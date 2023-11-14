@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,8 +30,17 @@ class AppServiceProvider extends ServiceProvider
             App::setLocale('fa');
         }
 
-        view()->share([
-            'currentLocale' => App::currentLocale(),
-        ]);
+        if (env('APP_ENV') == 'production') {
+            \URL::forceScheme('https');
+        }
+
+        if (env('APP_ENV') != 'build') {
+            view()->share([
+                'currentLocale' => App::currentLocale(),
+                'settings' => Cache::remember('site_settings', 60*60*24, function () {
+                    return Setting::all();
+                }),
+            ]);
+        }
     }
 }

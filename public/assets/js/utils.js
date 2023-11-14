@@ -87,7 +87,7 @@ function resendOtp() {
                 UIkit.notification({
                     message: success_icon + response.data.messages[AppLocale],
                     status: 'success',
-                    pos: 'bottom-right',
+                    pos: 'top-center',
                     timeout: 5000
                 });
                 document.querySelector('#user_phone_number').value = response.data.phone_numbe;
@@ -126,7 +126,7 @@ function handleMobileAuth() {
                 UIkit.notification({
                     message: success_icon + response.data.messages[AppLocale],
                     status: 'success',
-                    pos: 'bottom-right',
+                    pos: 'top-center',
                     timeout: 5000
                 });
                 document.querySelector('#phone_verification_wrapper').classList.toggle('uk-hidden');
@@ -171,7 +171,7 @@ function checkUserOtp() {
                 UIkit.notification({
                     message: success_icon + response.data.messages[AppLocale],
                     status: 'success',
-                    pos: 'bottom-right',
+                    pos: 'top-center',
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
@@ -220,7 +220,7 @@ function validateRegistrationNumber() {
                 UIkit.notification({
                     message: success_icon + response.data.messages[AppLocale],
                     status: 'success',
-                    pos: 'bottom-right',
+                    pos: 'top-center',
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
@@ -267,7 +267,7 @@ function handleRegistration() {
                 UIkit.notification({
                     message: success_icon + response.data.messages[AppLocale],
                     status: 'success',
-                    pos: 'bottom-right',
+                    pos: 'top-center',
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
@@ -308,7 +308,7 @@ function logOutSession() {
                 UIkit.notification({
                     message: success_icon + response.data.messages[AppLocale],
                     status: 'success',
-                    pos: 'bottom-right',
+                    pos: 'top-center',
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
@@ -440,6 +440,28 @@ function listProvinceCities() {
         });
 }
 
+function renderAdvertisementFormImagesPreview(elem) {
+    let lastSelect = document.querySelector('#business_images').value;
+    let selections = document.querySelector('#business_images').files;
+    let id = 0;
+
+    for (var i = 0; i < 5; i++) {
+        id += 1;
+        document.querySelector('#file_prev_' + id).src = '';
+        document.querySelector('#file_prev_name_' + id).innerText = '';
+    }
+
+    if (selections.length > 5) {
+        this.preventDefault();
+    }
+    id = 0;
+    for (var i = 0; i < selections.length; i++) {
+        id += 1;
+        document.querySelector('#file_prev_' + id).src = URL.createObjectURL(selections[i]);
+        document.querySelector('#file_prev_name_' + id).innerText = selections[i].name;
+    }
+}
+
 function submitAdvertisementForm () {
     let other_socials = document.getElementsByName('other_social[]');
     let other_socials_list = [];
@@ -477,6 +499,7 @@ function submitAdvertisementForm () {
         city: document.querySelector('#city').value,
         lat: document.querySelector('#lat').value,
         lng: document.querySelector('#lng').value,
+        description: document.querySelector('#description').value,
     };
 
     axios.post('/panel/submit_business', payload, {
@@ -490,7 +513,7 @@ function submitAdvertisementForm () {
                 UIkit.notification({
                     message: success_icon + response.data.messages.fa,
                     status: 'success',
-                    pos: 'bottom-right',
+                    pos: 'top-center',
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {

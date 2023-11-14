@@ -1,0 +1,16 @@
+------ Advertiser Panel
+@solved: add advertiser panel responsive nav
+@solved: profile route throws 5xx error (specific user)
+@solved: user should see preview of uploading files in advertisement creation form
+@solved: user should be limited to uploading maximum of 5 files in advertisement creation form
+@solved: show fallback messages to user
+
+------- Admin Panel
+@solved: add admin panel responsive nav
+
+
+-------- Public
+@solved: add public template responsive nav
+@solved: search form component city input should change with province
+@solved: ad single page related ads, search page and homepage ads should filter to approved ads
+@todo: page x-scroll bug fix

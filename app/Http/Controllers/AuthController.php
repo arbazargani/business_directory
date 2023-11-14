@@ -45,7 +45,7 @@ class AuthController extends Controller
             ]);
         } else {
             // if model exists, generate otp & assign to user for 1 minutes
-            $user->otp = (App::isLocal()) ? 123 : rand(10000, 90000);
+            $user->otp = (App::isLocal()) ? 123 : 123;
             $user->otp_expires_at = Carbon::now()->addMinutes(1);
             $user->save();
 

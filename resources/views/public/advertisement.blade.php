@@ -1,5 +1,9 @@
 @extends('public.template')
 
+@section('page_title')
+    {{ $ad->title }}
+@endsection
+
 @section('tmp_header')
     <style>
         .info-item::before {
@@ -118,7 +122,7 @@
             <h3 class="uk-text-default uk-text-bold"><ion-icon name="caret-back-outline"></ion-icon> نظرات در مورد {{ $ad->business_name }}</h3>
             @forelse($comments as $comment)
                 <div class="uk-padding-small uk-margin-small-top comment-item" style="background: #00000014; border-right: 5px solid var(--theme-action-color)">
-                    <span class="uk-text-meta">ارسال شده در {{ $comment->created_at }}</span>
+                    <span class="uk-text-meta">ارسال شده در {{ jdate($comment->created_at)->format('l d F Y') }}</span>
                     <p>{{ $comment->content }}</p>
                 </div>
             @empty

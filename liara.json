@@ -1,0 +1,16 @@
+{
+    "platform": "laravel",
+    "app": "bdr",
+    "laravel": {
+        "phpVersion": "8.2",
+        "configCache": true,
+        "routeCache": true,
+        "timezone": "Asia/Tehran"
+    },
+    "disks": [
+        {
+            "name": "bdr-storage",
+            "mountTo": "storage"
+        }
+    ]
+}

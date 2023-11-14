@@ -19,7 +19,7 @@ class MasterController extends Controller
     public function Search(Request $request)
     {
         $limit = ($request->has('limit')) ? $request['limit'] : 100;
-        $advertisements = Advertisement::withCount('comments')->orderBy('comments_count', 'DESC');
+        $advertisements = Advertisement::where('confirmed', 1)->withCount('comments')->orderBy('comments_count', 'DESC');
         $translations = $this->translations;
 
         // determine main param [search_query] sets or not.
@@ -30,8 +30,8 @@ class MasterController extends Controller
 
             // append search location to where clauses
             if ($request->has('search_location') && !is_null($request->get('search_location')) && $request->get('search_location') !== '-1') {
-                $city = $request->get('search_location');
-                $advertisements->where('iran_city_id', $city);
+                $province = $request->get('search_location');
+                $advertisements->where('iran_province_id', $province);
             }
 
             // prepare raw sql query string

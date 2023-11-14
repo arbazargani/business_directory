@@ -63,6 +63,12 @@
         .ts-control {
             border: unset !important;
         }
+
+        .file_prev {
+            max-width: 200px;
+            border-radius: 5px;
+            padding: 5px;
+        }
     </style>
 @endsection
 

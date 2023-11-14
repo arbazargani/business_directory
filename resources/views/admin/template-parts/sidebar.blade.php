@@ -10,6 +10,20 @@
                 <ion-icon style="font-size: 25px" name="@if($routeName == 'Admin > Advertisements > Manage'){{ 'filter' }}@else{{ 'filter-outline' }}@endif"></ion-icon>
             </span>
         </a>
+        <a uk-tooltip="title: مدیریت کاربران; pos: left" href="{{ route('Admin > Users > Manage') }}" class="uk-link-reset uk-margin-small-bottom uk-display-inline-block">
+            <span class="sidebar-item" style="@if($routeName == 'Admin > Users > Manage') color: #007bfd @endif">
+                <ion-icon style="font-size: 25px" name="@if($routeName == 'Admin > Users > Manage'){{ 'people' }}@else{{ 'people-outline' }}@endif"></ion-icon>
+            </span>
+        </a>
+        <a uk-tooltip="title: تنظیمات سامانه; pos: left" href="{{ route('Admin > Settings > Manage') }}" class="uk-link-reset uk-margin-small-bottom uk-display-inline-block">
+            <span class="sidebar-item" style="@if($routeName == 'Admin > Settings > Manage') color: #007bfd @endif">
+                <ion-icon style="font-size: 25px" name="@if($routeName == 'Admin > Settings > Manage'){{ 'cog' }}@else{{ 'cog-outline' }}@endif"></ion-icon>
+            </span>
+        </a>
+        <a uk-tooltip="title: خروج از حساب کاربری; pos: left" href="{{ route('Auth > Logout') }}" class="uk-link-reset uk-margin-small-bottom uk-display-inline-block">
+            <span class="sidebar-item">
+                <ion-icon style="font-size: 25px" name="log-out"></ion-icon>
+            </span>
+        </a>
     </div>
-
 </div>

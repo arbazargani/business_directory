@@ -19,7 +19,7 @@ class AdvertisementController extends Controller
         $comments = Comment::where('advertisement_id', $ad->id)
                     ->where('active', 1)->latest()->get();
         $translations = $this->translations;
-        $related_ads = Advertisement::where('id', '!=', $ad->id)->whereJsonContains('business_categories', $ad->getCategories())->limit(3)->get();
+        $related_ads = Advertisement::where('confirmed', 1)->where('id', '!=', $ad->id)->whereJsonContains('business_categories', $ad->getCategories())->limit(3)->get();
         return view('public.advertisement', compact(['ad', 'related_ads', 'comments', 'translations']));
     }
     public function SubmitComment(Request $request, $ad_id)
