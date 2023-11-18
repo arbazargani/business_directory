@@ -235,7 +235,7 @@ class AuthController extends Controller
             $user->password = Hash::make($request['phone_number']);
             $user->phone_number = $request['phone_number'];
             $user->preferred_auth_type = 'otp';
-            $user->user_informations = json_encode($data);
+            $user->user_informations = (object) $data;
             $user->save();
 
             return response()->json([

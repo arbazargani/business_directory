@@ -19,8 +19,9 @@
     <div id="main-wrapper" class="uk-container uk-card uk-card-default uk-card-body uk-width-1-4@m">
         <div class="uk-text-center">
             <div style="min-height: 107px">
-{{--                <img class="head-logo" src="{{ asset('assets/static/images/logo.png') }}" alt="">--}}
-                آگهی‌ها
+                <div class="uk-text-center">
+                    <img class="head-logo" src="{{ asset('assets/static/images/logo.png') }}" alt="">
+                </div>
             </div>
 
             <div class="uk-divider uk-divider-icon"></div>

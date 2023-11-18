@@ -33,7 +33,7 @@ class AdvertisementStoreRequest extends FormRequest
             'address' => 'required|string|min:10',
             'business_number' => 'required|string|numeric',
             // @todo: make a method for optimizing huge user uploaded files
-            'business_images.*' =>  File::types(['jpg', 'png'])
+            'business_images.*' =>  File::types(['jpg', 'png', 'webp'])
                 ->min('10kb')
                 ->max('3mb'),
             'province' => 'required',

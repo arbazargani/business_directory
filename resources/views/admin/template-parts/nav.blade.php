@@ -1,11 +1,13 @@
 <div class="uk-container uk-hidden@m">
-    <div uk-navbar="" class="uk-navbar">
+    <div uk-navbar="" class="uk-navbar uk-background-default uk-border-rounded">
         <div class="uk-navbar-right">
 
             <ul class="uk-navbar-nav">
                 <li class="uk-active">
                     <a class="uk-text-bolder" uk-toggle="target: #responsive-menu">
-                        <ion-icon style="color: #3A6F8D" name="menu" role="img" class="md hydrated"></ion-icon>
+                        <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px; display: block" id="logo">
+
+                        <ion-icon style="color: #3A6F8D" name="menu"></ion-icon>
                     </a>
                 </li>
             </ul>
@@ -41,8 +43,21 @@
     <div class="uk-offcanvas-bar">
 
         <span class="uk-text-default uk-text-bold">منو</span>
+
+        <div class="uk-text-center">
+            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px;" id="logo">
+        </div>
+
         <div class="uk-divider uk-divider-icon"></div>
         <ul class="uk-nav uk-nav-primary uk-nav-right uk-margin-auto-vertical">
+            <li>
+                <a uk-tooltip="title: نمایش سایت; pos: left" href="{{ route('Public > Home') }}" class="uk-link-reset uk-margin-small-bottom uk-display-inline-block" target="_blank">
+                    <span class="sidebar-item">
+                        <ion-icon name="planet-outline"></ion-icon>
+                    </span>
+                    <span class="uk-text-meta">نمایش سایت</span>
+                </a>
+            </li>
             <li>
                 <a uk-tooltip="title: داشبورد; pos: left" href="{{ route('Admin > Dashboard') }}" class="uk-link-reset uk-margin-small-bottom uk-display-inline-block">
                     <span class="sidebar-item" style="@if($routeName == 'Admin > Dashboard') color: #007bfd @endif">

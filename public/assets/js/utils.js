@@ -517,7 +517,7 @@ function submitAdvertisementForm () {
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
-                    window.location.reload();
+                    window.location.replace('/panel/')
                 } else {
                     UIkit.notification({
                         message: error_icon + 'مشکلی پیش آمده است.',

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertisement;
+use App\Models\SearchQuery;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isNull;
 
 class MasterController extends Controller
 {
@@ -19,7 +21,12 @@ class MasterController extends Controller
     public function Search(Request $request)
     {
         $limit = ($request->has('limit')) ? $request['limit'] : 100;
-        $advertisements = Advertisement::where('confirmed', 1)->withCount('comments')->orderBy('comments_count', 'DESC');
+        $advertisements = Advertisement::where('confirmed', 1);
+        if ($request->has('sort') && $request['sort'] !== null) {
+            $advertisements = $advertisements->orderBy($request['sort'], 'DESC');
+        } else {
+            $advertisements = $advertisements->withCount('comments')->orderBy('comments_count', 'DESC');
+        }
         $translations = $this->translations;
 
         // determine main param [search_query] sets or not.
@@ -47,6 +54,24 @@ class MasterController extends Controller
             $ads = ($request->has('paginate'))
                 ? $advertisements->paginate($request['paginate'])->appends($getParams)
                 : $advertisements->limit($limit)->get();
+        }
+
+        // if query worth, add to queries table, for suggestion to another users
+        if ($ads->count() >= 5 && strlen($request['search_query']) >= 3) {
+            // $query = $request['search_query'];
+            // $row = SearchQuery::where('query', 'like', "%$query%");
+            // if ($row->count() == 1) {
+            //     $row->update([
+            //         'last_trigger' => now(),
+            //         'is_top' => ($ads->count() > 20) ? 1 : 0
+            //     ]);
+            //     $row->increment('hits');
+            // } else {
+            //     $sq = new SearchQuery();
+            //     $sq->query = $query;
+            //     $sq->last_trigger = now();
+            //     $sq->save();
+            // }
         }
 
         return view('public.search', compact(['ads', 'translations']));

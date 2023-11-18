@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 use Morilog\Jalali\CalendarUtils;
+use function PHPUnit\Framework\isNull;
 
 class AdvertiserController extends Controller
 {
@@ -36,7 +37,6 @@ class AdvertiserController extends Controller
         // incoming request validation will handles inside AdertisementStoreRequest class.
         $advertisement = new Advertisement();
         $advertisement->title = $request['business_name'];
-        $advertisement->desc = '';
         $advertisement->confirmed = 0;
 
         // @todo solve unloggedin users, or think for a new way to handle this issue
@@ -96,7 +96,7 @@ class AdvertiserController extends Controller
             ],
         ]);
 
-        return redirect()->back()->with(['message' => 'با موفقیت ثبت شد.']);
+//        return redirect()->back()->with(['message' => 'با موفقیت ثبت شد.']);
     }
 
     public function ListCities(Request $request)

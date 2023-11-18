@@ -78,10 +78,10 @@
                                     <br>
                                     @if(is_array(json_decode($ad->off_days)) && count(json_decode($ad->off_days)) > 0)
                                         <span class="info-item uk-text-meta"><span class="uk-text-bolder">روزهای تعطیل:</span>
-                            @foreach(json_decode($ad->off_days) as $od)
-                                                {{ $translations['week_days'][$od] }} @if(!$loop->last) ،@endif
-                                            @endforeach
-                            </span>
+                                        @foreach(json_decode($ad->off_days) as $od)
+                                            {{ $translations['week_days'][$od] }} @if(!$loop->last) ،@endif
+                                        @endforeach
+                                        </span>
                                         <br>
                                     @endif
                                     <button id="mobile_ad_phone_prev" class="uk-margin uk-button uk-button-small uk-hidden" style="background: var(--theme-secondary-color); color: #ffffff; font-weight: 900">

@@ -4,7 +4,7 @@
     <title>{{ env('APP_NAME') }} {{ $settings->where('name', 'page_title_seperator')->first()->value }} @yield('page_title')</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ asset('assets/css/uikit.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/uikit-rtl.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}"/>
     <script src="{{ asset('assets/js/uikit.min.js') }}"></script>
     <script src="{{ asset('assets/js/uikit-icons.min.js') }}"></script>

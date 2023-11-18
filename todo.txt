@@ -7,10 +7,15 @@
 
 ------- Admin Panel
 @solved: add admin panel responsive nav
-
+@todo: comment management
+@todo: create NativeAds Model, including CRUD methods.
 
 -------- Public
 @solved: add public template responsive nav
 @solved: search form component city input should change with province
 @solved: ad single page related ads, search page and homepage ads should filter to approved ads
 @todo: page x-scroll bug fix
+
+
+-------- Global
+@todo: localize backend error messages
