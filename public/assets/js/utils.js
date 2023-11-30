@@ -404,7 +404,7 @@ function listProvinceCities() {
     let payload = {
         province: parseInt(document.querySelector('#province').value)
     };
-    axios.post('/panel/api/list_cities', payload)
+    axios.post('/api/public/list_cities', payload)
         .then(function (response) {
             // handle success
             if (response.data.status == 200) {
@@ -463,6 +463,7 @@ function renderAdvertisementFormImagesPreview(elem) {
 }
 
 function submitAdvertisementForm () {
+    let need_registration = (document.querySelector('#includes_registration') !== null) ? true : false;
     let other_socials = document.getElementsByName('other_social[]');
     let other_socials_list = [];
     other_socials.forEach(function(item) {
@@ -483,6 +484,7 @@ function submitAdvertisementForm () {
     let payload = {
         fullname: document.querySelector('#fullname').value,
         phone: document.querySelector('#phone').value,
+        email: document.querySelector('#email').value,
         business_name: document.querySelector('#business_name').value,
         business_category: JSON.stringify(business_cat),
         work_hours: JSON.stringify(work_hours_list),
@@ -502,7 +504,8 @@ function submitAdvertisementForm () {
         description: document.querySelector('#description').value,
     };
 
-    axios.post('/panel/submit_business', payload, {
+    let requestURL = (need_registration) ? '/guest/submit_business' : '/panel/submit_business';
+    axios.post(requestURL, payload, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -528,7 +531,7 @@ function submitAdvertisementForm () {
                 }
             } else {
                 UIkit.notification({
-                    message: error_icon + response.data.error,
+                    message: error_icon + response.data.errors.fa,
                     status: 'danger',
                     pos: 'bottom-right',
                     timeout: 5000

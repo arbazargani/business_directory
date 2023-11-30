@@ -20,7 +20,7 @@
         <div class="uk-text-center">
             <div style="min-height: 107px">
                 <div class="uk-text-center">
-                    <img class="head-logo" src="{{ asset('assets/static/images/logo.png') }}" alt="">
+                    <img class="head-logo" src="{{ asset('assets/static/images/Ronag-primary.png') }}" alt="">
                 </div>
             </div>
 

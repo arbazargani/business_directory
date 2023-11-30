@@ -1,5 +1,11 @@
 <div class="uk-container">
     <h2 class="uk-card-title">ثبت آگهی</h2>
+    @if(!Auth::check())
+        <div class="uk-alert-warning" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
+            <p>کاربر گرامی، با مشخصات وارد شده برای شما حساب کاربری ایجاد می‌گردد، و پس از ثبت آگهی به پنل خود منتقل می‌شوید.</p>
+        </div>
+    @endif
     <ul class="uk-flex-center" id="step-tabset" uk-tab>
         <li id="tab-1" class="tab-1 uk-active"><a onclick="showStep(1)">مشخصات فردی</a></li>
         <li id="tab-2" class="tab-2"><a onclick="showStep(2)">مشخصات کسب و کار</a></li>
@@ -12,11 +18,15 @@
             <div class="uk-flex-center" uk-grid>
                 <div>
                     <label class="uk-text-small" for="fullname">نام و نام خانوادگی</label>
-                    <input class="uk-input" type="text" name="fullname" id="fullname" value="{{ Auth::user()->name }}">
+                    <input class="uk-input" type="text" name="fullname" id="fullname" value="{{ Auth::check() ? Auth::user()->name : '' }}">
                 </div>
                 <div>
                     <label class="uk-text-small" for="phone">شماره همراه</label>
-                    <input class="uk-input" type="text" name="phone" id="phone" value="{{ Auth::user()->phone_number }}">
+                    <input class="uk-input" type="text" name="phone" id="phone" value="{{ Auth::check() ? Auth::user()->phone_number : '' }}">
+                </div>
+                <div>
+                    <label class="uk-text-small" for="email">ایمیل</label>
+                    <input class="uk-input" type="text" name="email" id="email" value="{{ Auth::check() ? Auth::user()->email : '' }}">
                 </div>
             </div>
             <div class="uk-flex-center" uk-grid>
@@ -102,6 +112,9 @@
     <div class="step uk-container uk-hidden" id="step-3">
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
             <div class="uk-flex-center uk-child-width-1-2@m" id="social_wrapper" uk-grid>
+                <div>
+                    <input class="uk-input" type="text" name="website" id="website" placeholder="آدرس وبسایت">
+                </div>
                 <div>
                     <input class="uk-input" type="text" name="instagram" id="instagram" placeholder="اینستاگرام">
                 </div>

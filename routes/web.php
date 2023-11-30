@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\MasterController::class, 'Index'])->name('Public > Home');
+
+Route::get('guest/advertisement/add', [\App\Http\Controllers\MasterController::class, 'GuestAdvertisement'])->name('Public > Guest > AdAdvertisement');
+Route::post('guest/submit_business', [\App\Http\Controllers\AdvertiserController::class, 'SubmitAdvertise'])->name('Public > Guest > Advertisement > Create');
+
 Route::get('/search', [\App\Http\Controllers\MasterController::class, 'Search'])->name('Public > Search');
 Route::get('/business/{advertisement}/{slug}', [\App\Http\Controllers\AdvertisementController::class, 'Show'])->name('Public > Advertisement > Show');
 Route::post('/business/comment/{ad_id}', [\App\Http\Controllers\AdvertisementController::class, 'SubmitComment'])->name('Public > Advertisement > Comment');
@@ -36,6 +40,10 @@ Route::prefix('api')->group(function () {
     Route::any('/otp/generate', [AuthController::class, 'GenerateOtp'])->name('Api > Otp > Generate');
     Route::post('/otp/validate', [AuthController::class, 'ValidateOtp'])->name('Api > Otp > Validate');
     Route::post('/phone/validate', [AuthController::class, 'ValidatePhone'])->name('Api > Phone > Validate');
+
+    Route::prefix('/public')->group(function () {
+        Route::any('/list_cities', [\App\Http\Controllers\AdvertiserController::class, 'ListCities'])->name('Public > Api > List Cities');
+    });
 });
 
 
@@ -46,10 +54,6 @@ Route::prefix('panel')->middleware(['HasAdvertiserAccess'])->group(function () {
     Route::post('/submit_business', [\App\Http\Controllers\AdvertiserController::class, 'SubmitAdvertise'])->name('Advertiser > Create');
 
     Route::match(['GET', 'POST'],'profile', [\App\Http\Controllers\AdvertiserController::class, 'ProfileManager'])->name('Advertiser > Profile');
-
-    Route::prefix('/api')->group(function () {
-        Route::any('/list_cities', [\App\Http\Controllers\AdvertiserController::class, 'ListCities'])->name('Advertiser > Api > List Cities');
-    });
 });
 
 /**-------------------------- Admin group  --------------------------*/

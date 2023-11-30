@@ -5,7 +5,7 @@
             <ul class="uk-navbar-nav">
                 <li class="uk-active">
                     <a class="uk-text-bolder" uk-toggle="target: #responsive-menu">
-                        <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px; display: block" id="logo">
+                        <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 100px; display: block" id="logo">
 
                         <ion-icon style="color: #3A6F8D" name="menu"></ion-icon>
                     </a>
@@ -45,7 +45,7 @@
         <span class="uk-text-default uk-text-bold">منو</span>
 
         <div class="uk-text-center">
-            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px;" id="logo">
+            <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 100px;" id="logo">
         </div>
 
         <div class="uk-divider uk-divider-icon"></div>

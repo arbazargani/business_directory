@@ -7,7 +7,7 @@
                 <ul class="uk-navbar-nav">
                     <li class="uk-active">
                         <a class="uk-text-bolder" href="{{ route('Public > Home') }}" target="_blank">
-                            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px; display: block" id="logo">
+                            <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 100px; display: block" id="logo">
                             <span class="uk-hidden">{{ env('APP_NAME') }}</span>
                         </a>
                     </li>
@@ -48,7 +48,7 @@
                 <ul class="uk-navbar-nav">
                     <li class="uk-active">
                         <a class="uk-text-bolder" href="{{ route('Advertiser > Panel') }}">
-                            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px; display: block" id="logo">
+                            <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 100px; display: block" id="logo">
                             <span class="uk-hidden">{{ env('APP_NAME') }}</span>
                         </a>
                     </li>
@@ -93,7 +93,7 @@
         <span class="uk-text-default uk-text-bold">منو</span>
 
         <div class="uk-text-center">
-            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px;" id="responsive-logo">
+            <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 140px;" id="responsive-logo">
         </div>
 
         <div class="uk-divider uk-divider-icon"></div>

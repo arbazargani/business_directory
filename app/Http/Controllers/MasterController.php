@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Advertisement;
 use App\Models\SearchQuery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isNull;
 
 class MasterController extends Controller
@@ -81,5 +82,14 @@ class MasterController extends Controller
     public function Sample()
     {
         return 'here is masterController Class.';
+    }
+
+    public function GuestAdvertisement()
+    {
+            if (Auth::check() && Auth::user()->rule == 'advertiser') {
+                return redirect()->route('Advertiser > Form');
+            }
+
+            return view('public.guest_ad');
     }
 }

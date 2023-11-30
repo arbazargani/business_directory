@@ -85,8 +85,8 @@
                         <label class="uk-form-label" for="gender">جنسیت</label>
                         <div class="uk-form-controls">
                             <select class="uk-select" name="gender">
-                                <option value="female" @if($user->user_informations['gender'] == 'female') selected @endif>خانم</option>
-                                <option value="male" @if($user->user_informations['gender'] == 'male') selected @endif>آقا</option>
+                                <option value="female" @if(isset($user->user_informations['gender']) && $user->user_informations['gender'] == 'female') selected @endif>خانم</option>
+                                <option value="male" @if(isset($user->user_informations['gender']) &&$user->user_informations['gender'] == 'male') selected @endif>آقا</option>
                             </select>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                     <div class="uk-margin">
                         <label class="uk-form-label" for="birthdate">تاریخ تولد</label>
                         <div class="uk-form-controls">
-                            <input class="uk-input" id="birthdate" name="birthdate" type="text" value="{{ jdate($user->user_informations['birthdate'])->format("Y/m/d") }}" autocomplete="off">
+                            <input class="uk-input" id="birthdate" name="birthdate" type="text" value="{{ isset($user->user_informations['birthdate']) ? jdate($user->user_informations['birthdate'])->format("Y/m/d") : '' }}" autocomplete="off">
                         </div>
                     </div>
                 </div>

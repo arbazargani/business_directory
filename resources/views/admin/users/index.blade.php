@@ -60,7 +60,7 @@
                     <td>{{ $user->phone_number }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->updated_at }}</td>
-                    <td>{{ $user->user_informations['birthdate'] }} - {{ $user->user_informations['gender'] }}</td>
+                    <td>{{ isset($user->user_informations['birthdate']) ? $user->user_informations['birthdate'] : '' }} - {{ isset($user->user_informations['gender']) ? $user->user_informations['gender'] : '' }}</td>
                     <td>{{ $userAds->count() }}</td>
                     <td>{{ $userAds->where('confirmed', 1)->count() }}</td>
                     <td>{{ $userAds->where('confirmed', 0)->count() }}</td>

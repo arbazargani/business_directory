@@ -31,10 +31,34 @@ class AdvertiserController extends Controller
         return view('advertiser.panel.addAvertise');
     }
 
-//    public function SubmitAdvertise(Request $request)
+
     public function SubmitAdvertise(AdvertisementStoreRequest $request)
     {
         // incoming request validation will handles inside AdertisementStoreRequest class.
+
+        // check if the user isn't login, first we make user account for him.
+        if (!Auth::check()) {
+            $phoneChecker = User::where('phone_number', $request['phone'])->get();
+            if ($phoneChecker->count() == 1) {
+                return response()->json([
+                    'status' => 400,
+                    'timestamp' => time(),
+                    'allowed' => false,
+                    'errors' => [
+                        'fa' => 'شماره قابل استفاده نیست.',
+                        'en' => 'Phone number can not be used.'
+                    ],
+                ]);
+            }
+            $user = new User();
+            $user->name = $request['fullname'];
+            $user->phone_number = $request['phone'];
+            $user->email = $request['email'];
+            $user->password = Hash::make($request['phone']);
+            $user->save();
+            Auth::login($user, true);
+        }
+
         $advertisement = new Advertisement();
         $advertisement->title = $request['business_name'];
         $advertisement->confirmed = 0;
@@ -52,6 +76,7 @@ class AdvertiserController extends Controller
         $advertisement->desc = $request['description'];
         $advertisement->business_number = $request['business_number'];
         $advertisement->social_media = json_encode([
+            'website' => $request['website'],
             'instagram' => $request['instagram'],
             'telegram' => $request['telegram'],
             'whatsapp' => $request['whatsapp'],

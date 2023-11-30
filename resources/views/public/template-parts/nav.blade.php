@@ -7,7 +7,7 @@
                 <ul class="uk-navbar-nav">
                     <li class="uk-active">
                         <a class="uk-text-bolder" href="{{ Route('Public > Home') }}">
-                            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px" id="logo">
+                            <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 100px" id="logo">
                             <h1 class="uk-text-default uk-margin-remove uk-hidden" style="vertical-align: middle">{{ env('APP_NAME') }}</h1>
                         </a>
                     </li>
@@ -36,6 +36,12 @@
             <div class="uk-navbar-left">
                 <ul class="uk-navbar-nav">
                     <li>
+                        <a href="{{ route('Public > Guest > AdAdvertisement') }}" class="uk-link-reset">
+                            <ion-icon name="add-circle-outline" role="img" class="md hydrated"></ion-icon>
+                            ثبت آگهی
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('Auth > Login') }}" class="uk-link-reset">
                             <button class="uk-button uk-button-muted uk-button-small uk-button-theme-primary">
                                 <ion-icon name="laptop-outline" role="img" class="md hydrated"></ion-icon>
@@ -57,7 +63,7 @@
                 <ul class="uk-navbar-nav">
                     <li class="uk-active">
                         <a class="uk-text-bolder" href="{{ route('Public > Home') }}">
-                            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px" id="logo">
+                            <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 100px" id="logo">
                             <span class="uk-hidden">{{ env('APP_NAME') }}</span>
                         </a>
                     </li>
@@ -74,6 +80,12 @@
             <div class="uk-navbar-left">
 
                 <ul class="uk-navbar-nav">
+                    <li>
+                        <a href="{{ route('Public > Guest > AdAdvertisement') }}" class="uk-link-reset">
+                            <ion-icon name="add-circle-outline" role="img" class="md hydrated"></ion-icon>
+                            ثبت آگهی
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ route('Auth > Login') }}" class="uk-link-reset">
                             <button class="uk-button uk-button-muted uk-button-small uk-button-theme-primary">
@@ -95,7 +107,7 @@
         <span class="uk-text-default uk-text-bold">منو</span>
 
         <div class="uk-text-center">
-            <img src="{{ asset('assets/static/images/logo.png') }}" style="max-width: 140px;" id="responsive-logo">
+            <img src="{{ asset('assets/static/images/Ronag-primary.png') }}" style="max-width: 100px;" id="responsive-logo">
         </div>
 
         <div class="uk-divider uk-divider-icon"></div>

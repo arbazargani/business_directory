@@ -1,7 +1,8 @@
 :root {
     --theme-primary-color: #7D8C67;
     --theme-secondary-color: #009788;
-    --theme-action-color: #f59e42;
+    /* --theme-action-color: #f59e42; */
+    --theme-action-color: #ff6f61;
     --theme-default-color: #c4c4c4;
     --theme-black-color: #3b474d;
 }
@@ -29,7 +30,8 @@ input, select, button, textarea {
 }
 
 .theme-action-button-dark-text {
-    color: var(--theme-black-color);
+    /* color: var(--theme-black-color); */
+    color: #ffffff;
 }
 
 .ad-card-slider-image {
