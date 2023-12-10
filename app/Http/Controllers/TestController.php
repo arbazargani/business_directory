@@ -92,7 +92,7 @@ class TestController extends Controller
     public function Test()
     {
 //        $i = MelliPayamakDriver::otp('09209203656');
-        $i = MelliPayamakDriver::sendText('09128026221', 'خوش آمدید، ronaghagency.ir - رونق');
-        dd($i);
+        $i = MelliPayamakDriver::otp('09308990856');
+        dd($i->code);
     }
 }

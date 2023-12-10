@@ -46,11 +46,9 @@ class AuthController extends Controller
             ]);
         } else {
             // if model exists, generate otp & assign to user for 1 minutes
-            $user->otp = (App::isLocal()) ? 123 : $this->UnicastOtp($user->phone_number)->code;
+            $user->otp = (env('APP_ENV') == 'production') ? $this->UnicastOtp($user->phone_number) : 123;
             $user->otp_expires_at = Carbon::now()->addMinutes(1);
             $user->save();
-
-            $otp = $this->UnicastOtp($user->id);
 
             // return successful response
             return response()->json([
@@ -66,7 +64,9 @@ class AuthController extends Controller
 
     public function UnicastOtp($user_number)
     {
-        return MelliPayamakDriver::otp($user_number)->code;
+        error_log('generating otp code ...');
+        $handle = MelliPayamakDriver::otp($user_number);
+        return $handle->code;
     }
 
     public function ValidateOtp(Request $request)
