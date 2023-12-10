@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" href="{{ asset('assets/fonts/IRANYekanX/fontiran.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/IRANYekanX/style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     @yield('tmp_header')
 </head>
 <body>
@@ -26,5 +28,6 @@
 </div>
 @yield('tmp_scripts')
 <script src="{{ asset('assets/js/utils.js') }}"></script>
+<script src="{{ asset('assets/js/rating.js') }}"></script>
 </body>
 </html>

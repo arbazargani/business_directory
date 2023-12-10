@@ -7,7 +7,7 @@
                 @foreach(json_decode($ad->business_images) as $img)
                     <li class="uk-width-3-4">
                         <div class="uk-panel">
-                            {{-- <img src="{{ asset("storage/$img") }}" width="400" height="600" alt=""> --}}
+                            <img class="uk-hidden" src="{{ asset("storage/$img") }}" alt="{{ "{$ad->title} در {$ad->city}" }}">
                             <div class="ad-card-slider-image" style="background: url('{{ asset("storage/$img") }}')"></div>
                             {{-- <div class="uk-position-center uk-panel"><h1>{{ $loop->iteration }}</h1></div> --}}
                         </div>

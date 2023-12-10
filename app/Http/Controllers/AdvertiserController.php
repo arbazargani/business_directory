@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\AdvertisementStoreRequest;
 use App\Models\Advertisement;
 use App\Models\Business;
@@ -30,7 +31,6 @@ class AdvertiserController extends Controller
     {
         return view('advertiser.panel.addAvertise');
     }
-
 
     public function SubmitAdvertise(AdvertisementStoreRequest $request)
     {
@@ -153,6 +153,45 @@ class AdvertiserController extends Controller
         }
     }
 
+    public function SubmitRating(Request $request)
+    {
+        $ad = Advertisement::find($request['ad_id']);
+        if (!is_null($ad)) {
+            $rate = $request['rate'];
+            if (isset($ad->getRatings()->rating)) {
+                $rate = ( ($ad->getRatings()->rating * $ad->getRatings()->voters) + $request['rate'] ) / ($ad->getRatings()->voters + 1);
+            }
+            $rating = [
+                'voters' => isset($ad->getRatings()->voters) ? $ad->getRatings()->voters + 1 : 1,
+                'rating' => $rate,
+            ];
+            $ad->update([
+                'rating' => json_encode($rating),
+            ]);
+            $formatted_rating = number_format((float)$rate, 1, '.', '');
+            return response()->json([
+                'status' => 200,
+                'allowed' => true,
+                'timestamp' => time(),
+                'rate' => Helper::faNum($formatted_rating),
+                'messages' => [
+                    'fa' => 'رای شما با موفقیت ثبت شد.',
+                    'en' => 'advertisement successfully voted.',
+                ],
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'timestamp' => time(),
+                'allowed' => false,
+                'errors' => [
+                    'fa' => 'کسب و کار یافت نشد.',
+                    'en' => 'Bussiness not found.'
+                ],
+            ]);
+        }
+    }
+
     public function ProfileManager(Request $request)
     {
         if ($request->isMethod('GET')) {
@@ -171,7 +210,6 @@ class AdvertiserController extends Controller
 
         $dateString = CalendarUtils::convertNumbers($request['birthdate'], true); // changes ۱۳۹۵/۰۲/۱۹ to 1395/02/19
         $birthdate = CalendarUtils::createCarbonFromFormat('Y/m/d', $dateString)->format('Y-m-d'); //2016-05-8
-
         User::where('id', Auth::id())->update([
             'name' => $request['name'],
 //            'phone_number' => $request['phone_number'],

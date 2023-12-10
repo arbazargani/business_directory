@@ -16,6 +16,7 @@ class Advertisement extends Model
         'published_at',
         'ad_level',
         'hits',
+        'rating',
         'city',
         'iran_city_id',
         'province',
@@ -55,5 +56,9 @@ class Advertisement extends Model
     public function getSlug()
     {
         return str_replace([' ', '.', '،'], '-', $this->business_name);
+    }
+
+    public function getRatings() {
+        return json_decode($this->rating);
     }
 }

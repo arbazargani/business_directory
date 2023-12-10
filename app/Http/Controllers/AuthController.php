@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MelliPayamadkDriver;
+use App\Helpers\MelliPayamakDriver;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Morilog\Jalali\CalendarUtils;
 
@@ -45,7 +46,7 @@ class AuthController extends Controller
             ]);
         } else {
             // if model exists, generate otp & assign to user for 1 minutes
-            $user->otp = (App::isLocal()) ? 123 : 123;
+            $user->otp = (App::isLocal()) ? 123 : $this->UnicastOtp($user->phone_number)->code;
             $user->otp_expires_at = Carbon::now()->addMinutes(1);
             $user->save();
 
@@ -63,9 +64,9 @@ class AuthController extends Controller
         }
     }
 
-    public function UnicastOtp($user_id)
+    public function UnicastOtp($user_number)
     {
-        return true;
+        return MelliPayamakDriver::otp($user_number)->code;
     }
 
     public function ValidateOtp(Request $request)
@@ -115,6 +116,11 @@ class AuthController extends Controller
             } else {
                 // login user, remember user & generate successful response
                 Auth::login($user, true);
+
+                $log = LogController::insert('یک ورود به حساب کاربری شما صورت گرفت.', 'login', $user->id);
+                if(!App::isLocal()) {
+                    LogController::sendSMS("$log <br> ronagh.com", $user->phone_number);
+                }
 
                 return response()->json([
                     'status' => 200,
@@ -235,8 +241,10 @@ class AuthController extends Controller
             $user->password = Hash::make($request['phone_number']);
             $user->phone_number = $request['phone_number'];
             $user->preferred_auth_type = 'otp';
-            $user->user_informations = (object) $data;
+            $user->user_informations = (object)$data;
             $user->save();
+
+            $log = LogController::insert('ثبت نام شما با موفقیت صورت گرفت.', 'register', $user->id);
 
             return response()->json([
                 'status' => 200,

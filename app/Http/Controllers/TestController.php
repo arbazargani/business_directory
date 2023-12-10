@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MelliPayamakDriver;
 use App\Models\Advertisement;
 use App\Models\Comment;
 use App\Models\IranCity;
@@ -86,5 +87,12 @@ class TestController extends Controller
             $c->active = true;
             $c->save();
         }
+    }
+
+    public function Test()
+    {
+//        $i = MelliPayamakDriver::otp('09209203656');
+        $i = MelliPayamakDriver::sendText('09128026221', 'خوش آمدید، ronaghagency.ir - رونق');
+        dd($i);
     }
 }

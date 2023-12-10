@@ -16,6 +16,25 @@
             vertical-align: middle;
             background: var(--theme-action-color);
         }
+        #rating-container {
+            direction: ltr;
+            text-align: right;
+            background: var(--theme-secondary-color) !important;
+        }
+
+        #rating-container .title {
+            direction: rtl !important;
+            color: white;
+            font-weight: bold;
+        }
+
+        #rating-container .rating-star {
+            cursor: pointer;
+            font-size: 1.4rem !important;
+        }
+        .rating-star:hover {
+            color: var(--theme-action-color);
+        }
     </style>
 @endsection
 
@@ -91,10 +110,12 @@
                                         </a>
                                     </button>
                                     <span id="desktop_ad_phone_prev" class="uk-text-meta uk-hidden">
-                                <span class="info-item uk-text-bolder">شماره تماس: </span>
-                                {{ $ad->phone }}
-                            </span>
-                                    <p class="uk-margin-small-top"><span class="info-item uk-text-bolder">آدرس:</span> {{ $ad->address }}</p>
+                                        <span class="info-item uk-text-bolder">شماره تماس: </span>
+                                        {{ $ad->phone }}
+                                    </span>
+                                    <br/>
+                                    <span class="info-item uk-text-bolder">آدرس:</span> {{ $ad->address }}
+                                    @include('public.template-parts.components.rating', ['ad' => $ad])
                                 </div>
                             </div>
                         </div>

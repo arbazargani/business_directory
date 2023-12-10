@@ -43,6 +43,8 @@ Route::prefix('api')->group(function () {
 
     Route::prefix('/public')->group(function () {
         Route::any('/list_cities', [\App\Http\Controllers\AdvertiserController::class, 'ListCities'])->name('Public > Api > List Cities');
+
+        Route::any('/submit_rating', [\App\Http\Controllers\AdvertiserController::class, 'SubmitRating'])->name('Public > Api > Submit Rating');
     });
 });
 
@@ -87,3 +89,4 @@ Route::prefix('dashboard')->middleware(['HasAdminAccess'])->group(function () {
 Route::get('/lottery', [\App\Http\Controllers\TestController::class, 'AdsLevelLottery']);
 Route::get('/adsFaker', [\App\Http\Controllers\TestController::class, 'FakeAds']);
 Route::get('/commentsFaker', [\App\Http\Controllers\TestController::class, 'FakeComments']);
+Route::get('/test', [\App\Http\Controllers\TestController::class, 'Test']);
