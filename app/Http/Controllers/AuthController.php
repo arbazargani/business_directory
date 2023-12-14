@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Morilog\Jalali\CalendarUtils;
+use function Laravel\Prompts\error;
 
 class AuthController extends Controller
 {
@@ -46,7 +47,7 @@ class AuthController extends Controller
             ]);
         } else {
             // if model exists, generate otp & assign to user for 1 minutes
-            $user->otp = (env('APP_ENV') == 'production') ? $this->UnicastOtp($user->phone_number) : 123;
+            $user->otp = (env('APP_ENV') == 'production') ? $this->UAnicastOtp($user->phone_number) : 123;
             $user->otp_expires_at = Carbon::now()->addMinutes(1);
             $user->save();
 
@@ -64,8 +65,13 @@ class AuthController extends Controller
 
     public function UnicastOtp($user_number)
     {
-        error_log('generating otp code ...');
         $handle = MelliPayamakDriver::otp($user_number);
+
+        if (!isset($handle->code)) {
+            $otpSoap = MelliPayamakDriver::otpSoap($user_number);
+            return $otpSoap;
+        }
+
         return $handle->code;
     }
 
@@ -119,7 +125,7 @@ class AuthController extends Controller
 
                 $log = LogController::insert('یک ورود به حساب کاربری شما صورت گرفت.', 'login', $user->id);
                 if(!App::isLocal()) {
-                    LogController::sendSMS("$log <br> ronagh.com", $user->phone_number);
+                    LogController::SendLoginSMS($user->id);
                 }
 
                 return response()->json([
@@ -245,6 +251,10 @@ class AuthController extends Controller
             $user->save();
 
             $log = LogController::insert('ثبت نام شما با موفقیت صورت گرفت.', 'register', $user->id);
+            if(!App::isLocal()) {
+                LogController::SendRegisterSMS($user->id);
+            }
+
 
             return response()->json([
                 'status' => 200,

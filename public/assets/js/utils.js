@@ -123,16 +123,19 @@ function handleMobileAuth() {
         .then(function (response) {
             // handle success
             if (response.data.status == 200) {
-                UIkit.notification({
-                    message: success_icon + response.data.messages[AppLocale],
-                    status: 'success',
-                    pos: 'top-center',
-                    timeout: 5000
-                });
-                document.querySelector('#phone_verification_wrapper').classList.toggle('uk-hidden');
-                document.querySelector('#otp_entry_wrapper').classList.toggle('uk-hidden');
-                document.querySelector('#user_phone_number').value = p2e(response.data.phone_number);
-                timer(120, allowSendOtpAgain);
+                /**
+                * CODE BLOCK MOVED AFTER AXIOS request to run immediately after sending request without waiting for response.
+                * */
+                // UIkit.notification({
+                //     message: success_icon + response.data.messages[AppLocale],
+                //     status: 'success',
+                //     pos: 'top-center',
+                //     timeout: 5000
+                // });
+                // document.querySelector('#phone_verification_wrapper').classList.toggle('uk-hidden');
+                // document.querySelector('#otp_entry_wrapper').classList.toggle('uk-hidden');
+                 document.querySelector('#user_phone_number').value = p2e(response.data.phone_number);
+                // timer(120, allowSendOtpAgain);
             } else {
                 UIkit.notification({
                     message: error_icon + response.data.errors[AppLocale],
@@ -141,7 +144,6 @@ function handleMobileAuth() {
                     timeout: 5000
                 });
             }
-            // console.log(response);
         })
         .catch(function (error) {
             // handle error
@@ -150,6 +152,19 @@ function handleMobileAuth() {
         .finally(function () {
             // always executed
         });
+
+        /** START OF code block from axios .then fn */
+        UIkit.notification({
+            message: success_icon + 'رمز یکبارمصرف برای شما ارسال شد ...',
+            status: 'success',
+            pos: 'top-center',
+            timeout: 5000
+        });
+        document.querySelector('#phone_verification_wrapper').classList.toggle('uk-hidden');
+        document.querySelector('#otp_entry_wrapper').classList.toggle('uk-hidden');
+//        document.querySelector('#user_phone_number').value = p2e(response.data.phone_number);
+        timer(120, allowSendOtpAgain);
+        /** END OF code block from axios .then fn */
 
 }
 
@@ -438,6 +453,18 @@ function listProvinceCities() {
         .finally(function () {
             // always executed
         });
+}
+
+/*handle initial cities on page load*/
+document.querySelector('#province').onchange();
+
+function moveMapToQuery() {
+    console.log('running ...');
+    let citiesSelect = document.querySelector('#city');
+    let city_name = citiesSelect.options[citiesSelect.selectedIndex].dataset.name;
+    let query = document.querySelector('#query');
+    query.value = city_name;
+    searchApi(true);
 }
 
 function renderAdvertisementFormImagesPreview(elem) {

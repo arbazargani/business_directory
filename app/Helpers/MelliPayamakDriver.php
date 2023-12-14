@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Helpers;
+use Melipayamak\MelipayamakApi;
 
 class MelliPayamakDriver
 {
     public static function otp($receiver)
     {
         $url = 'https://console.melipayamak.com/api/send/otp/'.env('MELLIPAYAMAK_API_KEY');
-        $data = ['to' => $receiver];
+        $data = ['to' => $receiver, 'bodyId' => 179298];
         $data_string = json_encode($data);
         $ch = curl_init($url);
 
@@ -33,7 +34,15 @@ class MelliPayamakDriver
         }
         return $result;
     }
-
+    public static function otpSoap($receiver) {
+        $username = '09209203656';
+        $password = '5gab86';
+        $api = new MelipayamakApi($username,$password);
+        $smsSoap= $api->sms('soap');
+        $to = '09123456789';
+        $res = $smsSoap->sendByBaseNumber([1234], $receiver, 179298);
+        return $res;
+    }
     public static function sendText($receiver, $content)
     {
         $primaryNumber = '50004001412217';

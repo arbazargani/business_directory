@@ -140,7 +140,7 @@ class AdvertiserController extends Controller
         } else {
             $output = '';
             foreach ($province->cities as $city) {
-                $output .= "<option value={$city->id}>{$city->name}</option>";
+                $output .= "<option data-name='{$city->name}' value={$city->id}>{$city->name}</option>";
             }
 
             return response()->json([

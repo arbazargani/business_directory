@@ -210,7 +210,7 @@
                             <div class="uk-margin-small-bottom">
                                 <label for="city">شهر</label>
                                 <span class="uk-hidden" id="city_loader" uk-spinner="ratio: .5"></span>
-                                <select class="uk-select uk-disabled" name="city" id="city"></select>
+                                <select class="uk-select uk-disabled" onchange="moveMapToQuery()" name="city" id="city"></select>
 {{--                                @include('globalComponents.citiesSelect', ['name' => 'city', 'id' => 'city', 'hasAll' => false])--}}
                             </div>
                             <div class="uk-margin-small-bottom">

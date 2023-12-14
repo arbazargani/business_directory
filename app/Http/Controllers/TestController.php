@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MelliPayamakDriver;
+use App\Models\User;
 use App\Models\Advertisement;
 use App\Models\Comment;
 use App\Models\IranCity;
@@ -91,8 +92,7 @@ class TestController extends Controller
 
     public function Test()
     {
-//        $i = MelliPayamakDriver::otp('09209203656');
-        $i = MelliPayamakDriver::otp('09308990856');
-        dd($i->code);
+//        $user = User::find(3);
+//        LogController::SendRegisterSMS($user->id);
     }
 }

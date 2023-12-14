@@ -69,14 +69,15 @@ function changeView(cordinates = baseCordinates, zoom = baseZoom, ShouldAddMarke
     }
 }
 
-function searchApi() {
+function searchApi(navigate_to_first_index = false) {
     let query = document.querySelector('#query').value;
-    if (query.length === 0 || query.length < 5) {
+    if (query.length === 0 || query.length < 3) {
         return;
     }
 
     let lat = baseCordinates[0];
     let lng = baseCordinates[1];
+    let should_navigate_to_first_index = navigate_to_first_index;
 
     // const axios = require('axios');
     let config = {
@@ -93,19 +94,30 @@ function searchApi() {
             document.querySelector('#results').innerHTML = '';
             let res = response.data.items;
             res.forEach(item => {
-                let title = item.title;
-                let address = item.address;
-                let yx = "[" + item.location.y + "," + item.location.x + "]";
-                document.querySelector('#results').innerHTML += `
+                if (item.type == 'city_landmark'
+                    || item.type == 'state_landmark'
+                    || item.type == 'village_landmark'
+                    || item.type == 'town_landmark'
+                    || item.type == 'suburb_landmark'
+                    || item.type == 'neighborhood_landmark'
+                ) {
+                    let title = item.title;
+                    let address = item.address;
+                    let yx = "[" + item.location.y + "," + item.location.x + "]";
+                    if (should_navigate_to_first_index) {
+                        changeView([item.location.y, item.location.x], 13);
+                        should_navigate_to_first_index = false;
+                    }
+                    document.querySelector('#results').innerHTML += `
                     <div class="uk-margin-small-bottom">
-                    <a class="uk-link-reset" style="color: #d9d9d9 !important; font-weight: 900" onClick="changeView(${yx}, 19)">
-                        ${title}
+                    <a class="uk-link-reset" style="color: #d9d9d9 !important; font-weight: 900" onClick="changeView(${yx}, 13)">
+                        ${address}
                         <br />
-                        <span class="uk-text-meta">${address}</span>
+                        <span class="uk-text-meta">${title}</span>
                     </a>
                     </div>`;
+                }
             });
-
         })
         .catch((error) => {
             console.log(error);
