@@ -10,12 +10,21 @@
         <form class="uk-form-stacked" method="POST">
             @csrf
             @foreach($settings as $setting)
+                @if($setting->input_type === 'textarea')
                 <div class="uk-margin">
                     <label class="uk-form-label" for="{{ $setting->name }}">{{ $setting->name }}</label>
                     <div class="uk-form-controls">
-                        <input class="uk-input {{ $setting->class_list  }}" id="{{ $setting->name }}" name="{{ $setting->name }}" type="{{ $setting->input_type }}" {{ $setting->attributes_string }} value="{{ $setting->value }}">
+                        <textarea class="uk-textarea {{ $setting->class_list  }}" id="{{ $setting->name }}" name="{{ $setting->name }}" type="{{ $setting->input_type }}" {!! $setting->attributes_string !!}>{!! $setting->value !!}</textarea>
                     </div>
                 </div>
+                @else
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="{{ $setting->name }}">{{ $setting->name }}</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input {{ $setting->class_list  }}" id="{{ $setting->name }}" name="{{ $setting->name }}" type="{{ $setting->input_type }}" {!! $setting->attributes_string !!} value="{{ $setting->value }}">
+                    </div>
+                </div>
+                @endif
             @endforeach
 
             <div class="uk-margin">

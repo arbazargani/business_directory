@@ -10,6 +10,7 @@ class Advertisement extends Model
     use HasFactory;
     protected $fillable = [
         'title',
+        'business_categories',
         'desc',
         'confirmed',
         'user_id',
@@ -50,7 +51,12 @@ class Advertisement extends Model
 
     public function getCategories()
     {
-        return json_decode($this->business_categories);
+        return $this->getCategory();
+    }
+
+    public function getCategory() {
+        $c = json_decode($this->business_categories);
+        return Occupation::find($c)->name;
     }
 
     public function getSlug()
@@ -60,5 +66,10 @@ class Advertisement extends Model
 
     public function getRatings() {
         return json_decode($this->rating);
+    }
+
+    public function Transaction()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

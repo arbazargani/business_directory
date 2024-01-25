@@ -15,15 +15,15 @@
                         <a href="{{ route('Public > Home') }}">خانه</a>
                     </li>
                     <li>
-                        <a href="#">خدمات</a>
+                        <a href="/page/خدمات">خدمات</a>
                     </li>
 
                     <li>
-                        <a href="#">درباره ما</a>
+                        <a href="/page/درباره-ما">درباره ما</a>
                     </li>
 
                     <li>
-                        <a href="#">تماس با ما</a>
+                        <a href="/page/تماس-با-ما">تماس با ما</a>
                     </li>
 
                     <li>

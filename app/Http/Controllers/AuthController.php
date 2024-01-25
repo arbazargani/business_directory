@@ -47,7 +47,7 @@ class AuthController extends Controller
             ]);
         } else {
             // if model exists, generate otp & assign to user for 1 minutes
-            $user->otp = (env('APP_ENV') == 'production') ? $this->UAnicastOtp($user->phone_number) : 123;
+            $user->otp = (env('APP_ENV') == 'production') ? $this->UnicastOtp($user->phone_number) : 123;
             $user->otp_expires_at = Carbon::now()->addMinutes(1);
             $user->save();
 

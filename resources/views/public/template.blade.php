@@ -18,16 +18,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     @yield('tmp_header')
+    {!! !is_null($settings->where('name', 'before_closing_head_tag')->first()) ? $settings->where('name', 'before_closing_head_tag')->first()->value : null !!}
 </head>
 <body>
 
 @include('public.template-parts.nav')
 @yield('content')
-<div class="uk-margin-top uk-background-secondary uk-light uk-padding-small">
-    <span>تمامی حقوق برای {{ env('APP_NAME') }} محفوظ است.</span>
-</div>
+@include('public.template-parts.footer')
 @yield('tmp_scripts')
 <script src="{{ asset('assets/js/utils.js') }}"></script>
 <script src="{{ asset('assets/js/rating.js') }}"></script>
+{!! !is_null($settings->where('name', 'before_closing_body_tag')->first()) ? $settings->where('name', 'before_closing_body_tag')->first()->value : null !!}
 </body>
 </html>

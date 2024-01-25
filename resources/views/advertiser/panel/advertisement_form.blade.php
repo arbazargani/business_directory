@@ -1,3 +1,6 @@
+@php
+    $packages = \App\Models\Package::where('active', 1)->get();
+@endphp
 <div class="uk-container">
     <h2 class="uk-card-title">ثبت آگهی</h2>
     @if(!Auth::check())
@@ -44,26 +47,8 @@
                     <input class="uk-input" type="text" name="business_name" id="business_name">
                 </div>
                 <div>
-                    <label class="uk-text-small" for="business_category">گروه شغلی</label>
-                    <select class="uk-select " name="business_category" id="business_category">
-                        <option value="">انتخاب کنید</option>
-                        <option value="آرایشگری">آرایشگری</option>
-                        <option value="آموزش">آموزش</option>
-                        <option value="اداری و دفتری">اداری و دفتری</option>
-                        <option value="بازرگانی">بازرگانی</option>
-                        <option value="پیک و راننده">پیک و راننده</option>
-                        <option value="تحلیل، تحقیق و پژوهش">تحلیل، تحقیق و پژوهش</option>
-                        <option value="تعمیرکار">تعمیرکار</option>
-                        <option value="حسابداری و مالی">حسابداری و مالی</option>
-                        <option value="حقوقی و وکالت">حقوقی و وکالت</option>
-                        <option value="فنی و مهندسی">فنی و مهندسی</option>
-                        <option value="کارگر">کارگر</option>
-                        <option value="کارگر ماهر">کارگر ماهر</option>
-                        <option value="کامپیوتر، نرمافزار و IT">کامپیوتر، نرمافزار و IT</option>
-                        <option value="مدیریتی">مدیریتی</option>
-                        <option value="تل، رستوران و قنادی">هتل، رستوران و قنادی</option>
-                        <option value="هنری و رسانه">هنری و رسانه</option>
-                    </select>
+                    <label class="uk-text-small" for="business_category">گروه شغلی <span class="uk-text-meta">(جستجوی بین بیش از ۹۰۰ گروه شغل)</span></label>
+                    <select class="uk-select" name="business_category" id="business_category" autocomplete="off"></select>
                 </div>
                 <div>
                     <div class="uk-flex uk-child-width-1-2@m">
@@ -205,7 +190,7 @@
                         <div class="uk-flex-center">
                             <div class="uk-margin-small-bottom">
                                 <label for="province">استان</label>
-                                @include('globalComponents.provincesSelect', ['name' => 'province', 'id' => 'province', 'hasAll' => false, 'onClick' => 'listProvinceCities()'])
+                                @include('globalComponents.provincesSelect', ['name' => 'province', 'id' => 'province', 'hasAll' => false, 'onClick' => 'listProvinceCities(\'#province\', \'#city\', false, true)'])
                             </div>
                             <div class="uk-margin-small-bottom">
                                 <label for="city">شهر</label>
@@ -215,7 +200,20 @@
                             </div>
                             <div class="uk-margin-small-bottom">
                                 <label for="description">توضیحات</label>
-                                <textarea class="uk-textarea" name="description" id="description" cols="30" rows="10" placeholder="توضیحات در مورد کسب و کار"></textarea>
+                                <textarea class="uk-textarea" name="description" id="description" cols="30" rows="5" placeholder="توضیحات در مورد کسب و کار"></textarea>
+                            </div>
+                            <div class="uk-margin-small-bottom uk-hidden">
+                                <label for="package">بسته تبلیغات</label>
+                                <select onchange="showPackageInfo(this)" class="uk-select" aria-label="Select" id="package" name="package">
+                                    <option value="0">انتخاب کنید</option>
+                                    @foreach($packages as $package)
+                                    <option data-price="{{ number_format($package->price, 0) }}" data-price-unit="{{ $package->price_unit }}" data-desc="@if($package->has_gift) {{ "بسته درخواستی شامل {$package->gift_duration_in_days} روز هدیه برای اولین بار می‌باشد." }} @endif" value="{{ $package->id }}">{{ $package->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="uk-text-success" id="package-price"></span>
+                                <span class="uk-text-meta" id="package-price-unit"></span>
+                                <br>
+                                <span class="uk-text-success" id="package-info"></span>
                             </div>
                             <div class="uk-flex-center" uk-grid>
                                 <div>

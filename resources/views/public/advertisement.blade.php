@@ -47,6 +47,7 @@
                         <div class="">
                             <div class="uk-card uk-card-default uk-card-body">
                                 <h2 class="info-item uk-text-lead">{{ $ad->title }}</h2>
+                                @if(json_decode($ad->business_images) !== null)
                                 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="center: true">
 
                                     <ul class="uk-slider-items uk-grid">
@@ -63,6 +64,7 @@
                                     <a class="uk-position-center-left uk-position-small uk-hidden-hover" style="background: #00000033; padding: 7px 10px; border-radius: 3px" href uk-slidenav-next uk-slider-item="previous"></a>
                                     <a class="uk-position-center-right uk-position-small uk-hidden-hover" style="background: #00000033; padding: 7px 10px; border-radius: 3px" href uk-slidenav-previous uk-slider-item="next"></a>
                                 </div>
+                                @endif
                                 @if(strlen($ad->desc) > 0)
                                     <div class="uk-card uk-card-body uk-card-muted uk-box-shadow-medium uk-margin-medium-top uk-border-rounded" style="background: #00000014; border-right: 5px solid var(--theme-secondary-color)">
                                         <h3 style="font-size: 20px; font-weight: 900">درباره‌ی {{ $ad->business_name }}</h3>
@@ -225,10 +227,10 @@
             return !isMobile();
         }
 
-        if (isMobile()) {
+        if (isMobile() || true) {
             document.querySelector('#mobile_ad_phone_prev').classList.remove('uk-hidden');
         } else {
-            document.querySelector('#desktop_ad_phone_prev').classList.remove('uk-hidden');
+            // document.querySelector('#desktop_ad_phone_prev').classList.remove('uk-hidden');
         }
 
         // @todo map invalidate size won't work

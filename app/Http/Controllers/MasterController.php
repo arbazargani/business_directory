@@ -42,6 +42,12 @@ class MasterController extends Controller
                 $advertisements->where('iran_province_id', $province);
             }
 
+            // append search location to where clauses
+            if ($request->has('search_city') && !is_null($request->get('search_city')) && $request->get('search_city') !== '-1') {
+                $city = $request->get('search_city');
+                $advertisements->where('iran_city_id', $city);
+            }
+
             // prepare raw sql query string
             $query = $advertisements->getQuery()->toRawSql();
 
@@ -54,8 +60,10 @@ class MasterController extends Controller
 
             $ads = ($request->has('paginate'))
                 ? $advertisements->paginate($request['paginate'])->appends($getParams)
-                : $advertisements->limit($limit)->get();
+                : $advertisements->limit($limit)->get()->groupBy('ad_level');
         }
+
+//        dd($ads);
 
         // if query worth, add to queries table, for suggestion to another users
         if ($ads->count() >= 5 && strlen($request['search_query']) >= 3) {

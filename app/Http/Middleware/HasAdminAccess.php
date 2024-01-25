@@ -16,7 +16,7 @@ class HasAdminAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->getRule() == 'admin') {
+        if (Auth::check() && in_array(Auth::user()->getRule(), ['admin', 'operator'])) {
             return $next($request);
         } else {
             return abort(403, 'Access forbidden.');

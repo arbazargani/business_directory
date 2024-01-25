@@ -8,6 +8,8 @@ use App\Models\Advertisement;
 use App\Models\Business;
 use App\Models\IranCity;
 use App\Models\IranProvince;
+use App\Models\Package;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +37,6 @@ class AdvertiserController extends Controller
     public function SubmitAdvertise(AdvertisementStoreRequest $request)
     {
         // incoming request validation will handles inside AdertisementStoreRequest class.
-
         // check if the user isn't login, first we make user account for him.
         if (!Auth::check()) {
             $phoneChecker = User::where('phone_number', $request['phone'])->get();
@@ -62,6 +63,7 @@ class AdvertiserController extends Controller
         $advertisement = new Advertisement();
         $advertisement->title = $request['business_name'];
         $advertisement->confirmed = 0;
+//        $advertisement->package_id = $request['package'];
 
         // @todo solve unloggedin users, or think for a new way to handle this issue
         $advertisement->user_id = (Auth::check()) ? Auth::id() : 1;
@@ -110,11 +112,11 @@ class AdvertiserController extends Controller
         $advertisement->published_at = now();
         $advertisement->save();
 
-
         return response()->json([
             'status' => 200,
             'allowed' => true,
             'timestamp' => time(),
+            'redirect' => route('Advertiser > Advertisement > Bind Package', $advertisement->id),
             'messages' => [
                 'fa' => 'با موفقیت اضافه شد.',
                 'en' => 'advertisement successfully submitted.',
@@ -123,22 +125,78 @@ class AdvertiserController extends Controller
 
 //        return redirect()->back()->with(['message' => 'با موفقیت ثبت شد.']);
     }
+    public function BindPackageToAdvertise(Request $request, $id)
+    {
+        $advertisement = Advertisement::findOrFail($id);
+        if (!is_null($advertisement->transaction_id) && !is_null($advertisement->package_id)) {
+//            return redirect()->route('Advertiser > Advertisement > Pay Confirm', $advertisement->id);
+        }
+        if ($request->isMethod('GET')) {
+            $packages = Package::where('active', 1)->get();
+            return view('advertiser.panel.bindPackage', compact(['advertisement', 'packages']));
+        } elseif ($request->isMethod('POST')) {
+            // create transaction model for advertisement
+            $transaction = new Transaction();
+            $transaction->advertisement_id = $advertisement->id;
+            $transaction->package_id = $request['package_id'];
+            $transaction->amount = Package::find($request['package_id'])->price;
+            $transaction->transaction_info = json_encode([
+                'created_at' => now(),
+            ]);
+            $transaction->save();
+            // add transaction_id to advertisement
+            Advertisement::where('id', $advertisement->id)->update([
+                'package_id' => $request['package_id'],
+                'transaction_id' => $transaction->id
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'allowed' => true,
+                'timestamp' => time(),
+                'redirect' => route('Advertiser > Advertisement > Pay Confirm', $advertisement->id),
+                'messages' => [
+                    'fa' => 'با موفقیت اضافه شد.',
+                    'en' => 'advertisement successfully submitted.',
+                ],
+            ]);
+        } else {
+            abort('Method not allowed.');
+        }
+
+    }
+    public function PayAdvertise(Request $request, $id)
+    {
+        if ($request->isMethod('GET')) {
+            $advertisement = Advertisement::findOrFail($id);
+            $user_advertisements = Advertisement::where('user_id', $advertisement->user_id)->pluck('id')->toArray();
+            $package = Package::findOrFail($advertisement->package_id);
+            $transaction = Transaction::where('advertisement_id', $advertisement->id)->first();
+            $giftUsed = Transaction::where('package_id', $package->id)
+                ->where('paid', 1)
+                ->whereIn('advertisement_id', $user_advertisements)
+                ->count();
+            return view('advertiser.panel.advertisement_payment', compact(['advertisement', 'package', 'transaction', 'giftUsed']));
+        } elseif ($request->isMethod('POST')) {
+            return 'post';
+        } else {
+            abort('403', 'unsupported method.');
+        }
+    }
 
     public function ListCities(Request $request)
     {
         $province = IranProvince::find($request->get('province'));
             if (is_null($province)) {
-            return response()->json([
-                'status' => 400,
-                'timestamp' => time(),
-                'allowed' => false,
-                'errors' => [
-                    'fa' => 'استان یافت نشد.',
-                    'en' => 'Province not found.'
-                ],
-            ]);
+                return response()->json([
+                    'status' => 200,
+                    'timestamp' => time(),
+                    'allowed' => true,
+                    'province' => $province,
+                    'html' => "<option data-name='همه شهرها' value='-1'>همه شهرها</option>",
+                ]);
         } else {
-            $output = '';
+            $output = $request->has('allCities') ? "<option data-name='همه شهرها' value='-1'>همه شهرها</option>" : '';
             foreach ($province->cities as $city) {
                 $output .= "<option data-name='{$city->name}' value={$city->id}>{$city->name}</option>";
             }

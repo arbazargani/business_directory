@@ -81,5 +81,6 @@
     </ion-grid>
     @yield('scripts')
     <script src="{{ asset('assets/js/utils.js') }}"></script>
+    @include('admin.template-parts.scripts')
 </body>
 </html>

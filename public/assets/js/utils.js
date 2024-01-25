@@ -5,6 +5,16 @@ const error_icon = '<span class="uk-margin-small-left" uk-icon=\'icon: ban\'></s
 const success_icon = '<span class="uk-margin-small-left" uk-icon=\'icon: check\'></span>';
 const warning_icon = '<span class="uk-margin-small-left" uk-icon=\'icon: warning\'></span>';
 const translations = {
+    '1': '۱',
+    '2': '۲',
+    '3': '۳',
+    '4': '۴',
+    '5': '۵',
+    '6': '۶',
+    '7': '۷',
+    '8': '۸',
+    '9': '۹',
+    '0': '۰',
     'full name': 'نام و نام خانوادگی',
     'email' : 'ایمیل',
     'phone number': 'شماره موبایل',
@@ -14,7 +24,9 @@ const translations = {
     'The': '',
     'field is required': 'الزامی است',
     'has already been taken': 'قبلا انتخاب شده است',
-    'must be a number': 'باید یک شماره باشد.'
+    'must be a number': 'باید یک شماره باشد.',
+    'and': 'و',
+    'more errors': 'خطای دیگر'
 };
 
 function TranslateReqParams(input) {
@@ -411,23 +423,29 @@ function addTempSocialLink() {
     document.querySelector('#social_wrapper').appendChild(elemWrapper);
 }
 
-function listProvinceCities() {
-    let citiesSelect = document.querySelector('#city');
+function listProvinceCities(provinceSelector, citiesSelector, hasAllCities = false, hasLoader = true) {
+    let citiesSelect = document.querySelector(citiesSelector);
     let citiesLoader = document.querySelector('#city_loader');
+    if (hasLoader && citiesLoader !== null) {
+        console.log('removing ...');
+        citiesLoader.classList.remove('uk-hidden');
+    }
     citiesSelect.classList.add('uk-disabled');
-    citiesLoader.classList.remove('uk-hidden');
     let payload = {
-        province: parseInt(document.querySelector('#province').value)
+        allCities: hasAllCities,
+        province: parseInt(document.querySelector(provinceSelector).value)
     };
     axios.post('/api/public/list_cities', payload)
         .then(function (response) {
             // handle success
             if (response.data.status == 200) {
-                if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
+                if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed && response.data.html !== null) {
                     citiesSelect.innerHTML = response.data.html;
                     citiesSelect.classList.remove('uk-disabled');
-                    citiesLoader.classList.add('uk-hidden');
-
+                    if (hasLoader && citiesLoader !== null) {
+                        console.log('adding ...');
+                        citiesLoader.classList.add('uk-hidden');
+                    }
                 } else {
                     UIkit.notification({
                         message: error_icon + 'مشکلی پیش آمده است.',
@@ -456,7 +474,9 @@ function listProvinceCities() {
 }
 
 /*handle initial cities on page load*/
-document.querySelector('#province').onchange();
+if (document.querySelector('#province') !== null) {
+    document.querySelector('#province').onchange();
+}
 
 function moveMapToQuery() {
     console.log('running ...');
@@ -489,6 +509,16 @@ function renderAdvertisementFormImagesPreview(elem) {
     }
 }
 
+function showPackageInfo(dispatcher) {
+    let packagesSelect = document.querySelector('#package');
+    let package_info = packagesSelect.options[packagesSelect.selectedIndex].dataset.desc;
+    let package_price = packagesSelect.options[packagesSelect.selectedIndex].dataset.price;
+    let package_price_unit = packagesSelect.options[packagesSelect.selectedIndex].dataset.priceUnit;
+    document.querySelector('#package-info').innerText = e2p(package_info);
+    document.querySelector('#package-price').innerText = e2p(package_price);
+    document.querySelector('#package-price-unit').innerText = e2p(package_price_unit);
+}
+
 function submitAdvertisementForm () {
     let need_registration = (document.querySelector('#includes_registration') !== null) ? true : false;
     let other_socials = document.getElementsByName('other_social[]');
@@ -508,6 +538,17 @@ function submitAdvertisementForm () {
     let off_days = (document.querySelector('#off_days') !== null) ? document.querySelector('#off_days').tomselect.getValue() : null;
 
     let images_json = document.querySelector('#business_images').value;
+
+    // if (document.querySelector('#package').value === '0' || document.querySelector('#package').value === '') {
+    //     UIkit.notification({
+    //         message: error_icon + 'انتخاب پکیج الزامی است.',
+    //         status: 'warning',
+    //         pos: 'bottom-right',
+    //         timeout: 5000
+    //     });
+    //     return;
+    // }
+
     let payload = {
         fullname: document.querySelector('#fullname').value,
         phone: document.querySelector('#phone').value,
@@ -528,6 +569,7 @@ function submitAdvertisementForm () {
         city: document.querySelector('#city').value,
         lat: document.querySelector('#lat').value,
         lng: document.querySelector('#lng').value,
+        // package: document.querySelector('#package').value,
         description: document.querySelector('#description').value,
     };
 
@@ -547,7 +589,8 @@ function submitAdvertisementForm () {
                     timeout: 5000
                 });
                 if (response.data.hasOwnProperty('allowed') && response.data.hasOwnProperty('timestamp') && response.data.allowed) {
-                    window.location.replace('/panel/')
+                    // window.location.replace('/panel/')
+                    window.location.replace(response.data.redirect)
                 } else {
                     UIkit.notification({
                         message: error_icon + 'مشکلی پیش آمده است.',
@@ -569,7 +612,7 @@ function submitAdvertisementForm () {
         .catch(function (error, response) {
             // handle error
             UIkit.notification({
-                message: error_icon + error.response.data.message,
+                message: error_icon + TranslateReqParams(error.response.data.message),
                 status: 'danger',
                 pos: 'bottom-right',
                 timeout: 5000

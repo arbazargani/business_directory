@@ -23,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        Session::put('locale', 'fa');
         if (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
         } else {

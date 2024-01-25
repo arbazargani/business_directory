@@ -21,6 +21,11 @@
                 <ion-icon style="font-size: 25px" name="@if($routeName == 'Admin > Users > Manage'){{ 'people' }}@else{{ 'people-outline' }}@endif"></ion-icon>
             </span>
         </a>
+        <a uk-tooltip="title: مدیریت صفحات; pos: left" href="{{ route('Admin > Page > Manage') }}" class="uk-link-reset uk-margin-small-bottom uk-display-inline-block">
+            <span class="sidebar-item" style="@if($routeName == 'Admin > Page > Manage') color: #007bfd @endif">
+                <ion-icon style="font-size: 25px" name="@if($routeName == 'Admin > Page > Manage'){{ 'newspaper' }}@else{{ 'newspaper-outline' }}@endif"></ion-icon>
+            </span>
+        </a>
         <a uk-tooltip="title: تنظیمات سامانه; pos: left" href="{{ route('Admin > Settings > Manage') }}" class="uk-link-reset uk-margin-small-bottom uk-display-inline-block">
             <span class="sidebar-item" style="@if($routeName == 'Admin > Settings > Manage') color: #007bfd @endif">
                 <ion-icon style="font-size: 25px" name="@if($routeName == 'Admin > Settings > Manage'){{ 'cog' }}@else{{ 'cog-outline' }}@endif"></ion-icon>

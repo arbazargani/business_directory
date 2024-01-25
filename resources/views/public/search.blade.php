@@ -40,7 +40,15 @@
         </div>
         <h2 class="uk-text-lead">نتایج جستجو @if(strlen($q) > 0): <strong class="uk-text-bolder">{{ $q }}</strong> در <strong class="uk-text-bolder">{{ $c }}</strong> @endif</h2>
         <div class="uk-grid-small uk-child-width-1-3@m uk-grid-match" uk-grid>
-            @forelse($ads as $ad)
+        @forelse($ads['commercial'] as $ad)
+            @include('public.template-parts.components.adcardCommercial')
+        @empty
+
+        @endforelse
+        </div>
+        <hr>
+        <div class="uk-grid-small uk-child-width-1-3@m uk-grid-match" uk-grid>
+            @forelse($ads['basic'] as $ad)
                 @include('public.template-parts.components.adcard')
             @empty
                 <div class="uk-alert-warning" uk-alert>

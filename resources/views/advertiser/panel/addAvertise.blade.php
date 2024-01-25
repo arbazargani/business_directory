@@ -103,10 +103,53 @@
             placeholder: 'روزهای تعطیل'
         };
         new TomSelect('#off_days',offDaysConfig);
+    </script>
+    <script>
+        function makeSpecListWithTomSelect() {
+            let config = {
+                plugins: {
+                    remove_button:{
+                        title:'حذف',
+                    }
+                },
+                placeholder: 'جستجو کنید ...',
+                valueField: 'id',
+                labelField: 'label',
+                searchField: ['label','type'],
+                // fetch remote data
+                load: function(query, callback) {
 
-        var jobCategoryConfig = {
-            placeholder: 'انتخاب گروه شغلی'
-        };
-        new TomSelect('#business_category',jobCategoryConfig);
+                    var url = '{{ route("Public > Api > List Occupations") }}?q=' + encodeURIComponent(query);
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(json => {
+                            callback(json.result.list);
+                            self.settings.load = null;
+                        }).catch(()=>{
+                        callback();
+                    });
+
+                },
+                // custom rendering function for options
+                render: {
+                    option: function(item, escape) {
+                        return `<div class="py-2 d-flex">
+    							<div class="mb-1">
+    								<span class="h5">
+    									${ escape(item.label) }
+    								</span>
+    							</div>
+    					 		<div class="ms-auto">${ escape(item.type.join(', ')) }</div>
+    						</div>`;
+                    }
+                },
+            };
+            if (document.querySelector('#business_category') !== null) {
+                new TomSelect('#business_category', config);
+            }
+
+        }
+        makeSpecListWithTomSelect();
+
     </script>
 @endsection

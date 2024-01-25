@@ -1,6 +1,7 @@
 :root {
     --theme-primary-color: #7D8C67;
-    --theme-secondary-color: #009788;
+    --theme-secondary-color: #00A0B0;
+    --theme-secondary-color-deep: #009788;
     /* --theme-action-color: #f59e42; */
     --theme-action-color: #ff6f61;
     --theme-default-color: #c4c4c4;
@@ -75,7 +76,6 @@ input, select, button, textarea {
     padding-right: 10%;
 }
 
-
 #search-box-location-before {
     font-weight: 900;
     font-size: 20px;
@@ -94,4 +94,79 @@ input, select, button, textarea {
     position: absolute;
     margin: 10px -25px 0 0;
     background: #ffffff;
+}
+
+#search-box-city {
+    padding-right: 50px;
+}
+
+#search-box-city-before {
+    font-weight: 900;
+    font-size: 20px;
+    color: #586267;
+    display: inline-block;
+    position: absolute;
+    margin: 4px 5px 0 0;
+    background: #ffffff;
+}
+
+#search-box-city-after {
+    font-weight: 900;
+    font-size: 20px;
+    color: #586267;
+    display: inline-block;
+    position: absolute;
+    margin: 10px -25px 0 0;
+    background: #ffffff;
+}
+
+.commercial-card {
+    /*background: #00a0b0 !important;*/
+
+    background: rgb(0,160,176);
+    /*background: -moz-linear-gradient(180deg, rgba(0,160,176,1) 0%, rgba(0,81,89,1) 100%);*/
+    /*background: -webkit-linear-gradient(180deg, rgba(0,160,176,1) 0%, rgba(0,81,89,1) 100%);*/
+    background: linear-gradient(317deg, rgba(0,160,176,1) 0%, rgb(11 185 255 / 49%) 100%);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+.commercial-card .badge {
+    background: 0;
+    color: #ffe200;
+}
+.commercial-card .badge ion-icon {
+    /*box-shadow: 2px 2px 5px white;*/
+    font-size: 20px;
+}
+.commercial-card .title {
+    color: white !important;
+}
+.commercial-card .meta {
+    color: #ffffdd !important;
+}
+
+.commercial-card .address {
+    color: #ffffffcc !important;
+    text-shadow: 2px 2px 2px #00000026;
+}
+
+.commercial-card p {
+    /*color: #ffffff !important;*/
+}
+
+.commercial-card .uk-text-meta {
+    /*color: #ffffff !important;*/
+}
+
+.commercial-card .uk-card-title {
+    font-weight: 900;
+    color: var(--theme-secondary-color);
+}
+
+.commercial-card .ad-card-slider-image {
+    width: 100%;
+    height: 152px;
+
+    background-position: center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
 }

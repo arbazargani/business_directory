@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number',
     ];
 
     /**
@@ -44,9 +45,6 @@ class User extends Authenticatable
         'user_informations' => 'json'
     ];
 
-
-
-
     public function advertisements()
     {
         return $this->hasMany(Advertisement::class);
@@ -65,5 +63,27 @@ class User extends Authenticatable
     public function getRule()
     {
         return $this->rule;
+    }
+
+    public function hasAccessTo($privilege)
+    {
+        $privileges = [
+            'admin' => [
+                '*' => true,
+            ],
+            'operator' => [
+                'dashboard.view' => true,
+                'analytics.view' => false,
+                'ads.manage' => true,
+                'users.manage' => true,
+                'users.rules.manage' => false,
+                'pages.manage' => true,
+                'settings.manage' => false,
+            ],
+        ];
+
+//        return $privileges[$this->getRule()]['*'] ?? $privileges[$this->getRule()][$privilege];
+        return isset($privileges[$this->getRule()]['*']) ? $privileges[$this->getRule()]['*'] : $privileges[$this->getRule()][$privilege];
+
     }
 }

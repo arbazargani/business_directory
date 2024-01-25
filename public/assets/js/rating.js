@@ -69,14 +69,15 @@ document.querySelectorAll('.rating-star').forEach(dispatcher => {
     });
 });
 
+if (document.querySelector('#ad_id') !== null) {
+    let ad_id = document.querySelector('#ad_id').value;
+    if (localStorage.getItem("ad_"+ad_id+"_rated") !== null && localStorage.getItem("ad_"+ad_id+"_rated") === 'true') {
 
-let ad_id = document.querySelector('#ad_id').value;
-if (localStorage.getItem("ad_"+ad_id+"_rated") !== null && localStorage.getItem("ad_"+ad_id+"_rated") === 'true') {
+        document.querySelectorAll('.rating-star').forEach(e => {
+            e.remove();
+        });
 
-    document.querySelectorAll('.rating-star').forEach(e => {
-        e.remove();
-    });
+        document.querySelector('#rating-container').innerHTML += '<span class="uk-text-bold">.پیش از این امتیاز داده‌اید</span>';
 
-    document.querySelector('#rating-container').innerHTML += '<span class="uk-text-bold">.پیش از این امتیاز داده‌اید</span>';
-
+    }
 }

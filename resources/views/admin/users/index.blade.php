@@ -39,6 +39,7 @@
             <tr>
                 <th>کد کاربر</th>
                 <th>نام</th>
+                <th>سطح</th>
                 <th>شماره تماس</th>
                 <th>ایمیل</th>
                 <th>آخرین ورود کاربر</th>
@@ -57,10 +58,11 @@
                 <tr>
                    <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
+                    <td>{{ $user->rule }}</td>
                     <td>{{ $user->phone_number }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->updated_at }}</td>
-                    <td>{{ isset($user->user_informations['birthdate']) ? $user->user_informations['birthdate'] : '' }} - {{ isset($user->user_informations['gender']) ? $user->user_informations['gender'] : '' }}</td>
+                    <td>{{ jdate($user->updated_at) }}</td>
+                    <td>{{ isset($user->user_informations['birthdate']) ? jdate($user->user_informations['birthdate'])->format('Y-m-d') : '' }} - {{ isset($user->user_informations['gender']) ? $user->user_informations['gender'] : '' }}</td>
                     <td>{{ $userAds->count() }}</td>
                     <td>{{ $userAds->where('confirmed', 1)->count() }}</td>
                     <td>{{ $userAds->where('confirmed', 0)->count() }}</td>

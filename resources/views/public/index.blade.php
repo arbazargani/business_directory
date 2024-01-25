@@ -10,7 +10,7 @@
         <h2 class="uk-text-lead">کسب‌وکار های برتر</h2>
         <div class="uk-grid-small uk-child-width-1-3@m uk-grid-match" uk-grid>
             @foreach($advertisements['commercial'] as $ad)
-                @include('public.template-parts.components.adcard')
+                @include('public.template-parts.components.adcardCommercial')
             @endforeach
         </div>
         <hr>

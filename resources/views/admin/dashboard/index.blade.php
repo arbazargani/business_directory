@@ -40,14 +40,16 @@
                     <span class="uk-float-left uk-text-lead uk-text-bolder">{{ $analytics_dataset['today_ads'] }}</span>
                 </div>
             </ion-col>
+            @if(Auth::user()->hasAccessTo('analytics.view'))
             <ion-col>
                 <div class="uk-padding-large uk-box-shadow-small uk-border-rounded" style="background: #25ff001c;">
                     <span class="uk-text-lead">
                         <ion-icon name="file-tray-full-outline"></ion-icon> درآمد امروز
                     </span>
-                    <span class="uk-float-left uk-text-lead uk-text-bolder uk-text-success">۱۲,۴۰۰,۰۰۰ ﷼</span>
+                    <span class="uk-float-left uk-text-lead uk-text-bolder uk-text-success">{{ number_format($analytics_dataset['today_earnings']) }} ﷼</span>
                 </div>
             </ion-col>
+            @endif
         </ion-row>
     </ion-grid>
     <hr>

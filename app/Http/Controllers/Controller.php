@@ -17,7 +17,7 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->translations = [
-            'week_days' => [
+                'week_days' => [
                 'saturday' => 'شنبه',
                 "sunday" => 'یکشنبه',
                 "monday" => "دوشنبه",

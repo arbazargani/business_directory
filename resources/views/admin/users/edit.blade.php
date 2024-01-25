@@ -100,6 +100,21 @@
                         </div>
                     </div>
                 </div>
+                @if(Auth::user()->hasAccessTo('users.rules.manage'))
+                <!--  Rule -->
+                <div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="rule">سطح کاربری</label>
+                        <div class="uk-form-controls">
+                            <select class="uk-select" id="rule" name="rule">
+                                @foreach($rules as $rule => $translation)
+                                    <option value="{{ $rule }}" @if($user->rule == $rule) selected @endif>{{ $translation }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 <!--  Save button -->
                 <div>
                     <div class="uk-margin">
