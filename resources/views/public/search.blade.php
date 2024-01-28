@@ -39,6 +39,7 @@
             </span>
         </div>
         <h2 class="uk-text-lead">نتایج جستجو @if(strlen($q) > 0): <strong class="uk-text-bolder">{{ $q }}</strong> در <strong class="uk-text-bolder">{{ $c }}</strong> @endif</h2>
+        @if(isset($ads['basic']))
         <div class="uk-grid-small uk-child-width-1-3@m uk-grid-match" uk-grid>
         @forelse($ads['commercial'] as $ad)
             @include('public.template-parts.components.adcardCommercial')
@@ -46,6 +47,8 @@
 
         @endforelse
         </div>
+        @endif
+        @if(isset($ads['basic']))
         <hr>
         <div class="uk-grid-small uk-child-width-1-3@m uk-grid-match" uk-grid>
             @forelse($ads['basic'] as $ad)
@@ -56,6 +59,7 @@
                 </div>
             @endforelse
         </div>
+        @endif
     </div>
 @endsection
 
