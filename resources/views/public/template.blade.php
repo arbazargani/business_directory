@@ -19,6 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     @yield('tmp_header')
     {!! !is_null($settings->where('name', 'before_closing_head_tag')->first()) ? $settings->where('name', 'before_closing_head_tag')->first()->value : null !!}
+    @include('public.template-parts.seo.meta')
 </head>
 <body>
 

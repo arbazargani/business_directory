@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ZarinpalController;
 use App\Http\Controllers\AuthController;
+use App\Models\Advertisement;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,10 @@ Route::post('/business/comment/{ad_id}', [\App\Http\Controllers\AdvertisementCon
 
 Route::get('page/{slug}', [\App\Http\Controllers\PageController::class, 'Show'])->name('Public > Page > Single');
 
+
+Route::get('/sitemap_index.xml', [\App\Http\Controllers\SitemapController::class, 'Index'])->name('Sitemap');
+Route::get('/advertisement-sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'Advertisement'])->name('Sitemap > Advertisements');
+Route::get('/page-sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'Page'])->name('Sitemap > Pages');
 
 /**--------------------------  authentication  --------------------------*/
 Route::prefix('auth')->group(function () {

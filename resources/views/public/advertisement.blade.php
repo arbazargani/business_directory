@@ -93,7 +93,7 @@
                                     <br>
                                     <span class="info-item uk-text-meta"><span class="uk-text-bolder">شهر:</span> {{ $ad->city }}</span>
                                     <br>
-                                    <span class="info-item uk-text-meta"><span class="uk-text-bolder">دسته شغلی:</span> {{ json_decode($ad->business_categories) }}</span>
+                                    <span class="info-item uk-text-meta"><span class="uk-text-bolder">دسته شغلی:</span> {{ $ad->getCategory() }}</span>
                                     <br>
                                     <span class="info-item uk-text-meta"><span class="uk-text-bolder">ساعت کاری:</span> {{ json_decode($ad->work_hours, true)[0] }} - {{ json_decode($ad->work_hours, true)[1] }}</span>
                                     <br>
