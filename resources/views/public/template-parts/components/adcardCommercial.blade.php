@@ -37,5 +37,8 @@
         <br>
         @endif
         <p class="address">{{ $ad->address }}</p>
+        <a href="{{ route('Public > Advertisement > Show', ['advertisement' => $ad->id, 'slug' => $ad->getSlug()]) }}">
+            <button class="uk-button uk-button-primary uk-width-1-1 cta-button"><ion-icon name="call"></ion-icon> نمایش اطلااعات تماس</button>
+        </a>
     </div>
 </div>

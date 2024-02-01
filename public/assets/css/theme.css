@@ -121,13 +121,9 @@ input, select, button, textarea {
 }
 
 .commercial-card {
-    /*background: #00a0b0 !important;*/
-
-    background: rgb(0,160,176);
-    /*background: -moz-linear-gradient(180deg, rgba(0,160,176,1) 0%, rgba(0,81,89,1) 100%);*/
-    /*background: -webkit-linear-gradient(180deg, rgba(0,160,176,1) 0%, rgba(0,81,89,1) 100%);*/
-    background: linear-gradient(317deg, rgba(0,160,176,1) 0%, rgb(11 185 255 / 49%) 100%);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    /*background: rgb(0,160,176);*/
+    /*background: linear-gradient(317deg, rgba(0,160,176,1) 0%, rgb(11 185 255 / 49%) 100%);*/
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;*/
 }
 .commercial-card .badge {
     background: 0;
@@ -138,15 +134,20 @@ input, select, button, textarea {
     font-size: 20px;
 }
 .commercial-card .title {
-    color: white !important;
+    /*color: white !important;*/
 }
 .commercial-card .meta {
-    color: #ffffdd !important;
+    /*color: #ffffdd !important;*/
 }
 
 .commercial-card .address {
-    color: #ffffffcc !important;
+    /*color: #ffffffcc !important;*/
     text-shadow: 2px 2px 2px #00000026;
+}
+
+.commercial-card .cta-button ion-icon {
+    vertical-align: middle;
+    font-size: 20px;
 }
 
 .commercial-card p {
