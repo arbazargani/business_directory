@@ -20,7 +20,7 @@
 @endif
 {{--Advertisements--}}
 @if(\Illuminate\Support\Facades\Request::is('business/*'))
-    <meta name="description" content="{{ (strlen($ad->desc) > 0) ? substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}">
+    <meta name="description" content="{{ (strlen($ad->desc) > 0) ? mb_substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}">
     <meta name="robots" content="index, follow">
     <meta name="keywords" content="{{ "{$ad->getCategory()}, {$ad->getCategory()} در {$ad->city}, {$ad->getCategory()} در {$ad->province}, $ad->business_name"  }}">
     <link rel="canonical" href="{{ urldecode(\Illuminate\Support\Facades\Request::fullUrl()) }}">
@@ -28,7 +28,7 @@
     <meta property="og:locale" content="{{ app()->currentLocale() }}">
     <meta property="og:title" content="{{ $ad->business_name }}">
     <meta property="og:site_name" content="{{ env('APP_NAME') }}">
-    <meta property="og:description" content="{{ (strlen($ad->desc) > 0) ? substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}">
+    <meta property="og:description" content="{{ (strlen($ad->desc) > 0) ? mb_substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}">
     <meta property="og:type" content="place">
     <meta property="og:url" content="{{ urldecode(\Illuminate\Support\Facades\Request::fullUrl()) }}">
     @if(json_decode($ad->business_images) !== null)
@@ -42,7 +42,7 @@
 
     <meta name="twitter:site" content="{{ urldecode(\Illuminate\Support\Facades\Request::fullUrl()) }}" />
     <meta name="twitter:title" content="{{ $ad->business_name }}" />
-    <meta name="twitter:description" content="{{ (strlen($ad->desc) > 0) ? substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}" />
+    <meta name="twitter:description" content="{{ (strlen($ad->desc) > 0) ? mb_substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}" />
 
     <?php
         $weekdays = '';
@@ -56,7 +56,7 @@
             "@context": "https://schema.org",
             "@type": "Place",
             "name": "{{ $ad->business_name }}",
-            "description": "{{ (strlen($ad->desc) > 0) ? substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}",
+            "description": "{{ (strlen($ad->desc) > 0) ? mb_substr($ad->desc, 0, 156) . ' ...' : $ad->business_name }}",
             "url": "{{ urldecode(\Illuminate\Support\Facades\Request::fullUrl()) }}",
             "address": {
                 "@type": "PostalAddress",
