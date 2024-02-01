@@ -5,7 +5,7 @@
 @foreach($advertisements as $ad)
 <url>
 
-    <loc>{{ urldecode($ad->getSlug()) }}</loc>
+    <loc>{{ route('Public > Advertisement > Show', ['advertisement' => $ad->id, 'slug' => $ad->getSlug()]) }}</loc>
 
     <lastmod>{{ gmdate('Y-m-d\TH:i:s+00:00', strtotime($ad->updated_at)) }}</lastmod>
 
