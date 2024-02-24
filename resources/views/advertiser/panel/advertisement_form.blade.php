@@ -48,7 +48,7 @@
                 </div>
                 <div>
                     <label class="uk-text-small" for="business_category">گروه شغلی <span class="uk-text-meta">(جستجوی بین بیش از ۹۰۰ گروه شغل)</span></label>
-                    <select class="uk-select" name="business_category" id="business_category" autocomplete="off"></select>
+                    <select class="uk-select" name="business_category" id="business_category" autocomplete="on"></select>
                 </div>
                 <div>
                     <div class="uk-flex uk-child-width-1-2@m">
@@ -167,67 +167,76 @@
         </div>
     </div>
     <div class="step uk-container uk-hidden" id="step-5">
-        <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
-            <!-- <div uk-grid> -->
-            <div class="uk-child-width-1-2@m uk-flex" uk-grid>
-                <div class="">
-                    <div class="uk-card uk-card-body uk-card-default uk-padding-small uk-border-rounded">
+
+        <div class=" uk-flex uk-flex-column uk-width-1-2@m">
+{{--             <div uk-grid>--}}
+            <div class=" ">
+{{--                <div class="">--}}
+{{--                    Test<br>--}}
+{{--                    test--}}
+{{--                </div>--}}
+
+                <div class="uk-card uk-card-body uk-card-default uk-padding-small uk-border-rounded">
                     <!-- uk-hidden added to remove search from page -->
-                        <div class="uk-padding-small uk-hidden" uk-grid>
-                            <div class="uk-width-2-3@m">
-                                <input class="uk-input uk-input-dark" type="text" id="query" placeholder="جستجوی مکان">
-                            </div>
-                            <div class="uk-width-expand">
-                                <button class="uk-button uk-button-default" onClick="searchApi()">
-                                    جستجو
-                                </button>
-                            </div>
+                    <div class="uk-padding-small uk-hidden" >
+                        <div class="uk-width-2-3@m">
+                            <input class="uk-input uk-input-dark" type="text" id="query" placeholder="جستجوی مکان">
                         </div>
-                        <div class="uk-margin-medium-top" id="results"></div>
+                        <div class="uk-width-expand">
+                            <button class="uk-button uk-button-default" onClick="searchApi()">
+                                جستجو
+                            </button>
+                        </div>
                     </div>
-                    <!--  -->
-                    <div class="uk-card uk-card-body uk-card-default uk-padding-small uk-border-rounded">
-                        <div class="uk-flex-center">
-                            <div class="uk-margin-small-bottom">
-                                <label for="province">استان</label>
-                                @include('globalComponents.provincesSelect', ['name' => 'province', 'id' => 'province', 'hasAll' => false, 'onClick' => 'listProvinceCities(\'#province\', \'#city\', false, true)'])
-                            </div>
-                            <div class="uk-margin-small-bottom">
-                                <label for="city">شهر</label>
-                                <span class="uk-hidden" id="city_loader" uk-spinner="ratio: .5"></span>
-                                <select class="uk-select uk-disabled" onchange="moveMapToQuery()" name="city" id="city"></select>
-{{--                                @include('globalComponents.citiesSelect', ['name' => 'city', 'id' => 'city', 'hasAll' => false])--}}
-                            </div>
-                            <div class="uk-margin-small-bottom">
-                                <label for="description">توضیحات</label>
-                                <textarea class="uk-textarea" name="description" id="description" cols="30" rows="5" placeholder="توضیحات در مورد کسب و کار"></textarea>
-                            </div>
-                            <div class="uk-margin-small-bottom uk-hidden">
-                                <label for="package">بسته تبلیغات</label>
-                                <select onchange="showPackageInfo(this)" class="uk-select" aria-label="Select" id="package" name="package">
-                                    <option value="0">انتخاب کنید</option>
-                                    @foreach($packages as $package)
+                    <div class="uk-margin-medium-top" id="results"></div>
+                </div>
+                <!--  -->
+                <div class="uk-card uk-card-body uk-card-default uk-padding-small uk-border-rounded">
+                    <div class="uk-flex-center">
+                        <div class="uk-margin-small-bottom">
+                            <label for="province">استان</label>
+                            @include('globalComponents.provincesSelect', ['name' => 'province', 'id' => 'province', 'hasAll' => false, 'onClick' => 'listProvinceCities(\'#province\', \'#city\', false, true)'])
+                        </div>
+                        <div class="uk-margin-small-bottom">
+                            <label for="city">شهر</label>
+                            <span class="uk-hidden" id="city_loader" uk-spinner="ratio: .5"></span>
+                            <select class="uk-select uk-disabled" onchange="moveMapToQuery()" name="city" id="city"></select>
+                            {{--                                @include('globalComponents.citiesSelect', ['name' => 'city', 'id' => 'city', 'hasAll' => false])--}}
+                        </div>
+                        <div class="uk-margin-small-bottom">
+                            <label for="description">توضیحات</label>
+                            <textarea class="uk-textarea" name="description" id="description" cols="30" rows="5" placeholder="توضیحات در مورد کسب و کار"></textarea>
+                        </div>
+
+                        <div class="uk-margin-small-bottom uk-hidden">
+                            <br>test<br>
+                            <label for="package">بسته تبلیغات</label>
+                            <select onchange="showPackageInfo(this)" class="uk-select" aria-label="Select" id="package" name="package">
+                                <option value="0">انتخاب کنید</option>
+                                @foreach($packages as $package)
                                     <option data-price="{{ number_format($package->price, 0) }}" data-price-unit="{{ $package->price_unit }}" data-desc="@if($package->has_gift) {{ "بسته درخواستی شامل {$package->gift_duration_in_days} روز هدیه برای اولین بار می‌باشد." }} @endif" value="{{ $package->id }}">{{ $package->name }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="uk-text-success" id="package-price"></span>
-                                <span class="uk-text-meta" id="package-price-unit"></span>
-                                <br>
-                                <span class="uk-text-success" id="package-info"></span>
+                                @endforeach
+                            </select>
+                            <span class="uk-text-success" id="package-price"></span>
+                            <span class="uk-text-meta" id="package-price-unit"></span>
+                            <br>
+                            <span class="uk-text-success" id="package-info"></span>
+                        </div>
+                        <div class="uk-flex-center" uk-grid>
+                            <div>
+                                <button onclick="showStep(4)" class="uk-button">مرحله قبل</button>
                             </div>
-                            <div class="uk-flex-center" uk-grid>
-                                <div>
-                                    <button onclick="showStep(4)" class="uk-button">مرحله قبل</button>
-                                </div>
-                                <div>
-                                    <button onclick="submitAdvertisementForm()" class="uk-button uk-button-primary">ثبت کسب و کار</button>
-                                </div>
+
+                            <div>
+                                <button onclick="submitAdvertisementForm()" class="uk-button uk-button-primary">ثبت کسب و کار</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="uk-flex-first">
+
                     <div class="uk-border-rounded uk-width-expand" id="map"></div>
+
                     <form action="{{ route('Advertiser > Create') }}" method="post" class="uk-hidden">
                         @csrf
                         <input class="uk-input uk-disabled" type="text" name="lat" id="lat">
@@ -238,3 +247,5 @@
         </div>
     </div>
 </div>
+
+

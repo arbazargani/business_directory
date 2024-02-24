@@ -26,7 +26,8 @@ const translations = {
     'has already been taken': 'قبلا انتخاب شده است',
     'must be a number': 'باید یک شماره باشد.',
     'and': 'و',
-    'more errors': 'خطای دیگر'
+    'more errors': 'خطای دیگر',
+    'business number' : 'شماره کسب و کار'
 };
 
 function TranslateReqParams(input) {
