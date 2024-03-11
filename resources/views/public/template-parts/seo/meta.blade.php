@@ -33,10 +33,12 @@
     <meta property="og:url" content="{{ urldecode(\Illuminate\Support\Facades\Request::fullUrl()) }}">
     @if(json_decode($ad->business_images) !== null)
     @foreach(json_decode($ad->business_images) as $img)
-    <meta property="og:image" content="{{ asset("storage/$img") }}">
-    <meta property="og:image:width" content="{{ getimagesize("storage/$img")[0] }}" />
-    <meta property="og:image:height" content="{{ getimagesize("storage/$img")[1] }}" />
-    <meta property="og:image:type" content="{{ getimagesize("storage/$img")['mime'] }}" />
+        @if(file_exists("storage/$img"))
+        <meta property="og:image" content="{{ asset("storage/$img") }}">
+        <meta property="og:image:width" content="{{ getimagesize("storage/$img")[0] }}" />
+        <meta property="og:image:height" content="{{ getimagesize("storage/$img")[1] }}" />
+        <meta property="og:image:type" content="{{ getimagesize("storage/$img")['mime'] }}" />
+        @endif
     @endforeach
     @endif
 
