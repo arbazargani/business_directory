@@ -63,7 +63,7 @@ class AdvertiserController extends Controller
         $advertisement = new Advertisement();
         $advertisement->title = $request['business_name'];
         $advertisement->confirmed = 0;
-        $advertisement->country_level_service = $request['country_level_service'];
+        $advertisement->country_level_service = (int) $request['country_level_service'];
 //        $advertisement->package_id = $request['package'];
 
         // @todo solve unloggedin users, or think for a new way to handle this issue
