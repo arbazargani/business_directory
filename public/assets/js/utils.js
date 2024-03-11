@@ -135,19 +135,16 @@ function handleMobileAuth() {
         .then(function (response) {
             // handle success
             if (response.data.status == 200) {
-                /**
-                * CODE BLOCK MOVED AFTER AXIOS request to run immediately after sending request without waiting for response.
-                * */
-                // UIkit.notification({
-                //     message: success_icon + response.data.messages[AppLocale],
-                //     status: 'success',
-                //     pos: 'top-center',
-                //     timeout: 5000
-                // });
-                // document.querySelector('#phone_verification_wrapper').classList.toggle('uk-hidden');
-                // document.querySelector('#otp_entry_wrapper').classList.toggle('uk-hidden');
-                 document.querySelector('#user_phone_number').value = p2e(response.data.phone_number);
-                // timer(120, allowSendOtpAgain);
+                UIkit.notification({
+                    message: success_icon + response.data.messages[AppLocale],
+                    status: 'success',
+                    pos: 'top-center',
+                    timeout: 5000
+                });
+                document.querySelector('#phone_verification_wrapper').classList.toggle('uk-hidden');
+                document.querySelector('#otp_entry_wrapper').classList.toggle('uk-hidden');
+                document.querySelector('#user_phone_number').value = p2e(response.data.phone_number);
+                timer(120, allowSendOtpAgain);
             } else {
                 UIkit.notification({
                     message: error_icon + response.data.errors[AppLocale],
@@ -164,19 +161,6 @@ function handleMobileAuth() {
         .finally(function () {
             // always executed
         });
-
-        /** START OF code block from axios .then fn */
-        UIkit.notification({
-            message: success_icon + 'رمز یکبارمصرف برای شما ارسال شد ...',
-            status: 'success',
-            pos: 'top-center',
-            timeout: 5000
-        });
-        document.querySelector('#phone_verification_wrapper').classList.toggle('uk-hidden');
-        document.querySelector('#otp_entry_wrapper').classList.toggle('uk-hidden');
-//        document.querySelector('#user_phone_number').value = p2e(response.data.phone_number);
-        timer(120, allowSendOtpAgain);
-        /** END OF code block from axios .then fn */
 
 }
 
@@ -554,6 +538,7 @@ function submitAdvertisementForm () {
         phone: document.querySelector('#phone').value,
         email: document.querySelector('#email').value,
         business_name: document.querySelector('#business_name').value,
+        country_level_service: document.querySelector('#country_level_service').checked,
         business_category: JSON.stringify(business_cat),
         work_hours: JSON.stringify(work_hours_list),
         off_days: JSON.stringify(off_days),

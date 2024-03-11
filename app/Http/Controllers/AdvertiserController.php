@@ -36,7 +36,7 @@ class AdvertiserController extends Controller
 
     public function SubmitAdvertise(AdvertisementStoreRequest $request)
     {
-        // incoming request validation will handles inside AdertisementStoreRequest class.
+        // incoming request validation will be handled inside AdvertisementStoreRequest class.
         // check if the user isn't login, first we make user account for him.
         if (!Auth::check()) {
             $phoneChecker = User::where('phone_number', $request['phone'])->get();
@@ -63,6 +63,7 @@ class AdvertiserController extends Controller
         $advertisement = new Advertisement();
         $advertisement->title = $request['business_name'];
         $advertisement->confirmed = 0;
+        $advertisement->country_level_service = $request['country_level_service'];
 //        $advertisement->package_id = $request['package'];
 
         // @todo solve unloggedin users, or think for a new way to handle this issue
@@ -96,7 +97,7 @@ class AdvertiserController extends Controller
                 $extension = $image->extension();
                 $defaultName = time().'-'.$hashName;
                 $seoName = "$loop-" . str_replace(' ', '-', $request['business_name']) . ".$extension";
-
+                $seoName = $this->clearFileName($seoName);
                 $path = $image->storeAs('uploads/'.Auth::id(), $seoName, 'public');
                 $business_images_backpack[] = $path;
             }
@@ -279,5 +280,12 @@ class AdvertiserController extends Controller
             ]),
         ]);
         return redirect()->back();
+    }
+
+    private function clearFileName(string $name)
+    {
+        $clear_name = str_replace(['۱','۲','۳','۴','۵','۶','۷','۸','۹','۰'], [1,2,3,4,5,6,7,8,9,0], $name);
+        $clear_name = str_replace(['‌','،',',','.','(',')'], null, $clear_name);
+        return $clear_name;
     }
 }

@@ -1,24 +1,34 @@
 <div class="uk-padding-small">
     <div class="uk-card uk-card-default uk-card-small uk-card-body uk-border-rounded commercial-card">
-        <span class="uk-card-badge badge" uk-tooltip="کسب و کار محبوب">
+        <span class="uk-card-badge badge ad-card-popular-badge" uk-tooltip="کسب و کار محبوب">
             <ion-icon name="star"></ion-icon>
         </span>
-        @if($ad->ad_level !== 'basic' && json_decode($ad->business_images) !== null)
-        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="center: true; ratio: 7:3; animation: fade">
+        @if($ad->country_level_service)
+        <span class="uk-card-badge badge ad-card-country-badge" uk-tooltip="سرویس‌دهی در سطح کشور">
+            <ion-icon name="earth-outline"></ion-icon>
+        </span>
+        @endif
+        @if($ad->ad_level !== 'basic')
+            @if(!is_null($ad->business_images))
+                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="center: true; ratio: 7:3; animation: fade">
 
-            <ul class="uk-slideshow-items uk-grid">
-                @foreach(json_decode($ad->business_images) as $img)
-                    <li class="uk-width-1-1">
-                        <img class="uk-hidden" src="{{ asset("storage/$img") }}" alt="{{ "{$ad->title} در {$ad->city}" }}">
-                        <div class="ad-card-slider-image" style="background: url('{{ asset("storage/$img") }}')"></div>
-                    </li>
-                @endforeach
-            </ul>
+                    <ul class="uk-slideshow-items uk-grid">
+                        @foreach(json_decode($ad->business_images) as $img)
+                            <li class="uk-width-1-1">
+                                <img class="uk-hidden" src="{{ asset("storage/$img") }}" alt="{{ "{$ad->title} در {$ad->city}" }}">
+                                <div class="ad-card-slider-image" style="background: url('{{ asset("storage/$img") }}')"></div>
+                            </li>
+                        @endforeach
+                    </ul>
 
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slideshow-next uk-slideshow-item="previous"></a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slideshow-previous uk-slideshow-item="next"></a>
+                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slideshow-next uk-slideshow-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slideshow-previous uk-slideshow-item="next"></a>
 
-        </div>
+                </div>
+            @else
+                <img class="uk-hidden" src="{{ asset("assets/static/images/ad-placeholder.png") }}" alt="{{ "{$ad->title} در {$ad->city}" }}">
+                <div class="ad-card-slider-image" style="background: url('{{ asset("assets/static/images/ad-placeholder.png") }}')"></div>
+            @endif
         <hr>
         @endif
         <h3 class="uk-card-title title">
@@ -36,7 +46,7 @@
         </span>
         <br>
         @endif
-        <p class="address">{{ $ad->address }}</p>
+        <p class="address uk-text-truncate">{{ $ad->address }}</p>
         <a href="{{ route('Public > Advertisement > Show', ['advertisement' => $ad->id, 'slug' => $ad->getSlug()]) }}">
             <button class="uk-button uk-button-primary uk-width-1-1 cta-button"><ion-icon name="call"></ion-icon> نمایش اطلااعات تماس</button>
         </a>

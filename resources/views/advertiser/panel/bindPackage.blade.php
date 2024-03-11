@@ -123,53 +123,57 @@
 @section('content')
     <div class="uk-container">
         <div class="uk-card uk-card-default uk-card-body">
-            <h2 class="uk-card-title uk-text-medium">انتخاب پکیج برای: <span class="uk-text-warning">{{ $advertisement->title }}</span></h2>
-            <div class="uk-grid-collapse uk-grid-match uk-child-width-1-4@m uk-text-center uk-margin-medium-top package-wrapper" uk-grid>
-                @php
-                    $c = 0;
-                @endphp
-                @foreach($packages as $package)
-                    @php
-                        $c ++;
-                    @endphp
-                    <div class="package" onclick="choosePackage(this)" data-title="{{ Helper::faNum($package->name) }}" data-id="{{ $package->id }}">  
-                    <div class="uk-background-muted uk-padding package-iteration-{{$loop->iteration}} package-iteration-{{$c}} package-name">
-                            <span class="checked"></span>
-                            <h2 class="uk-text-bolder">{{ Helper::faNum($package->name) }}</h2>
-                            <ul class="uk-list uk-list-not-striped">
-                                <li class="uk-text-large uk-text-bold package-price">{{ Helper::faNum(number_format($package->price, 0)) }} تومان</li>
-                                @if($package->has_gift)
-                                <li><span class="uk-text-success uk-text-bold package-gift">{{ Helper::faNum($package->gift_duration_in_days) }} روز هدیه</span></li>
+            <h2 class="uk-card-title uk-text-medium">ارتقا آگهی <span class="uk-text-warning">{{ $advertisement->title }}</span></h2>
+            <ul id="packages-accordion" uk-accordion>
+                <li class="uk-open">
+                    <a class="uk-accordion-title" href>پکیج‌ها</a>
+                    <div class="uk-accordion-content">
+                        <div class="uk-grid-collapse uk-grid-match uk-child-width-1-4@m uk-text-center uk-margin-medium-top package-wrapper" uk-grid>
+                            @php
+                                $c = 0;
+                            @endphp
+                            @foreach($packages as $package)
+                                @php
+                                    $c ++;
+                                @endphp
+                                <div class="package" onclick="choosePackage(this)" data-title="{{ Helper::faNum($package->name) }}" data-id="{{ $package->id }}">
+                                    <div class="uk-background-muted uk-padding package-iteration-{{$loop->iteration}} package-iteration-{{$c}} package-name">
+                                        <span class="checked"></span>
+                                        <h2 class="uk-text-bolder">{{ Helper::faNum($package->name) }}</h2>
+                                        <ul class="uk-list uk-list-not-striped">
+                                            <li class="uk-text-large uk-text-bold package-price">{{ Helper::faNum(number_format($package->price, 0)) }} تومان</li>
+                                            @if($package->has_gift)
+                                                <li><span class="uk-text-success uk-text-bold package-gift">{{ Helper::faNum($package->gift_duration_in_days) }} روز هدیه</span></li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                                @php
+                                    if ($c == 3) {
+                                        $c = 0;
+                                    }
+                                @endphp
+                                @if($c == 3)
+                                    <br>
                                 @endif
-                            </ul>
+                            @endforeach
                         </div>
                     </div>
-                    @php
-                        if ($c == 3) {
-                            $c = 0;
-                        }
-                    @endphp
-                    @if($c == 3)
-                    <br>
-                    @endif
-                @endforeach
-{{--                <div>--}}
-{{--                    <div class="uk-background-primary uk-padding uk-light">Item</div>--}}
-{{--                </div>--}}
-{{--                <div>--}}
-{{--                    <div class="uk-background-secondary uk-padding uk-light">Item</div>--}}
-{{--                </div>--}}
-            </div>
-            <div class="uk-child-width-1-2 uk-hidden" id="package-prev-wrapper" uk-grid>
-                <div class="uk-width-1-1">
-                    <hr>
-                </div>
-                <div>
-                    <p class="uk-text-default" id="package-name-prev"></p>
-                    <input type="hidden" name="package-id" id="package-id">
-                </div>
-                <div class="uk-text-left">
-                    <button class="uk-button uk-flex-left" style="background: #ff6f61; color: white" onclick="goToCard(this)">تایید و پرداخت</button>
+                </li>
+            </ul>
+            <div class="uk-flex uk-flex-center">
+                <div class="uk-card uk-card-body uk-card-default uk-border-rounded uk-text-center uk-width-1-2@m uk-hidden"
+                     style="border: 1px solid #e7e7e7"
+                     id="package-prev-wrapper">
+                    <div class="uk-width-1-1">
+                        <h2 class="uk-text-default">پکیج انتخابی شما</h2>
+                        <p class="uk-text-default uk-text-bold" id="package-name-prev"></p>
+                        <input type="hidden" name="package-id" id="package-id">
+                    </div>
+                    <div class="uk-width-1-1">
+                        <button class="uk-button uk-button-muted uk-button-text uk-margin-small-left" onclick="togglePackagesAccordion()">تغییر پکیج</button>
+                        <button class="uk-button uk-border-rounded" style="background: #00A0B0; color: white" onclick="goToCard(this)">تایید و پرداخت</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,7 +194,17 @@
         @endif
     </script>
     <script>
+        function togglePackagesAccordion() {
+            let title = document.querySelector('.uk-accordion-title');
+            if (title.innerText === 'پکیج‌ها') {
+                title.innerText = 'نمایش پکیج‌ها';
+            } else {
+                title.innerText = 'پکیج‌ها';
+            }
+            UIkit.accordion(document.querySelector('#packages-accordion')).toggle(1, true);
+        }
         function choosePackage(dispatcher) {
+            togglePackagesAccordion();
             document.querySelector('#package-prev-wrapper').classList.remove('uk-hidden');
             document.querySelector('#package-name-prev').innerText = dispatcher.dataset.title;
             document.querySelector('#package-id').value = dispatcher.dataset.id;

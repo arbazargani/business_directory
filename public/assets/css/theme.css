@@ -38,9 +38,10 @@ input, select, button, textarea {
 .ad-card-slider-image {
     width: 204px;
     height: 152px;
+    border-radius: 5px;
 
     background-position: center !important;
-    background-size: contain !important;
+    background-size: cover !important;
     background-repeat: no-repeat !important;
 }
 
@@ -51,6 +52,16 @@ input, select, button, textarea {
     background-position: center !important;
     background-size: contain !important;
     background-repeat: no-repeat !important;
+}
+
+.ad-card-popular-badge {
+    margin-top: 10px;
+}
+
+.ad-card-country-badge {
+    margin-top: 10px !important;
+    margin-left: 30px !important;
+    color: #848ba5 !important;
 }
 
 #search-box-wrapper {
@@ -166,8 +177,9 @@ input, select, button, textarea {
 .commercial-card .ad-card-slider-image {
     width: 100%;
     height: 152px;
+    border-radius: 5px;
 
     background-position: center !important;
-    background-size: contain !important;
+    background-size: cover !important;
     background-repeat: no-repeat !important;
 }

@@ -5,16 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Advertisement;
 use App\Models\SearchQuery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use function PHPUnit\Framework\isNull;
 
 class MasterController extends Controller
 {
     public function Index() {
         $advertisements = [
-            'basic' => Advertisement::where('confirmed', 1)->withCount('comments')->where('ad_level', 'basic')->limit(6)->orderBy('comments_count', 'DESC')->get(),
-            'commercial' => Advertisement::where('confirmed', 1)->withCount('comments')->where('ad_level', 'commercial')->limit(3)->orderBy('comments_count', 'DESC')->get()
+            'commercial' => Advertisement::whereConfirmed(1)
+                ->whereDate('published_at', '<=', Carbon::today())
+                ->whereDate('expires_at', '>=', Carbon::today())
+                ->withCount('comments')->where('ad_level', 'commercial')
+                ->limit(100)->orderBy('comments_count', 'DESC')->get(),
         ];
+
         $translations = $this->translations;
         return view('public.index', compact(['advertisements', 'translations']));
     }
@@ -22,7 +28,9 @@ class MasterController extends Controller
     public function Search(Request $request)
     {
         $limit = ($request->has('limit')) ? $request['limit'] : 100;
-        $advertisements = Advertisement::where('confirmed', 1);
+        $advertisements = Advertisement::whereConfirmed(1)
+            ->whereDate('published_at', '<=', Carbon::today())
+            ->whereDate('expires_at', '>=', Carbon::today());
         if ($request->has('sort') && $request['sort'] !== null) {
             $advertisements = $advertisements->orderBy($request['sort'], 'DESC');
         } else {
@@ -62,8 +70,6 @@ class MasterController extends Controller
                 ? $advertisements->paginate($request['paginate'])->appends($getParams)
                 : $advertisements->limit($limit)->get()->groupBy('ad_level');
         }
-
-//        dd($ads);
 
         // if query worth, add to queries table, for suggestion to another users
         if ($ads->count() >= 5 && strlen($request['search_query']) >= 3) {

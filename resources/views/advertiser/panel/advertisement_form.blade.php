@@ -44,7 +44,9 @@
             <div class="uk-flex-center uk-child-width-1-2@m" uk-grid>
                 <div>
                     <label class="uk-text-small" for="business_name">نام کسب و کار</label>
-                    <input class="uk-input" type="text" name="business_name" id="business_name">
+                    <input class="uk-input uk-margin-small-bottom" type="text" name="business_name" id="business_name">
+                    <label><input class="uk-checkbox" type="checkbox" id="country_level_service" name="country_level_service"> می‌توانم در سطح کشور ارائه خدمات کنم.</label>
+
                 </div>
                 <div>
                     <label class="uk-text-small" for="business_category">گروه شغلی <span class="uk-text-meta">(جستجوی بین بیش از ۹۰۰ گروه شغل)</span></label>
