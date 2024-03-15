@@ -416,10 +416,16 @@ function listProvinceCities(provinceSelector, citiesSelector, hasAllCities = fal
     }
     citiesSelect.classList.add('uk-disabled');
     let payload = {
+        _token: document.querySelector('meta[name="csrf-token"]').content,
         allCities: hasAllCities,
         province: parseInt(document.querySelector(provinceSelector).value)
     };
-    axios.post('/api/public/list_cities', payload)
+    let headers = {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    };
+    axios.post('/api/public/list_cities', payload, headers)
         .then(function (response) {
             // handle success
             if (response.data.status == 200) {
