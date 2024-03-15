@@ -8,7 +8,8 @@ class MelliPayamakDriver
     public static function otp($receiver)
     {
         $url = 'https://console.melipayamak.com/api/send/otp/'.env('MELLIPAYAMAK_API_KEY');
-        $data = ['to' => $receiver, 'bodyId' => 179298];
+        // $data = ['to' => $receiver, 'bodyId' => 179298];
+        $data = ['to' => $receiver, 'bodyId' => 203710];
         $data_string = json_encode($data);
         $ch = curl_init($url);
 
@@ -45,7 +46,8 @@ class MelliPayamakDriver
     }
     public static function sendText($receiver, $content)
     {
-        $primaryNumber = '50004001412217';
+        // $primaryNumber = '50004001412217';
+        $primaryNumber = '9820001100';
         $url = 'https://console.melipayamak.com/api/send/simple/'.env('MELLIPAYAMAK_API_KEY');
         $data = ['from' => $primaryNumber, 'to' => $receiver, 'text' => $content];
         $data_string = json_encode($data);
