@@ -102,7 +102,13 @@
                         <label><input class="uk-checkbox" type="checkbox" required> قوانین و مقررات {{ env('APP_NAME') }} را خوانده و با آن موافقم.</label>
                     </div>
                     <div class="">
-                        <button class="uk-button uk-width-1-1 uk-button-primary">پرداخت</button>
+                        <button class="uk-button uk-width-1-1 uk-button-primary">
+                            @if($transaction->amount == 0)
+                                فعال سازی
+                            @else
+                                پرداخت
+                            @endif
+                        </button>
                     </div>
                 </div>
             </form>

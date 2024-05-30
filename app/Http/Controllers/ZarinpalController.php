@@ -19,6 +19,40 @@ class ZarinpalController extends Controller
         if ($transaction->paid !== 0 && $transaction->transaction_ref_id !== '') {
             return redirect()->route('Advertiser > Advertisement > Pay Confirm', $transaction->advertisement_id);
         }
+
+        // 0 price packages should actives instantly ************************
+        if ($transaction->amount == 0) {
+            $package = Package::find($transaction->package_id);
+            $advertisement = $transaction->advertisement;
+            $user_advertisements = Advertisement::where('user_id', $advertisement->user_id)->pluck('id')->toArray();
+            $giftUsed = 1;
+            $days_of_ad = $package->duration_in_days;
+            if ($package->has_gift) {
+                $giftUsed = Transaction::where('package_id', $package->id)
+                    ->where('paid', 1)
+                    ->whereIn('advertisement_id', $user_advertisements)
+                    ->count();
+                $days_of_ad = ($giftUsed == 0)
+                    ? $package->duration_in_days + $package->gift_duration_in_days
+                    : $package->duration_in_days;
+            }
+            $exp_date = Carbon::today()->addDays($days_of_ad);
+
+            Transaction::where('id', $transaction->id)->update([
+                'paid' => 1,
+                'transaction_info' => json_encode(['message' => 'پرداخت مجانی']),
+                'transaction_ref_id' => '000000000000'
+            ]);
+            Advertisement::where('id', $transaction->advertisement_id)->update([
+                'ad_level' => 'commercial',
+                'transaction_id' => $transaction->id,
+                'expires_at' => $exp_date
+
+            ]);
+            return redirect()->route('Advertiser > Advertisement > Pay Confirm', $advertisement->id);
+        }
+        // 0 price packages should actives instantly *************************
+
         $transaction_info = json_decode($transaction->transaction_info, true);
         $curl = curl_init();
         $data = json_encode([
