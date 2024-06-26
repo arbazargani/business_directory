@@ -457,9 +457,6 @@ function ValidateStep(index) {
             showStep(index, false);
             return false;
         }
-        
-        showStep(index, false);
-        return false;
     }
 
     return true;
@@ -619,42 +616,50 @@ function showPackageInfo(dispatcher) {
 }
 
 function showMobileConfirmOptIn() {
-    ValidateStep(5);
-    let phone_number = document.querySelector('#phone').value;
-    if (phone_number.length != 11) {
-        return;
-    }
-    axios.post('/api/otp/generate', {
-        phone_number: phone_number,
-    })
-    .then(function (response) {
-        // handle success
-        if (response.data.status == 200) {
-            UIkit.notification({
-                message: success_icon + response.data.messages[AppLocale],
-                status: 'success',
-                pos: 'top-center',
-                timeout: 5000
-            });
-            document.querySelector('#resend-otp').classList.toggle('uk-hidden');
-            // timer(120, allowSendOtpAgain);
-        } else {
-            UIkit.notification({
-                message: error_icon + response.data.errors[AppLocale],
-                status: 'danger',
-                pos: 'bottom-right',
-                timeout: 5000
-            });
+    state = ValidateStep(5);
+
+    if (state !== false) {
+        let phone_number = document.querySelector('#phone').value;
+        let fullname = document.querySelector('#fullname').value;
+        let email = document.querySelector('#email').value;
+        if (phone_number.length != 11) {
+            return;
         }
-    })
-    .catch(function (error) {
-        // handle error
-        // console.log(error);
-    })
-    .finally(function () {
-        // always executed
-    });
-    UIkit.modal('#phone_number_validation_modal').show();
+        axios.post('/api/otp/generate', {
+            phone_number: phone_number,
+            create_tmp_user: true,
+            fullname: fullname,
+            email: email
+        })
+        .then(function (response) {
+            // handle success
+            if (response.data.status == 200) {
+                UIkit.notification({
+                    message: success_icon + response.data.messages[AppLocale],
+                    status: 'success',
+                    pos: 'top-center',
+                    timeout: 5000
+                });
+                document.querySelector('#resend-otp').classList.toggle('uk-hidden');
+                // timer(120, allowSendOtpAgain);
+            } else {
+                UIkit.notification({
+                    message: error_icon + response.data.errors[AppLocale],
+                    status: 'danger',
+                    pos: 'bottom-right',
+                    timeout: 5000
+                });
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            // console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+        UIkit.modal('#phone_number_validation_modal').show();
+    }
 }
 
 function validateMobileConfirmOptInCode() {
@@ -667,7 +672,10 @@ function validateMobileConfirmOptInCode() {
 
     axios.post('/api/otp/validate', {
         phone_number: phone_number,
-        otp: otp
+        otp: otp,
+        create_tmp_user: true,
+        fullname: fullname,
+        email: email
     })
     .then(function (response) {
         // handle success

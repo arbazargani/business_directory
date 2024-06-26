@@ -32,6 +32,19 @@ class AuthController extends Controller
             ]);
         }
 
+        // create tmp user if request is prepared for quick registration.
+        if ($request->has('create_tmp_user')) {
+            $tmp_user_checker = User::where('phone_number', $request['phone_number'])->first();
+            if (is_null($tmp_user_checker)) {
+                $user = new User();
+                $user->name = $request['fullname'];
+                $user->phone_number = $request['phone_number'];
+                $user->email = $request['email'];
+                $user->password = Hash::make($request['phone_number']);
+                $user->save();
+            }
+        }
+
         // accessing model
         $user = User::where('phone_number', $request['phone_number'])->first();
 
@@ -91,6 +104,19 @@ class AuthController extends Controller
                 'otp' => $request['otp'],
                 'error' => $validator->errors(),
             ]);
+        }
+
+        // create tmp user if request is prepared for quick registration.
+        if ($request->has('create_tmp_user')) {
+            $tmp_user_checker = User::where('phone_number', $request['phone_number'])->first();
+            if (is_null($tmp_user_checker)) {
+                $user = new User();
+                $user->name = $request['fullname'];
+                $user->phone_number = $request['phone_number'];
+                $user->email = $request['email'];
+                $user->password = Hash::make($request['phone_number']);
+                $user->save();
+            }
         }
 
         // accessing model
