@@ -47,7 +47,8 @@ class MelliPayamakDriver
     public static function sendText($receiver, $content)
     {
         // $primaryNumber = '50004001412217';
-        $primaryNumber = '9820001100';
+        // $primaryNumber = '9820001100';
+        $primaryNumber = '20001100';
         $url = 'https://console.melipayamak.com/api/send/simple/'.env('MELLIPAYAMAK_API_KEY');
         $data = ['from' => $primaryNumber, 'to' => $receiver, 'text' => $content];
         $data_string = json_encode($data);
