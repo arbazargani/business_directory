@@ -35,6 +35,15 @@ input, select, button, textarea {
     color: #ffffff;
 }
 
+.label-required::after {
+    content: '*';
+    color: var(--theme-action-color);
+}
+
+label.label-required::after {
+    margin-right: 2%;
+}
+
 .ad-card-slider-image {
     width: 204px;
     height: 152px;

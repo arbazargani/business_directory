@@ -9,7 +9,13 @@
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}"/>
     <script src="{{ asset('assets/js/uikit.min.js') }}"></script>
     <script src="{{ asset('assets/js/uikit-icons.min.js') }}"></script>
-
+    <script !src="">
+        let appData = {
+            locale: '{{ $currentLocale }}'
+        };
+        const AppLocale = '{{ $currentLocale }}';
+    </script>
+    
     <!-- IonIcons JS -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>

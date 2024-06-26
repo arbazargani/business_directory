@@ -4,11 +4,15 @@
 <div class="uk-container">
     <h2 class="uk-card-title">ثبت آگهی</h2>
     @if(!Auth::check())
-        <div class="uk-alert-warning" uk-alert>
-            <a href class="uk-alert-close" uk-close></a>
-            <p>کاربر گرامی، با مشخصات وارد شده برای شما حساب کاربری ایجاد می‌گردد، و پس از ثبت آگهی به پنل خود منتقل می‌شوید.</p>
-        </div>
+    <div class="uk-alert-warning" uk-alert>
+        <a href class="uk-alert-close" uk-close></a>
+        <p>کاربر گرامی، با مشخصات وارد شده برای شما حساب کاربری ایجاد می‌گردد، و پس از ثبت آگهی به پنل خود منتقل می‌شوید.</p>
+    </div>
     @endif
+    <div class="uk-alert-danger" uk-alert>
+        <a href class="uk-alert-close" uk-close></a>
+        <p>پر کردن مواردی که با <span class="label-required"></span> مشخص شده‌اند الزامی است.</p>
+    </div>
     <ul class="uk-flex-center" id="step-tabset" uk-tab>
         <li id="tab-1" class="tab-1 uk-active"><a onclick="showStep(1)">مشخصات فردی</a></li>
         <li id="tab-2" class="tab-2"><a onclick="showStep(2)">مشخصات کسب و کار</a></li>
@@ -20,15 +24,15 @@
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
             <div class="uk-flex-center" uk-grid>
                 <div>
-                    <label class="uk-text-small" for="fullname">نام و نام خانوادگی</label>
+                    <label class="uk-text-small label-required" for="fullname">نام و نام خانوادگی</label>
                     <input class="uk-input" type="text" name="fullname" id="fullname" value="{{ Auth::check() ? Auth::user()->name : '' }}">
                 </div>
                 <div>
-                    <label class="uk-text-small" for="phone">شماره همراه</label>
+                    <label class="uk-text-small label-required" for="phone">شماره همراه</label>
                     <input class="uk-input" type="text" name="phone" id="phone" value="{{ Auth::check() ? Auth::user()->phone_number : '' }}">
                 </div>
                 <div>
-                    <label class="uk-text-small" for="email">ایمیل</label>
+                    <label class="uk-text-small label-required" for="email">ایمیل</label>
                     <input class="uk-input" type="text" name="email" id="email" value="{{ Auth::check() ? Auth::user()->email : '' }}">
                 </div>
             </div>
@@ -43,7 +47,7 @@
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
             <div class="uk-flex-center uk-child-width-1-2@m" uk-grid>
                 <div>
-                    <label class="uk-text-small" for="business_name">نام کسب و کار</label>
+                    <label class="uk-text-small label-required" for="business_name">نام کسب و کار</label>
                     <input class="uk-input uk-margin-small-bottom" type="text" name="business_name" id="business_name">
                     <label><input class="uk-checkbox" type="checkbox" id="country_level_service" name="country_level_service"> می‌توانم در سطح کشور ارائه خدمات کنم.</label>
 
@@ -77,12 +81,11 @@
                     </select>
                 </div>
                 <div>
-                    <label class="uk-text-small" for="address">آدرس کسب و کار</label>
+                    <label class="uk-text-small label-required" for="address">آدرس کسب و کار</label>
                     <input class="uk-input" type="text" name="address" id="address">
                 </div>
                 <div>
-                    <label class="uk-text-small" for="work_hours_start">شماره تماس کسب و کار</label>
-
+                    <label class="uk-text-small label-required" for="work_hours_start">شماره تماس کسب و کار</label>
                     <input class="uk-input" type="text" name="business_number" id="business_number">
                 </div>
             </div>
@@ -191,11 +194,11 @@
                     <div class="uk-card uk-card-body uk-card-default uk-padding-small uk-border-rounded">
                         <div class="uk-flex-center">
                             <div class="uk-margin-small-bottom">
-                                <label for="province">استان</label>
+                                <label class="label-required" for="province">استان</label>
                                 @include('globalComponents.provincesSelect', ['name' => 'province', 'id' => 'province', 'hasAll' => false, 'onClick' => 'listProvinceCities(\'#province\', \'#city\', false, true)'])
                             </div>
                             <div class="uk-margin-small-bottom">
-                                <label for="city">شهر</label>
+                                <label class="label-required" for="city">شهر</label>
                                 <span class="uk-hidden" id="city_loader" uk-spinner="ratio: .5"></span>
                                 <select class="uk-select uk-disabled" onchange="moveMapToQuery()" name="city" id="city"></select>
 {{--                                @include('globalComponents.citiesSelect', ['name' => 'city', 'id' => 'city', 'hasAll' => false])--}}
@@ -222,7 +225,8 @@
                                     <button onclick="showStep(4)" class="uk-button">مرحله قبل</button>
                                 </div>
                                 <div>
-                                    <button onclick="submitAdvertisementForm()" class="uk-button uk-button-primary">ثبت کسب و کار</button>
+                                    <button class="uk-button uk-button-primary @if(!Auth::check()) uk-hidden @endif" id="submitAdvertisementForm" style="background: #00a0b0" onclick="submitAdvertisementForm()"><span uk-icon="icon: check"></span> ثبت نهایی کسب و کار</button>
+                                    <button class="uk-button uk-button-primary @if(Auth::check()) uk-hidden @endif" id="validate_user_phone_button" onclick="showMobileConfirmOptIn()">تایید موبایل و ثبت کسب و کار</button>
                                 </div>
                             </div>
                         </div>
@@ -238,5 +242,23 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+
+<div id="phone_number_validation_modal" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">تایید شماره موبایل</h2>
+        <p>به جهت تایید شماره موبایل وارد شده، کدی که به شما پیامک شده را وارد کنید.</p>
+        <div class="uk-flex uk-flex-center">
+            <input class="uk-input uk-width-1-3@m uk-width-1-2@s" type="text" name="otp" id="otp" placeholder="کد پیامک شده">
+        </div>
+
+        <div class="uk-flex uk-flex-center uk-margin-small-top">
+            <button 
+                id="action_button" 
+                class="uk-width-1-3@m uk-width-1-2@s uk-button uk-button-primary theme-primary-button theme-rounded-button uk-display-block" 
+                onclick="validateMobileConfirmOptInCode()">تایید</button>
+        </div>        
     </div>
 </div>
