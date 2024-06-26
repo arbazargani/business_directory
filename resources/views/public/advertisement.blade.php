@@ -113,7 +113,7 @@
                                     </button>
                                     <span id="desktop_ad_phone_prev" class="uk-text-meta uk-hidden">
                                         <span class="info-item uk-text-bolder">شماره تماس: </span>
-                                        {{ $ad->phone }}
+                                        {{ $ad->business_number }}
                                     </span>
                                     <br/>
                                     <span class="info-item uk-text-bolder">آدرس:</span> {{ $ad->address }}
