@@ -56,7 +56,8 @@ class Advertisement extends Model
 
     public function getCategory() {
         $c = json_decode($this->business_categories);
-        return Occupation::find($c)->name;
+        $c = Occupation::find($c);
+        return (is_null($c)) ? '-' : $c->name;
     }
 
     public function getSlug()
